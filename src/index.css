@@ -1,0 +1,91 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow: hidden;
+  background-color: #f8f9fa;
+  width: 100vw;
+  height: 100vh;
+}
+
+#root {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* Digital font */
+@font-face {
+  font-family: 'Digital-7-Mono';
+  src: url('./assets/fonts/digital-7-mono.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Chyron animation for Play button */
+@keyframes chyron {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Chyron animation with wrap-around effect - end appears on left before whole word fades to right */
+@keyframes chyronWrap {
+  0% {
+    transform: translateX(100%);
+  }
+  50% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* Chyron animation for target number - ensures full word is visible */
+@keyframes chyronScroll {
+  0% {
+    transform: translateX(100%); /* Start completely off-screen to the right */
+  }
+  100% {
+    transform: translateX(-100%); /* End completely off-screen to the left, ensuring full word scrolls through */
+  }
+}
+
+/* Shake animation for invalid operations */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(6px); }
+  20%, 40%, 60%, 80% { transform: translateX(-6px); }
+}
+
+/* Bounce animation for completed puzzle final tile - continuous loop */
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  18% { transform: translateY(-6px); }
+  36% { transform: translateY(6px); }
+  54% { transform: translateY(-6px); }
+  72% { transform: translateY(6px); }
+  90% { transform: translateY(0); }
+}
+
+/* Hide scrollbar but allow scrolling */
+.hide-scrollbar {
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE and Edge */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
+}
+
