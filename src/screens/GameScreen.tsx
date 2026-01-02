@@ -649,7 +649,7 @@ export default function GameScreen({
       borderRadius: `${BORDER_RADIUS.MEDIUM * 0.85 * 0.85}px`,
       backgroundColor: COLORS.BACKGROUND_WHITE,
       color: COLORS.TEXT_SECONDARY,
-      marginTop: 0, // No top margin - gap handled by operationsContainerWrapper marginBottom
+      marginTop: SPACING.MARGIN_SMALL, // Small top margin
       marginBottom: STANDARD_VERTICAL_GAP, // Standard gap
       display: 'flex',
       alignItems: 'center',
