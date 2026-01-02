@@ -77,6 +77,19 @@ web-react/
 - **Vite**: Build tool and dev server
 - **CSS-in-JS**: Inline styles for component styling
 
+## Deployment
+
+This project is configured for easy deployment to Vercel. See [VERCEL_DEPLOYMENT.md](./VERCEL_DEPLOYMENT.md) for detailed deployment instructions.
+
+### Quick Deploy to Vercel
+
+1. Push your code to GitHub/GitLab/Bitbucket
+2. Import your repository in [Vercel](https://vercel.com)
+3. Vercel will auto-detect the settings
+4. Click Deploy!
+
+The `vercel.json` file is already configured for optimal deployment.
+
 ## License
 
 [Add your license here]
