@@ -55,12 +55,12 @@ export default function MainMenuScreen({
       alignItems: 'center',
     },
     sectionTitle: {
-      fontSize: FONT_SIZES.TITLE * 0.6 * 0.85 * 0.9, // Scaled down 15% then another 10%
+      fontSize: FONT_SIZES.TITLE * 0.459, // 0.6 * 0.85 * 0.9
       fontFamily: 'system-ui, -apple-system, sans-serif',
       backgroundColor: COLORS.BACKGROUND_DARK,
       color: COLORS.TEXT_WHITE,
-      padding: `${SPACING.PADDING_SMALL * 0.85 * 0.9}px ${SPACING.PADDING_MEDIUM * 0.85 * 0.9}px`, // Scaled down 15% then another 10%
-      borderRadius: `${BORDER_RADIUS.MEDIUM * 0.85 * 0.9}px`, // Scaled down 15% then another 10%
+      padding: `${SPACING.PADDING_SMALL * 0.765}px ${SPACING.PADDING_MEDIUM * 0.765}px`, // 0.85 * 0.9
+      borderRadius: `${BORDER_RADIUS.MEDIUM * 0.765}px`, // 0.85 * 0.9
       textAlign: 'center' as const,
       marginTop: `${SPACING.VERTICAL_SPACING}px`,
       marginBottom: `${SPACING.VERTICAL_SPACING}px`,
@@ -74,19 +74,17 @@ export default function MainMenuScreen({
       textAlign: 'center' as const,
       marginTop: `${SPACING.VERTICAL_SPACING}px`,
       marginBottom: `${SPACING.VERTICAL_SPACING}px`,
-      maxWidth: `${CALCULATOR_DISPLAY.WIDTH * 0.8}px`,
       opacity: 0.8,
     },
     instructionsContainer: {
-      width: '75%'
-,      backgroundColor: 'transparent',
-      overflowY: 'auto' as const,
+      width: '85%',
+      backgroundColor: 'transparent',
     },
     actionButton: {
-      padding: `${14 * 0.85 * 0.85}px ${24 * 0.85 * 0.85}px`, // Scaled down 15% then another 15%
-      minWidth: `${200 * 0.85 * 0.85}px`,
-      minHeight: `${50 * 0.85 * 0.85}px`,
-      borderRadius: `${BORDER_RADIUS.MEDIUM * 0.85 * 0.85}px`,
+      padding: `${14 * 0.7225}px ${24 * 0.7225}px`, // 0.85 * 0.85
+      minWidth: `${200 * 0.7225}px`,
+      minHeight: `${50 * 0.7225}px`,
+      borderRadius: `${BORDER_RADIUS.MEDIUM * 0.7225}px`, // 0.85 * 0.85
       backgroundColor: COLORS.BACKGROUND_WHITE,
       color: COLORS.TEXT_SECONDARY,
       marginBottom: `${SPACING.VERTICAL_SPACING}px`,
@@ -95,7 +93,7 @@ export default function MainMenuScreen({
       justifyContent: 'center',
       cursor: 'pointer',
       border: `${BUTTON_BORDER.WIDTH}px solid ${BUTTON_BORDER.COLOR}`,
-      fontSize: FONT_SIZES.DIFFICULTY_BUTTON * 0.85 * 0.85, // Scaled down 15% then another 15%
+      fontSize: FONT_SIZES.DIFFICULTY_BUTTON * 0.7225, // 0.85 * 0.85
       fontFamily: 'system-ui, -apple-system, sans-serif',
       fontWeight: 'bold' as const,
       boxShadow: '4px 4px 0 0 rgba(0, 0, 0, 1)',
@@ -128,7 +126,7 @@ export default function MainMenuScreen({
       fontFamily: 'system-ui, -apple-system, sans-serif',
       width: '75px', // Fixed width - all buttons same size (matching medium button from buttonStyles small size)
       minWidth: '75px', // Fixed min width
-      minHeight: `${SCREEN_HEIGHT * 0.05 * 0.85}px`, // Scaled down 15%
+      minHeight: `${SCREEN_HEIGHT * 0.0425}px`, // 0.05 * 0.85
     },
   };
 
@@ -193,7 +191,7 @@ export default function MainMenuScreen({
               ...(hoveredDifficulty === 'easy' && pressedDifficulty !== 'easy' && selectedDifficulty !== 'easy' ? easyButtonStyle.hover : {}),
               // Border matching mobile (slightly thicker for home screen)
               borderWidth: `${BUTTON_BORDER.WIDTH * 1.5}px`,
-              borderColor: BUTTON_BORDER.COLOR,
+              borderColor: (pressedDifficulty === 'easy' && selectedDifficulty !== 'easy') ? '#404040' : BUTTON_BORDER.COLOR,
               borderStyle: 'solid',
             }}
             onClick={() => onDifficultyChange('easy')}
@@ -224,7 +222,7 @@ export default function MainMenuScreen({
               ...(hoveredDifficulty === 'medium' && pressedDifficulty !== 'medium' && selectedDifficulty !== 'medium' ? mediumButtonStyle.hover : {}),
               // Border matching mobile (slightly thicker for home screen)
               borderWidth: `${BUTTON_BORDER.WIDTH * 1.5}px`,
-              borderColor: BUTTON_BORDER.COLOR,
+              borderColor: (pressedDifficulty === 'medium' && selectedDifficulty !== 'medium') ? '#404040' : BUTTON_BORDER.COLOR,
               borderStyle: 'solid',
             }}
             onClick={() => onDifficultyChange('medium')}
@@ -255,7 +253,7 @@ export default function MainMenuScreen({
               ...(hoveredDifficulty === 'hard' && pressedDifficulty !== 'hard' && selectedDifficulty !== 'hard' ? hardButtonStyle.hover : {}),
               // Border matching mobile (slightly thicker for home screen)
               borderWidth: `${BUTTON_BORDER.WIDTH * 1.5}px`,
-              borderColor: BUTTON_BORDER.COLOR,
+              borderColor: (pressedDifficulty === 'hard' && selectedDifficulty !== 'hard') ? '#404040' : BUTTON_BORDER.COLOR,
               borderStyle: 'solid',
             }}
             onClick={() => onDifficultyChange('hard')}

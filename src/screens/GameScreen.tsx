@@ -63,8 +63,8 @@ export default function GameScreen({
   
   // Height constant for top row elements (home button, DIGITL title, how to play button)
   // Calculate based on gameTitle element: fontSize + vertical padding * 2 + border * 2
-  const titleFontSize = FONT_SIZES.TITLE * 0.85 * 0.9 * 1.1 * 0.85 * 0.6 * 0.9 * 1.4;
-  const titleVerticalPadding = SPACING.PADDING_MEDIUM * 0.85 * 0.9 * 0.85 * 0.6 * 0.9 * 1.2;
+  const titleFontSize = FONT_SIZES.TITLE * 0.5407479; // 0.85 * 0.9 * 1.1 * 0.85 * 0.6 * 0.9 * 1.4
+  const titleVerticalPadding = SPACING.PADDING_MEDIUM * 0.421362; // 0.85 * 0.9 * 0.85 * 0.6 * 0.9 * 1.2
   const topRowElementHeight = titleFontSize + (titleVerticalPadding * 2) + (BUTTON_BORDER.WIDTH * 2);
 
   // Reset completion flag when puzzle index changes or game state changes
@@ -347,7 +347,7 @@ export default function GameScreen({
       minHeight: `${topRowElementHeight}px`,
       maxWidth: `${topRowElementHeight}px`,
       maxHeight: `${topRowElementHeight}px`,
-      borderRadius: `${BORDER_RADIUS.MEDIUM * 0.85 * 0.9 * 0.6 * 2}px`,
+      borderRadius: `${BORDER_RADIUS.MEDIUM * 0.918}px`, // 0.85 * 0.9 * 0.6 * 2
       backgroundColor: COLORS.BACKGROUND_WHITE, // Match digit button background
       display: 'flex',
       alignItems: 'center',
@@ -378,9 +378,9 @@ export default function GameScreen({
     },
     gameTitle: {
       backgroundColor: COLORS.BACKGROUND_WHITE,
-      padding: `${SPACING.PADDING_MEDIUM * 0.85 * 0.9 * 0.85 * 0.6 * 0.9 * 1.2}px ${SPACING.PADDING_LARGE * 0.85 * 0.9 * 0.85 * 0.6 * 0.9 * 1.2}px`, // Scaled down substantially, then 10% more, then scaled up 20%
-      borderRadius: `${BORDER_RADIUS.MEDIUM * 0.85 * 0.9 * 0.85 * 0.6 * 0.9 * 1.2}px`, // Scaled down substantially, then 10% more, then scaled up 20%
-      fontSize: FONT_SIZES.TITLE * 0.85 * 0.9 * 1.1 * 0.85 * 0.6 * 0.9 * 1.4, // Scaled down substantially, then 10% more, then scaled up 40%
+      padding: `${SPACING.PADDING_MEDIUM * 0.421362}px ${SPACING.PADDING_LARGE * 0.421362}px`, // 0.85 * 0.9 * 0.85 * 0.6 * 0.9 * 1.2
+      borderRadius: `${BORDER_RADIUS.MEDIUM * 0.421362}px`, // 0.85 * 0.9 * 0.85 * 0.6 * 0.9 * 1.2
+      fontSize: FONT_SIZES.TITLE * 0.5407479, // 0.85 * 0.9 * 1.1 * 0.85 * 0.6 * 0.9 * 1.4
       fontFamily: 'Digital-7-Mono, monospace',
       color: COLORS.BACKGROUND_DARK,
       fontWeight: 900 as const, // Increased boldness (from 'bold' which is 700 to 900)
@@ -472,8 +472,8 @@ export default function GameScreen({
       backgroundColor: COLORS.BACKGROUND_DARK,
       paddingLeft: `${CALCULATOR_DISPLAY.PADDING_HORIZONTAL * 0.75}px`, // Same as targetContainer
       paddingRight: `${CALCULATOR_DISPLAY.PADDING_HORIZONTAL * 0.75}px`, // Same as targetContainer
-      paddingTop: `${SPACING.VERTICAL_SPACING}px`,
-      paddingBottom: `${SPACING.VERTICAL_SPACING}px`,
+      paddingTop: 0,
+      paddingBottom: 0,
       borderRadius: `${HISTORY_BOX.BORDER_RADIUS * 0.75}px`,
       width: `${CALCULATOR_DISPLAY.WIDTH * 0.675}px`, // Reduced by 10% (0.75 * 0.9 = 0.675)
       height: difficulty === 'easy' ? `${HISTORY_BOX.HEIGHT_EASY * 0.75}px` 
@@ -518,31 +518,34 @@ export default function GameScreen({
       zIndex: 1,
     },
     historyNumberContainer: {
-      marginRight: `${SCREEN_WIDTH * 0.013}px`,
+      marginRight: `${SCREEN_WIDTH * 0.015}px`,
     },
     historyNumber: {
-      fontSize: FONT_SIZES.SUBTEXT * 1.1 * 0.75, // Scaled down 25%
+      fontSize: FONT_SIZES.SUBTEXT * 0.825, 
       color: COLORS.TEXT_SUCCESS,
       fontFamily: 'Digital-7-Mono, monospace',
+      lineHeight: '1.9',
     },
     historyNumberEmpty: {
       color: COLORS.TEXT_SUCCESS,
       opacity: 0.3, // Faded when line is empty
     },
     historyTextEmpty: {
-      fontSize: FONT_SIZES.SUBTEXT * 1.1 * 0.75, // Scaled down 25%
+      fontSize: FONT_SIZES.SUBTEXT * 0.825,
       color: COLORS.TEXT_SUCCESS,
       fontFamily: 'Digital-7-Mono, monospace',
       flex: 1,
-      opacity: 0.12, // Very faded like target display
-      textAlign: 'left' as const, // Left-align the empty text
+      opacity: 0.12, 
+      textAlign: 'left' as const,
+      lineHeight: '1.5',
     },
     historyText: {
-      fontSize: FONT_SIZES.SUBTEXT * 1.1 * 0.75, // Scaled down 25%
+      fontSize: FONT_SIZES.SUBTEXT * 0.825, // 1.1 * 0.75
       color: COLORS.TEXT_SUCCESS,
       fontFamily: 'Digital-7-Mono, monospace',
       flex: 1,
       textAlign: 'left' as const, // Left-align the equation text
+      lineHeight: '1.5',
     },
     actionButton: {
       padding: `${14 * 0.7225}px ${24 * 0.7225}px`, // Scaled down 15% then another 15%

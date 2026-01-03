@@ -29,6 +29,7 @@ const base3DButton: React.CSSProperties = {
 const pressed3DButton: React.CSSProperties = {
   transform: `translate(${SHADOW_OFFSET}px, ${SHADOW_OFFSET}px)`,
   boxShadow: '0 0 0 0 rgba(0, 0, 0, 0)',
+  borderColor: '#404040', // Dark gray border when pressed
 };
 
 // Hover state (slight lift)
