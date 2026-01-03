@@ -80,6 +80,7 @@ export default function App() {
       setIsAnimating(false);
       setAnimatingDigit(null);
       setShowSuccessBanner(false);
+      setShowAllPuzzlesComplete(false);
       setShowMenu(false);
     }
   };
@@ -122,6 +123,7 @@ export default function App() {
     setIsAnimating(false);
     setAnimatingDigit(null);
     setShowSuccessBanner(false);
+    setShowAllPuzzlesComplete(false);
   };
 
   const loadNextSandboxPuzzle = () => {

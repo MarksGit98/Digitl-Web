@@ -571,7 +571,7 @@ export default function GameScreen({
       marginLeft: `${BUTTON_SIZES.OPERATION_BUTTON_MARGIN * 0.5}px`, // Reduced margin to condense horizontally
     },
     allPuzzlesCompleteBanner: {
-      position: 'fixed' as const,
+      position: 'absolute' as const,
       top: '50%',
       left: '50%',
       transform: 'translate(-50%, -50%) scale(0.4)',
@@ -600,13 +600,13 @@ export default function GameScreen({
 
   return (
     <>
-      {showBanner && (
-        <div style={styles.allPuzzlesCompleteBanner}>
-          <div style={{ fontSize: FONT_SIZES.TITLE * 1.5, marginBottom: `${SPACING.VERTICAL_SPACING}px` }}>Congratulations!</div>
-          <div>You solved all 3 puzzles!</div>
-        </div>
-      )}
       <div style={styles.container} className="hide-scrollbar">
+        {showBanner && (
+          <div style={styles.allPuzzlesCompleteBanner}>
+            <div style={{ fontSize: FONT_SIZES.TITLE * 1.5, marginBottom: `${SPACING.VERTICAL_SPACING}px` }}>Congratulations!</div>
+            <div>You solved all 3 puzzles!</div>
+          </div>
+        )}
         {/* Game Title Row with Home Button */}
         <div style={styles.gameTitleRow}>
           <div style={styles.homeButtonContainer}>

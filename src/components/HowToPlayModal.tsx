@@ -33,10 +33,10 @@ export default function HowToPlayModal({
       zIndex: 1000,
     },
     modalContent: {
-      width: '85%',
+      width: '80%',
       maxWidth: '550px',
       minWidth: '300px',
-      maxHeight: '80vh',
+    
       backgroundColor: COLORS.BACKGROUND_WHITE,
       borderRadius: `${BORDER_RADIUS.LARGE}px`,
       padding: `${SPACING.PADDING_MEDIUM}px`,
