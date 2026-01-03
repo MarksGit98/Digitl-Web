@@ -36,9 +36,10 @@ export default function HowToPlayModal({
       zIndex: 1000,
     },
     modalContent: {
-      width: `${SCREEN_WIDTH * 0.85}px`,
+      width: '85%',
       maxWidth: '550px',
-      maxHeight: `${SCREEN_HEIGHT * 0.8}px`,
+      minWidth: '300px',
+      maxHeight: '80vh',
       backgroundColor: COLORS.BACKGROUND_WHITE,
       borderRadius: `${BORDER_RADIUS.LARGE}px`,
       padding: `${SPACING.PADDING_MEDIUM}px`,
@@ -58,7 +59,7 @@ export default function HowToPlayModal({
     scrollView: {
       flexGrow: 1,
       flexShrink: 1,
-      maxHeight: `${SCREEN_HEIGHT * 0.5}px`,
+      maxHeight: '50vh',
       overflowY: 'auto' as const,
       overflowX: 'hidden' as const,
       scrollbarWidth: 'thin' as const,

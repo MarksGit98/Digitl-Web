@@ -308,7 +308,7 @@ export default function GameScreen({
       width: '100%',
       height: '100%',
       backgroundColor: COLORS.BACKGROUND_LIGHT,
-      paddingTop: `${SPACING.VERTICAL_SPACING}px`,
+      paddingTop: `${SPACING.VERTICAL_SPACING * 2}px`, // Increased top padding
       paddingBottom: `${SPACING.VERTICAL_SPACING}px`,
       paddingLeft: `${SPACING.CONTAINER_PADDING_HORIZONTAL}px`,
       paddingRight: `${SPACING.CONTAINER_PADDING_HORIZONTAL}px`,
@@ -408,6 +408,7 @@ export default function GameScreen({
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
+      marginTop: `${SPACING.VERTICAL_SPACING}px`,
       marginBottom: `${SPACING.VERTICAL_SPACING}px`,
     },
     digitsContainer: {
@@ -671,11 +672,13 @@ export default function GameScreen({
 
         <div style={styles.gameContent}>
           {/* Target Display */}
-          <CalculatorDisplay
-            mode={(showSuccessMessage || showSuccessBanner) ? 'success' : 'target'}
-            targetNumber={gameState.target}
-            successMessage={showSuccessBanner && successMessage ? successMessage : undefined}
-          />
+          <div style={{ marginBottom: `${SPACING.VERTICAL_SPACING}px` }}>
+            <CalculatorDisplay
+              mode={(showSuccessMessage || showSuccessBanner) ? 'success' : 'target'}
+              targetNumber={gameState.target}
+              successMessage={showSuccessBanner && successMessage ? successMessage : undefined}
+            />
+          </div>
 
           {/* Next Round Button - Only shown in daily challenge mode after puzzle is completed */}
           {gameMode === 'dailyChallenge' && dailyChallengeRound !== null && dailyChallengeRound < 3 && onGoToNextRound && (showSuccessMessage || showSuccessBanner) && (

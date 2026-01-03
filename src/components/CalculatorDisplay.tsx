@@ -187,20 +187,24 @@ export const CalculatorDisplay: React.FC<CalculatorDisplayProps> = ({
             // Determine if this position should be faded (leftmost empty slots)
             const numEmptySlots = 4 - targetNumber!.toString().length;
             const isFaded = index < numEmptySlots;
-            const isOne = digit === '1';
-            // Compensate for "1" being narrower than "8" by adding extra spacing
+            // Each digit container has a fixed width to ensure consistent alignment
+            // Match the width of a single "8" character to align with faded 8s
+            const digitContainerStyle: React.CSSProperties = {
+              display: 'inline-block',
+              width: `${FONT_SIZES.TARGET_NUMBER * 0.5625 * 0.6}px`, // Approximate width of an "8" digit
+              textAlign: 'center' as const,
+            };
             const digitStyle: React.CSSProperties = {
               ...targetNumberStyle,
               letterSpacing: 0,
               opacity: isFaded ? 0.08 : 1,
               color: COLORS.TEXT_SUCCESS,
-              ...(isOne && {
-                paddingLeft: `${LETTER_SPACING.WIDE * 0.75 * 0.3}px`, // Add spacing to compensate for narrower width
-                paddingRight: `${LETTER_SPACING.WIDE * 0.75 * 0.3}px`,
-              }),
+              display: 'inline-block',
             };
             return (
-              <span key={index} style={digitStyle}>{digit}</span>
+              <span key={index} style={digitContainerStyle}>
+                <span style={digitStyle}>{digit}</span>
+              </span>
             );
           })}
         </div>
