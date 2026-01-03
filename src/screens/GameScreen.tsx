@@ -9,6 +9,7 @@ import DigitButton from '../components/DigitButton';
 import OperationButton from '../components/OperationButton';
 import UndoButton from '../components/UndoButton';
 import HowToPlayModal from '../components/HowToPlayModal';
+import { FadedEights } from '../components/FadedEights';
 import nextArrowSvg from '../assets/svgs/next-arrow.svg';
 import homeSvg from '../assets/svgs/home.svg';
 import librarySvg from '../assets/svgs/library.svg';
@@ -59,8 +60,11 @@ export default function GameScreen({
   const [shakingDigitIndices, setShakingDigitIndices] = useState<number[]>([]);
   const hasCompletedRef = useRef(false);
   
-  // Calculate DIGITL title banner height for home button (reduced by 15% for web, then substantially scaled down)
-  const titleBannerHeight = ((FONT_SIZES.TITLE * 0.85 * 0.9 * 0.85 * 0.6) + (SPACING.PADDING_MEDIUM * 0.85 * 0.9 * 0.85 * 0.6 * 2) + (BUTTON_BORDER.WIDTH * 2)) * 0.6;
+  // Height constant for top row elements (home button, DIGITL title, how to play button)
+  // Calculate based on gameTitle element: fontSize + vertical padding * 2 + border * 2
+  const titleFontSize = FONT_SIZES.TITLE * 0.85 * 0.9 * 1.1 * 0.85 * 0.6 * 0.9 * 1.4;
+  const titleVerticalPadding = SPACING.PADDING_MEDIUM * 0.85 * 0.9 * 0.85 * 0.6 * 0.9 * 1.2;
+  const topRowElementHeight = titleFontSize + (titleVerticalPadding * 2) + (BUTTON_BORDER.WIDTH * 2);
 
   // Reset completion flag when puzzle index changes or game state changes
   useEffect(() => {
@@ -313,19 +317,23 @@ export default function GameScreen({
       overflowX: 'hidden' as const,
       scrollbarWidth: 'none' as const, // Firefox
       msOverflowStyle: 'none' as const, // IE and Edge
+      userSelect: 'none' as const, // Prevent text selection and cursor
+      WebkitUserSelect: 'none' as const,
+      MozUserSelect: 'none' as const,
+      msUserSelect: 'none' as const,
     },
     homeButtonContainer: {
       display: 'flex',
       alignItems: 'center',
     },
     iconButton: {
-      width: `${titleBannerHeight * 2}px`, // Scaled up 100% (doubled)
-      height: `${titleBannerHeight * 2}px`,
-      minWidth: `${titleBannerHeight * 2}px`,
-      minHeight: `${titleBannerHeight * 2}px`,
-      maxWidth: `${titleBannerHeight * 2}px`,
-      maxHeight: `${titleBannerHeight * 2}px`,
-      borderRadius: `${BORDER_RADIUS.MEDIUM * 0.85 * 0.9 * 0.6 * 2}px`, // Scaled up 100%
+      width: `${topRowElementHeight}px`, // Use consistent height constant
+      height: `${topRowElementHeight}px`,
+      minWidth: `${topRowElementHeight}px`,
+      minHeight: `${topRowElementHeight}px`,
+      maxWidth: `${topRowElementHeight}px`,
+      maxHeight: `${topRowElementHeight}px`,
+      borderRadius: `${BORDER_RADIUS.MEDIUM * 0.85 * 0.9 * 0.6 * 2}px`,
       backgroundColor: COLORS.BACKGROUND_WHITE, // Match digit button background
       display: 'flex',
       alignItems: 'center',
@@ -341,12 +349,13 @@ export default function GameScreen({
       flexDirection: 'row' as const,
       alignItems: 'center',
       justifyContent: 'space-evenly' as const, // Evenly space all items
-      width: '100%',
+    
       marginBottom: `${SPACING.VERTICAL_SPACING}px`,
+      alignSelf: 'center' as const,
     },
     gameTitleBox: {
-      width: `${CALCULATOR_DISPLAY.WIDTH * 0.85 * 0.85 * 0.6 * 0.9}px`, // 85% width, then 85% again for web, then substantially scaled down, then 10% more
-      height: `${titleBannerHeight * 2}px`, // Match button height
+      width: `${CALCULATOR_DISPLAY.WIDTH}px`, // 85% width, then 85% again for web, then substantially scaled down, then 10% more
+      height: `${topRowElementHeight}px`, // Use consistent height constant
       display: 'flex',
       flexDirection: 'column' as const,
       alignItems: 'center',
@@ -355,9 +364,9 @@ export default function GameScreen({
     },
     gameTitle: {
       backgroundColor: COLORS.BACKGROUND_WHITE,
-      padding: `${SPACING.PADDING_MEDIUM * 0.85 * 0.9 * 0.85 * 0.6 * 0.9}px ${SPACING.PADDING_LARGE * 0.85 * 0.9 * 0.85 * 0.6 * 0.9}px`, // Scaled down substantially, then 10% more
-      borderRadius: `${BORDER_RADIUS.MEDIUM * 0.85 * 0.9 * 0.85 * 0.6 * 0.9}px`, // Scaled down substantially, then 10% more
-      fontSize: FONT_SIZES.TITLE * 0.85 * 0.9 * 1.1 * 0.85 * 0.6 * 0.9, // Scaled down substantially, then 10% more
+      padding: `${SPACING.PADDING_MEDIUM * 0.85 * 0.9 * 0.85 * 0.6 * 0.9 * 1.2}px ${SPACING.PADDING_LARGE * 0.85 * 0.9 * 0.85 * 0.6 * 0.9 * 1.2}px`, // Scaled down substantially, then 10% more, then scaled up 20%
+      borderRadius: `${BORDER_RADIUS.MEDIUM * 0.85 * 0.9 * 0.85 * 0.6 * 0.9 * 1.2}px`, // Scaled down substantially, then 10% more, then scaled up 20%
+      fontSize: FONT_SIZES.TITLE * 0.85 * 0.9 * 1.1 * 0.85 * 0.6 * 0.9 * 1.4, // Scaled down substantially, then 10% more, then scaled up 40%
       fontFamily: 'Digital-7-Mono, monospace',
       color: COLORS.BACKGROUND_DARK,
       fontWeight: 900 as const, // Increased boldness (from 'bold' which is 700 to 900)
@@ -365,7 +374,7 @@ export default function GameScreen({
       boxShadow: '4px 4px 0 0 rgba(0, 0, 0, 1)',
       border: `${BUTTON_BORDER.WIDTH}px solid ${BUTTON_BORDER.COLOR}`,
       pointerEvents: 'none' as const, // Prevent mouse interaction
-      width: '100%', // Make it fill the gameTitleBox width
+      width: '80%',
     },
     modeTitle: {
       backgroundColor: COLORS.BACKGROUND_DARK,
@@ -437,24 +446,6 @@ export default function GameScreen({
       borderRadius: `${Math.max(0, CALCULATOR_DISPLAY.BORDER_RADIUS - (BUTTON_BORDER.WIDTH * 2.5) - 2)}px`, // Updated to match scaled border
       zIndex: 0,
     },
-    targetFadedEights: {
-      position: 'absolute' as const,
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'flex-end', // Right-align to match target number
-      fontFamily: 'Digital-7-Mono, monospace',
-      fontSize: FONT_SIZES.TARGET_NUMBER * 0.5625, // Same size as target number
-      color: COLORS.TEXT_SUCCESS,
-      opacity: 0.08, // Very faded
-      letterSpacing: `${LETTER_SPACING.WIDE * 0.75}px`, // Same as target number
-      zIndex: 0.5,
-      pointerEvents: 'none' as const,
-      paddingRight: `${CALCULATOR_DISPLAY.PADDING_HORIZONTAL * 0.75}px`, // Match container padding
-    },
     targetNumberWrapper: {
       position: 'absolute' as const,
       top: 0,
@@ -463,17 +454,30 @@ export default function GameScreen({
       bottom: 0,
       display: 'flex',
       alignItems: 'center',
-      justifyContent: 'flex-end', // Right-align for calculator display
+      justifyContent: 'flex-end', // Right-align to sit in grooves of centered 8s
       overflow: 'hidden' as const,
       zIndex: 1,
-      paddingRight: `${CALCULATOR_DISPLAY.PADDING_HORIZONTAL * 0.75}px`, // Match container padding
+      paddingRight: `${CALCULATOR_DISPLAY.PADDING_HORIZONTAL * 0.75 - 2}px`, // Match container paddingHorizontal, adjusted for groove alignment
+    },
+    targetNumberWrapperSuccess: {
+      position: 'absolute' as const,
+      top: `${BUTTON_BORDER.WIDTH * 2.5 + 2}px`, // Match inner border position
+      left: `${BUTTON_BORDER.WIDTH * 2.5 + 2}px`,
+      right: `${BUTTON_BORDER.WIDTH * 2.5 + 2}px`,
+      bottom: `${BUTTON_BORDER.WIDTH * 2.5 + 2}px`,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      overflow: 'hidden' as const,
+      zIndex: 1,
+      borderRadius: `${Math.max(0, (CALCULATOR_DISPLAY.BORDER_RADIUS * 0.75) - (BUTTON_BORDER.WIDTH * 2.5) - 2)}px`, // Match inner border radius (scaled)
     },
     targetNumber: {
       fontSize: FONT_SIZES.TARGET_NUMBER * 0.5625, // Scaled down 25% more (to 56.25% of original)
       color: COLORS.TEXT_SUCCESS,
       fontFamily: 'Digital-7-Mono, monospace',
       letterSpacing: `${LETTER_SPACING.WIDE * 0.75}px`, // Scaled down 25%
-      textAlign: 'right' as const, // Right-align for calculator display
+      textAlign: 'right' as const, // Right-align to sit in grooves of centered 8s
       textShadow: '2px 2px 3px rgba(0, 0, 0, 0.8)',
       zIndex: 1,
       position: 'relative' as const,
@@ -537,7 +541,7 @@ export default function GameScreen({
       marginTop: `${SPACING.VERTICAL_SPACING}px`,
       marginBottom: `${SPACING.VERTICAL_SPACING}px`,
       height: HISTORY_BOX.HEIGHT_HARD,
-      textAlign: 'center' as const, // Center the history container horizontally
+      textAlign: 'center' as const, // Center the history container horizontally (not the text inside)
     },
     historyContainer: {
       display: 'flex',
@@ -550,7 +554,7 @@ export default function GameScreen({
       paddingTop: `${SPACING.VERTICAL_SPACING}px`,
       paddingBottom: `${SPACING.VERTICAL_SPACING}px`,
       borderRadius: `${HISTORY_BOX.BORDER_RADIUS * 0.75}px`,
-      width: `${CALCULATOR_DISPLAY.WIDTH * 0.75}px`,
+      width: `${CALCULATOR_DISPLAY.WIDTH * 0.675}px`, // Reduced by 10% (0.75 * 0.9 = 0.675)
       height: difficulty === 'easy' ? `${HISTORY_BOX.HEIGHT_EASY * 0.75}px` 
              : difficulty === 'medium' ? `${HISTORY_BOX.HEIGHT_MEDIUM * 0.75}px` 
              : `${HISTORY_BOX.HEIGHT_HARD * 0.75}px`,
@@ -610,12 +614,14 @@ export default function GameScreen({
       fontFamily: 'Digital-7-Mono, monospace',
       flex: 1,
       opacity: 0.12, // Very faded like target display
+      textAlign: 'left' as const, // Left-align the empty text
     },
     historyText: {
       fontSize: FONT_SIZES.SUBTEXT * 1.1 * 0.75, // Scaled down 25%
       color: COLORS.TEXT_SUCCESS,
       fontFamily: 'Digital-7-Mono, monospace',
       flex: 1,
+      textAlign: 'left' as const, // Left-align the equation text
     },
     actionButton: {
       padding: `${14 * 0.7225}px ${24 * 0.7225}px`, // Scaled down 15% then another 15%
@@ -706,8 +712,8 @@ export default function GameScreen({
               <img 
                 src={homeSvg} 
                 alt="Home" 
-                width={titleBannerHeight} 
-                height={titleBannerHeight}
+                width={topRowElementHeight * 0.5} 
+                height={topRowElementHeight * 0.5}
                 style={{ display: 'block', cursor: 'pointer' }}
               />
             </div>
@@ -738,8 +744,8 @@ export default function GameScreen({
               <img 
                 src={librarySvg} 
                 alt="How to Play" 
-                width={titleBannerHeight} 
-                height={titleBannerHeight}
+                width={topRowElementHeight * 0.5} 
+                height={topRowElementHeight * 0.5}
                 style={{ display: 'block', cursor: 'pointer' }}
               />
             </div>
@@ -762,10 +768,10 @@ export default function GameScreen({
           <div style={styles.targetContainerWrapper}>
             <div style={styles.targetContainer}>
               <div style={styles.targetInnerBorder} />
-              <div style={styles.targetFadedEights}>8888</div>
+              <FadedEights count={4} />
               {/* Show success message as chyron in target display, otherwise show target number */}
               {(showSuccessMessage || showSuccessBanner) ? (
-                <div style={styles.targetNumberWrapper}>
+                <div style={styles.targetNumberWrapperSuccess}>
                   <span style={styles.targetNumberSuccess}>
                     {showSuccessBanner && successMessage ? `${successMessage}!` : 'Success!'}
                   </span>

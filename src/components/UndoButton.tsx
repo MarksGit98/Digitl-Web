@@ -1,5 +1,5 @@
 import React from 'react';
-import { FONT_SIZES, NUMERIC_CONSTANTS, COLORS, BUTTON_SIZES } from '../constants/sizing';
+import { FONT_SIZES, NUMERIC_CONSTANTS, COLORS, BUTTON_SIZES, BUTTON_BORDER } from '../constants/sizing';
 import CircularIconButton from './CircularIconButton';
 
 interface UndoButtonProps {
@@ -25,7 +25,10 @@ export default function UndoButton({
         ...style,
         backgroundColor: COLORS.BACKGROUND_DISABLED_DARK,
       }
-    : style;
+    : {
+        ...style,
+        border: `${BUTTON_BORDER.WIDTH}px solid ${BUTTON_BORDER.COLOR}`, // Black border when active, matching operation buttons
+      };
 
   return (
     <CircularIconButton

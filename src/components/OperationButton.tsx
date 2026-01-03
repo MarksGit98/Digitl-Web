@@ -37,10 +37,12 @@ export default function OperationButton({
   const displaySymbol = operation === '*' ? '×' : operation === '/' ? '÷' : operation === '+' ? '＋' : operation === '-' ? '−' : operation;
   
   // Adjust vertical alignment for different symbols to center them properly
+  // Scale adjustments proportionally with button size
+  const verticalAdjustmentScale = BUTTON_SIZES.OPERATION_BUTTON_SIZE / 100; // Scale factor based on button size
   const getVerticalAdjustment = () => {
-    if (operation === '-') return 'translateY(-1px)'; // Minus needs to move up to center
-    if (operation === '*') return 'translateY(-2px)'; // Multiplication needs to move up more
-    if (operation === '/') return 'translateY(-2px)'; // Division needs to move up to center
+    if (operation === '-') return `translateY(${-1 * verticalAdjustmentScale}px)`; // Minus needs to move up to center
+    if (operation === '*') return `translateY(${-2 * verticalAdjustmentScale}px)`; // Multiplication needs to move up more
+    if (operation === '/') return `translateY(${-2 * verticalAdjustmentScale}px)`; // Division needs to move up to center
     return 'translateY(0px)'; // Plus is already perfect
   };
 
