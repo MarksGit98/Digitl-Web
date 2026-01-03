@@ -66,9 +66,6 @@ export default function GameScreen({
   const titleVerticalPadding = SPACING.PADDING_MEDIUM * 0.85 * 0.9 * 0.85 * 0.6 * 0.9 * 1.2;
   const topRowElementHeight = titleFontSize + (titleVerticalPadding * 2) + (BUTTON_BORDER.WIDTH * 2);
 
-  // Target number alignment offset - adjust this value to align with "8888" grooves
-  const targetNumberPaddingRight = CALCULATOR_DISPLAY.PADDING_HORIZONTAL * 0.6344507389508233; // Calculated: 0.6220105283831601 * 1.02
-
   // Reset completion flag when puzzle index changes or game state changes
   useEffect(() => {
     hasCompletedRef.current = false;
@@ -678,7 +675,6 @@ export default function GameScreen({
             mode={(showSuccessMessage || showSuccessBanner) ? 'success' : 'target'}
             targetNumber={gameState.target}
             successMessage={showSuccessBanner && successMessage ? successMessage : undefined}
-            targetNumberPaddingRight={targetNumberPaddingRight}
           />
 
           {/* Next Round Button - Only shown in daily challenge mode after puzzle is completed */}

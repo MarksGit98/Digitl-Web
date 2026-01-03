@@ -7,7 +7,6 @@ interface CalculatorDisplayProps {
   chyronText?: string;
   targetNumber?: number;
   successMessage?: string;
-  targetNumberPaddingRight?: number;
 }
 
 export const CalculatorDisplay: React.FC<CalculatorDisplayProps> = ({
@@ -15,7 +14,6 @@ export const CalculatorDisplay: React.FC<CalculatorDisplayProps> = ({
   chyronText = 'DIGITL',
   targetNumber,
   successMessage,
-  targetNumberPaddingRight,
 }) => {
   const innerBorderOffset = BUTTON_BORDER.WIDTH * 2.5 + 2;
 
@@ -24,7 +22,8 @@ export const CalculatorDisplay: React.FC<CalculatorDisplayProps> = ({
     alignItems: 'center',
     justifyContent: 'center',
     backgroundColor: COLORS.BACKGROUND_DARK,
-    paddingHorizontal: `${CALCULATOR_DISPLAY.PADDING_HORIZONTAL * 0.75}px`,
+    paddingLeft: `${CALCULATOR_DISPLAY.PADDING_HORIZONTAL * 0.75}px`,
+    paddingRight: `${CALCULATOR_DISPLAY.PADDING_HORIZONTAL * 0.75}px`,
     paddingTop: `${SPACING.VERTICAL_SPACING}px`,
     paddingBottom: `${SPACING.VERTICAL_SPACING}px`,
     borderRadius: `${CALCULATOR_DISPLAY.BORDER_RADIUS * 0.75}px`,
@@ -91,20 +90,6 @@ export const CalculatorDisplay: React.FC<CalculatorDisplayProps> = ({
   };
 
   // Target number mode (game screen)
-  const targetNumberWrapperStyle: React.CSSProperties = {
-    position: 'absolute' as const,
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-    overflow: 'hidden' as const,
-    zIndex: 1,
-    paddingRight: targetNumberPaddingRight ? `${targetNumberPaddingRight}px` : undefined,
-  };
-
   const targetNumberStyle: React.CSSProperties = {
     fontSize: FONT_SIZES.TARGET_NUMBER * 0.5625,
     color: COLORS.TEXT_SUCCESS,
@@ -147,49 +132,89 @@ export const CalculatorDisplay: React.FC<CalculatorDisplayProps> = ({
     textShadow: '2px 2px 3px rgba(0, 0, 0, 0.8)',
   };
 
+  // For target mode, create display digits (faded 8s with target digits replacing rightmost positions)
+  const getDisplayDigits = () => {
+    if (mode !== 'target' || targetNumber === undefined) return null;
+    
+    const targetDigits = targetNumber.toString().split('');
+    const totalPositions = 4;
+    const displayDigits: string[] = [];
+    
+    // Right-align: fill left positions with faded 8s, then add target digits
+    const numEmptySlots = totalPositions - targetDigits.length;
+    for (let i = 0; i < totalPositions; i++) {
+      if (i < numEmptySlots) {
+        // Left positions: faded 8s
+        displayDigits.push('8');
+      } else {
+        // Right positions: target digits
+        displayDigits.push(targetDigits[i - numEmptySlots]);
+      }
+    }
+    
+    return displayDigits;
+  };
+
+  const displayDigits = getDisplayDigits();
+
   return (
     <div style={containerStyle}>
       <div style={innerBorderStyle} />
-      <FadedEights count={4} />
       
       {mode === 'chyron' && (
-        <div style={chyronWrapperStyle}>
-          <span style={chyronTextStyle}>{chyronText}</span>
-        </div>
+        <>
+          <FadedEights count={4} />
+          <div style={chyronWrapperStyle}>
+            <span style={chyronTextStyle}>{chyronText}</span>
+          </div>
+        </>
       )}
       
-      {mode === 'target' && targetNumber !== undefined && (
-        <div style={targetNumberWrapperStyle}>
-          <div style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'flex-end',
-            gap: `${LETTER_SPACING.WIDE * 0.75}px`,
-          }}>
-            {targetNumber.toString().split('').map((digit, index) => {
-              // For digit "1", shift it left to align with left groove of faded 8
-              const isOne = digit === '1';
-              const digitStyle: React.CSSProperties = {
-                ...targetNumberStyle,
-                letterSpacing: 0,
-                ...(isOne && {
-                  transform: `translateX(-${LETTER_SPACING.WIDE * 0.75 * 0.5}px)`, // Shift left by half the gap
-                }),
-              };
-              return (
-                <span key={index} style={digitStyle}>{digit}</span>
-              );
-            })}
-          </div>
+      {mode === 'target' && displayDigits && (
+        <div style={{
+          position: 'absolute' as const,
+          top: `${innerBorderOffset}px`,
+          left: `${innerBorderOffset}px`,
+          right: `${innerBorderOffset}px`,
+          bottom: `${innerBorderOffset}px`,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          letterSpacing: `${LETTER_SPACING.WIDE * 0.75}px`,
+          zIndex: 1,
+        }}>
+          {displayDigits.map((digit, index) => {
+            // Determine if this position should be faded (leftmost empty slots)
+            const numEmptySlots = 4 - targetNumber!.toString().length;
+            const isFaded = index < numEmptySlots;
+            const isOne = digit === '1';
+            // Compensate for "1" being narrower than "8" by adding extra spacing
+            const digitStyle: React.CSSProperties = {
+              ...targetNumberStyle,
+              letterSpacing: 0,
+              opacity: isFaded ? 0.08 : 1,
+              color: COLORS.TEXT_SUCCESS,
+              ...(isOne && {
+                paddingLeft: `${LETTER_SPACING.WIDE * 0.75 * 0.3}px`, // Add spacing to compensate for narrower width
+                paddingRight: `${LETTER_SPACING.WIDE * 0.75 * 0.3}px`,
+              }),
+            };
+            return (
+              <span key={index} style={digitStyle}>{digit}</span>
+            );
+          })}
         </div>
       )}
       
       {mode === 'success' && (
-        <div style={successWrapperStyle}>
-          <span style={successTextStyle}>
-            {successMessage ? `${successMessage}!` : 'Success!'}
-          </span>
-        </div>
+        <>
+          <FadedEights count={4} />
+          <div style={successWrapperStyle}>
+            <span style={successTextStyle}>
+              {successMessage ? `${successMessage}!` : 'Success!'}
+            </span>
+          </div>
+        </>
       )}
     </div>
   );
