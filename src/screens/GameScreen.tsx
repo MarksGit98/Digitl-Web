@@ -308,7 +308,7 @@ export default function GameScreen({
       width: '100%',
       height: '100%',
       backgroundColor: COLORS.BACKGROUND_LIGHT,
-      paddingTop: `${SPACING.VERTICAL_SPACING * 2}px`, // Increased top padding
+      paddingTop: '0px',
       paddingBottom: `${SPACING.VERTICAL_SPACING}px`,
       paddingLeft: `${SPACING.CONTAINER_PADDING_HORIZONTAL}px`,
       paddingRight: `${SPACING.CONTAINER_PADDING_HORIZONTAL}px`,

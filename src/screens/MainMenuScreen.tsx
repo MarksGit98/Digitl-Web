@@ -77,10 +77,8 @@ export default function MainMenuScreen({
       opacity: 0.8,
     },
     instructionsContainer: {
-      width: `${CALCULATOR_DISPLAY.WIDTH * 1.2}px`,
-      maxWidth: `${CALCULATOR_DISPLAY.WIDTH * 1.2}px`,
+      width: `${CALCULATOR_DISPLAY.WIDTH}px`,
       backgroundColor: 'transparent',
-      maxHeight: SCREEN_HEIGHT * 0.5,
       overflowY: 'auto' as const,
     },
     actionButton: {

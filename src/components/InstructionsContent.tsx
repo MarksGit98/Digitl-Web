@@ -7,11 +7,10 @@ export default function InstructionsContent() {
     instructionsContent: {
       display: 'flex',
       flexDirection: 'column' as const,
-      gap: `${SPACING.PADDING_MEDIUM}px`,
+      gap: `${SPACING.PADDING_SMALL}px`,
       paddingLeft: `${SPACING.PADDING_LARGE}px`,
       paddingRight: `${SPACING.PADDING_LARGE}px`,
       listStyleType: 'disc' as const,
-      margin: 0,
       paddingTop: `${SPACING.VERTICAL_SPACING}px`,
       paddingBottom: `${SPACING.VERTICAL_SPACING}px`,
     },

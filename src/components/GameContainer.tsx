@@ -1,7 +1,7 @@
 
 // Fixed container dimensions
-const CONTAINER_WIDTH = 650;
-const CONTAINER_HEIGHT = 1000;
+const CONTAINER_WIDTH = 600;
+const CONTAINER_HEIGHT = 1200;
 
 interface GameContainerProps {
   children: React.ReactNode;
@@ -13,7 +13,7 @@ export default function GameContainer({ children }: GameContainerProps) {
       width: '100vw',
       height: '100vh',
       display: 'flex',
-      alignItems: 'center',
+      alignItems: 'flex-start',
       justifyContent: 'center',
       backgroundColor: '#f8f9fa',
       position: 'relative',
@@ -46,7 +46,7 @@ export default function GameContainer({ children }: GameContainerProps) {
         backgroundColor: '#f8f9fa',
         position: 'relative',
         overflow: 'hidden',
-        marginTop: '50px',
+        marginTop: '25px',
         marginBottom: '50px',
       }}>
         {children}

@@ -1,14 +1,11 @@
 import React from 'react';
-import { SCREEN_DIMENSIONS, SPACING, COLORS, FONT_SIZES, BORDER_RADIUS, BUTTON_BORDER } from '../constants/sizing';
+import { SPACING, COLORS, FONT_SIZES, BORDER_RADIUS, BUTTON_BORDER } from '../constants/sizing';
 import InstructionsContent from './InstructionsContent';
 
 interface HowToPlayModalProps {
   visible: boolean;
   onClose: () => void;
 }
-
-const SCREEN_WIDTH = SCREEN_DIMENSIONS.WIDTH;
-const SCREEN_HEIGHT = SCREEN_DIMENSIONS.HEIGHT;
 
 export default function HowToPlayModal({
   visible,
