@@ -3,13 +3,13 @@ import { GameState, Operation, Difficulty } from '../types';
 import { performOperation, getPuzzleKey } from '../utils';
 import { 
   FONT_SIZES, SPACING, COLORS, BUTTON_BORDER, BUTTON_SIZES,
-  CALCULATOR_DISPLAY, HISTORY_BOX, LETTER_SPACING, SCREEN_DIMENSIONS, BORDER_RADIUS
+  CALCULATOR_DISPLAY, HISTORY_BOX, SCREEN_DIMENSIONS, BORDER_RADIUS
 } from '../constants/sizing';
 import DigitButton from '../components/DigitButton';
 import OperationButton from '../components/OperationButton';
 import UndoButton from '../components/UndoButton';
 import HowToPlayModal from '../components/HowToPlayModal';
-import { FadedEights } from '../components/FadedEights';
+import { CalculatorDisplay } from '../components/CalculatorDisplay';
 import nextArrowSvg from '../assets/svgs/next-arrow.svg';
 import homeSvg from '../assets/svgs/home.svg';
 import librarySvg from '../assets/svgs/library.svg';
@@ -65,6 +65,9 @@ export default function GameScreen({
   const titleFontSize = FONT_SIZES.TITLE * 0.85 * 0.9 * 1.1 * 0.85 * 0.6 * 0.9 * 1.4;
   const titleVerticalPadding = SPACING.PADDING_MEDIUM * 0.85 * 0.9 * 0.85 * 0.6 * 0.9 * 1.2;
   const topRowElementHeight = titleFontSize + (titleVerticalPadding * 2) + (BUTTON_BORDER.WIDTH * 2);
+
+  // Target number alignment offset - adjust this value to align with "8888" grooves
+  const targetNumberPaddingRight = CALCULATOR_DISPLAY.PADDING_HORIZONTAL * 0.6344507389508233; // Calculated: 0.6220105283831601 * 1.02
 
   // Reset completion flag when puzzle index changes or game state changes
   useEffect(() => {
@@ -403,100 +406,6 @@ export default function GameScreen({
       alignItems: 'center',
       width: '100%',
     },
-    targetContainerWrapper: {
-      width: '100%',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      marginBottom: `${SPACING.VERTICAL_SPACING}px`,
-    },
-    targetContainer: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: COLORS.BACKGROUND_DARK,
-      paddingHorizontal: `${CALCULATOR_DISPLAY.PADDING_HORIZONTAL * 0.75}px`,
-      paddingTop: `${SPACING.VERTICAL_SPACING}px`,
-      paddingBottom: `${SPACING.VERTICAL_SPACING}px`,
-      borderRadius: `${CALCULATOR_DISPLAY.BORDER_RADIUS * 0.75}px`,
-      width: `${CALCULATOR_DISPLAY.WIDTH * 0.5625}px`, // Reduced width to 75% then scaled down 25% more
-      height: `${CALCULATOR_DISPLAY.HEIGHT * 0.65}px`, // Decreased from 0.75 to 0.65
-      position: 'relative' as const,
-      pointerEvents: 'none' as const, // Prevent mouse interaction
-      // Metallic border effect - scaled down borders
-      borderTopColor: '#B0B0B0',
-      borderLeftColor: '#909090',
-      borderRightColor: '#404040',
-      borderBottomColor: '#404040',
-      borderTopWidth: `${BUTTON_BORDER.WIDTH * 2.5}px`, // Scaled down from 4 to 2.5
-      borderLeftWidth: `${BUTTON_BORDER.WIDTH * 2.5}px`,
-      borderRightWidth: `${BUTTON_BORDER.WIDTH * 2.5}px`,
-      borderBottomWidth: `${BUTTON_BORDER.WIDTH * 2.5}px`,
-      borderStyle: 'solid',
-      boxShadow: '0 1px 2px rgba(160, 160, 160, 0.3)',
-      overflow: 'hidden' as const,
-    },
-    targetInnerBorder: {
-      position: 'absolute' as const,
-      top: `${BUTTON_BORDER.WIDTH * 2.5 + 2}px`, // Updated to match scaled border
-      left: `${BUTTON_BORDER.WIDTH * 2.5 + 2}px`,
-      right: `${BUTTON_BORDER.WIDTH * 2.5 + 2}px`,
-      bottom: `${BUTTON_BORDER.WIDTH * 2.5 + 2}px`,
-      backgroundColor: '#1F1F1F',
-      borderRadius: `${Math.max(0, CALCULATOR_DISPLAY.BORDER_RADIUS - (BUTTON_BORDER.WIDTH * 2.5) - 2)}px`, // Updated to match scaled border
-      zIndex: 0,
-    },
-    targetNumberWrapper: {
-      position: 'absolute' as const,
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'flex-end', // Right-align to sit in grooves of centered 8s
-      overflow: 'hidden' as const,
-      zIndex: 1,
-      paddingRight: `${CALCULATOR_DISPLAY.PADDING_HORIZONTAL * 0.75 - 2}px`, // Match container paddingHorizontal, adjusted for groove alignment
-    },
-    targetNumberWrapperSuccess: {
-      position: 'absolute' as const,
-      top: `${BUTTON_BORDER.WIDTH * 2.5 + 2}px`, // Match inner border position
-      left: `${BUTTON_BORDER.WIDTH * 2.5 + 2}px`,
-      right: `${BUTTON_BORDER.WIDTH * 2.5 + 2}px`,
-      bottom: `${BUTTON_BORDER.WIDTH * 2.5 + 2}px`,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      overflow: 'hidden' as const,
-      zIndex: 1,
-      borderRadius: `${Math.max(0, (CALCULATOR_DISPLAY.BORDER_RADIUS * 0.75) - (BUTTON_BORDER.WIDTH * 2.5) - 2)}px`, // Match inner border radius (scaled)
-    },
-    targetNumber: {
-      fontSize: FONT_SIZES.TARGET_NUMBER * 0.5625, // Scaled down 25% more (to 56.25% of original)
-      color: COLORS.TEXT_SUCCESS,
-      fontFamily: 'Digital-7-Mono, monospace',
-      letterSpacing: `${LETTER_SPACING.WIDE * 0.75}px`, // Scaled down 25%
-      textAlign: 'right' as const, // Right-align to sit in grooves of centered 8s
-      textShadow: '2px 2px 3px rgba(0, 0, 0, 0.8)',
-      zIndex: 1,
-      position: 'relative' as const,
-      lineHeight: `${FONT_SIZES.TARGET_NUMBER * 0.95}px`,
-      display: 'inline-block', // Change from flex to inline-block for proper text alignment
-      pointerEvents: 'none' as const, // Prevent mouse interaction
-    },
-    targetNumberSuccess: {
-      fontSize: FONT_SIZES.TARGET_NUMBER * 0.6,
-      fontFamily: 'Digital-7-Mono, monospace',
-      color: COLORS.DIFFICULTY_EASY,
-      fontWeight: 'bold' as const,
-      textAlign: 'left' as const, // Changed to left for chyron effect
-      whiteSpace: 'nowrap' as const,
-      pointerEvents: 'none' as const, // Prevent mouse interaction
-      animation: 'chyronScroll 6s linear infinite',
-      display: 'block' as const,
-      textShadow: '2px 2px 3px rgba(0, 0, 0, 0.8)',
-    },
     digitsContainerWrapper: {
       width: '100%',
       display: 'flex',
@@ -765,24 +674,12 @@ export default function GameScreen({
 
         <div style={styles.gameContent}>
           {/* Target Display */}
-          <div style={styles.targetContainerWrapper}>
-            <div style={styles.targetContainer}>
-              <div style={styles.targetInnerBorder} />
-              <FadedEights count={4} />
-              {/* Show success message as chyron in target display, otherwise show target number */}
-              {(showSuccessMessage || showSuccessBanner) ? (
-                <div style={styles.targetNumberWrapperSuccess}>
-                  <span style={styles.targetNumberSuccess}>
-                    {showSuccessBanner && successMessage ? `${successMessage}!` : 'Success!'}
-                  </span>
-                </div>
-              ) : (
-                <div style={styles.targetNumberWrapper}>
-                  <span style={styles.targetNumber}>{gameState.target}</span>
-                </div>
-              )}
-            </div>
-          </div>
+          <CalculatorDisplay
+            mode={(showSuccessMessage || showSuccessBanner) ? 'success' : 'target'}
+            targetNumber={gameState.target}
+            successMessage={showSuccessBanner && successMessage ? successMessage : undefined}
+            targetNumberPaddingRight={targetNumberPaddingRight}
+          />
 
           {/* Next Round Button - Only shown in daily challenge mode after puzzle is completed */}
           {gameMode === 'dailyChallenge' && dailyChallengeRound !== null && dailyChallengeRound < 3 && onGoToNextRound && (showSuccessMessage || showSuccessBanner) && (

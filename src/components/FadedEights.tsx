@@ -1,5 +1,5 @@
 import React from 'react';
-import { FONT_SIZES, LETTER_SPACING, COLORS } from '../constants/sizing';
+import { FONT_SIZES, LETTER_SPACING, COLORS, BUTTON_BORDER } from '../constants/sizing';
 
 interface FadedEightsProps {
   count?: number;
@@ -7,15 +7,17 @@ interface FadedEightsProps {
 
 export const FadedEights: React.FC<FadedEightsProps> = ({ count = 4 }) => {
   const fadedEightsText = '8'.repeat(count);
+  // Position to match inner border area (same as titleInner and targetInnerBorder)
+  const innerBorderOffset = BUTTON_BORDER.WIDTH * 2.5 + 2;
 
   return (
     <div
       style={{
         position: 'absolute' as const,
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
+        top: `${innerBorderOffset}px`,
+        left: `${innerBorderOffset}px`,
+        right: `${innerBorderOffset}px`,
+        bottom: `${innerBorderOffset}px`,
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center', // Center-align horizontally

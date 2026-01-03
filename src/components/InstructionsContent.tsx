@@ -1,4 +1,3 @@
-import React from 'react';
 import { SCREEN_DIMENSIONS, SPACING, COLORS, FONT_SIZES, BUTTON_BORDER, LETTER_SPACING } from '../constants/sizing';
 
 const SCREEN_WIDTH = SCREEN_DIMENSIONS.WIDTH;

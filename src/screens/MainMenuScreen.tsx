@@ -1,11 +1,11 @@
 import { useState } from 'react';
 import { Difficulty } from '../types';
-import { FONT_SIZES, SPACING, COLORS, BUTTON_BORDER, SCREEN_DIMENSIONS, LETTER_SPACING, ANIMATION, CALCULATOR_DISPLAY, BORDER_RADIUS } from '../constants/sizing';
+import { FONT_SIZES, SPACING, COLORS, BUTTON_BORDER, SCREEN_DIMENSIONS, ANIMATION, CALCULATOR_DISPLAY, BORDER_RADIUS } from '../constants/sizing';
 import { create3DButtonStyle } from '../styles/buttonStyles';
 import presentSvg from '../assets/svgs/present.svg';
 import calendarSvg from '../assets/svgs/calendar-icon.svg';
 import InstructionsContent from '../components/InstructionsContent';
-import { FadedEights } from '../components/FadedEights';
+import { CalculatorDisplay } from '../components/CalculatorDisplay';
 
 const SCREEN_HEIGHT = SCREEN_DIMENSIONS.HEIGHT;
 
@@ -53,73 +53,6 @@ export default function MainMenuScreen({
       display: 'flex',
       flexDirection: 'column' as const,
       alignItems: 'center',
-    },
-    title: {
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      backgroundColor: COLORS.BACKGROUND_DARK,
-      paddingHorizontal: `${CALCULATOR_DISPLAY.PADDING_HORIZONTAL * 0.75}px`,
-      paddingTop: `${SPACING.VERTICAL_SPACING}px`,
-      paddingBottom: `${SPACING.VERTICAL_SPACING}px`,
-      borderRadius: `${CALCULATOR_DISPLAY.BORDER_RADIUS * 0.75}px`,
-      width: `${CALCULATOR_DISPLAY.WIDTH * 0.5625}px`,
-      height: `${CALCULATOR_DISPLAY.HEIGHT * 0.65}px`,
-      position: 'relative' as const,
-      pointerEvents: 'none' as const, // Prevent mouse interaction
-      // Metallic border effect - scaled down borders
-      borderTopColor: '#B0B0B0',
-      borderLeftColor: '#909090',
-      borderRightColor: '#404040',
-      borderBottomColor: '#404040',
-      borderTopWidth: `${BUTTON_BORDER.WIDTH * 2.5}px`, // Scaled down from 4 to 2.5
-      borderLeftWidth: `${BUTTON_BORDER.WIDTH * 2.5}px`,
-      borderRightWidth: `${BUTTON_BORDER.WIDTH * 2.5}px`,
-      borderBottomWidth: `${BUTTON_BORDER.WIDTH * 2.5}px`,
-      borderStyle: 'solid',
-      boxShadow: '0 1px 2px rgba(160, 160, 160, 0.3)',
-      overflow: 'hidden' as const,
-      marginTop: `${SPACING.VERTICAL_SPACING}px`,
-    },
-    titleInnerBorder: {
-      position: 'absolute' as const,
-      top: `${BUTTON_BORDER.WIDTH * 2.5 + 2}px`, // Updated to match scaled border
-      left: `${BUTTON_BORDER.WIDTH * 2.5 + 2}px`,
-      right: `${BUTTON_BORDER.WIDTH * 2.5 + 2}px`,
-      bottom: `${BUTTON_BORDER.WIDTH * 2.5 + 2}px`,
-      backgroundColor: '#1F1F1F',
-      borderRadius: `${Math.max(0, CALCULATOR_DISPLAY.BORDER_RADIUS - (BUTTON_BORDER.WIDTH * 2.5) - 2)}px`, // Updated to match scaled border
-      zIndex: 0,
-    },
-    titleInner: {
-      position: 'absolute' as const,
-      top: `${BUTTON_BORDER.WIDTH * 2.5 + 2}px`, // Match inner border position
-      left: `${BUTTON_BORDER.WIDTH * 2.5 + 2}px`,
-      right: `${BUTTON_BORDER.WIDTH * 2.5 + 2}px`,
-      bottom: `${BUTTON_BORDER.WIDTH * 2.5 + 2}px`,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      overflow: 'hidden' as const,
-      zIndex: 1,
-      paddingRight: `${CALCULATOR_DISPLAY.PADDING_HORIZONTAL * 0.75}px`, // Match container padding
-      borderRadius: `${Math.max(0, CALCULATOR_DISPLAY.BORDER_RADIUS - (BUTTON_BORDER.WIDTH * 2.5) - 2)}px`, // Match inner border radius
-    },
-    titleText: {
-      fontSize: FONT_SIZES.TARGET_NUMBER * 0.5625, // Scaled down 25% more (to 56.25% of original)
-      color: COLORS.TEXT_SUCCESS,
-      fontFamily: 'Digital-7-Mono, monospace',
-      letterSpacing: `${LETTER_SPACING.WIDE * 0.75}px`, // Scaled down 25%
-      textAlign: 'center' as const,
-      textShadow: '2px 2px 3px rgba(0, 0, 0, 0.8)',
-      zIndex: 1,
-      position: 'relative' as const,
-      lineHeight: `${FONT_SIZES.TARGET_NUMBER * 0.95}px`,
-      display: 'inline-block', // Change from flex to inline-block for proper text alignment
-      pointerEvents: 'none' as const, // Prevent mouse interaction
-      whiteSpace: 'nowrap' as const,
-      animation: 'chyron 10s linear infinite',
-      fontWeight: 900 as const, // Increased boldness (from default to 900)
     },
     sectionTitle: {
       fontSize: FONT_SIZES.TITLE * 0.6 * 0.85 * 0.9, // Scaled down 15% then another 10%
@@ -204,13 +137,7 @@ export default function MainMenuScreen({
     <div style={styles.container} className="hide-scrollbar">
         <div style={styles.content}>
         {/* Game Title - Calculator Display */}
-        <div style={styles.title}>
-          <div style={styles.titleInnerBorder} />
-          <FadedEights count={4} />
-          <div style={styles.titleInner}>
-            <span style={styles.titleText}>DIGITL</span>
-          </div>
-        </div>
+        <CalculatorDisplay mode="chyron" chyronText="DIGITL" />
         
         {/* Daily Challenge Section */}
         <h2 style={styles.sectionTitle}>Daily Challenge</h2>

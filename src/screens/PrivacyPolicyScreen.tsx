@@ -193,7 +193,7 @@ export default function PrivacyPolicyScreen() {
           </ul>
         </div>
 
-        <div style={{ ...styles.section, marginTop: `${SPACING.MARGIN_XLARGE}px`, textAlign: 'center' as const }}>
+        <div style={{ ...styles.section, marginTop: `${SPACING.MARGIN_LARGE}px`, textAlign: 'center' as const }}>
           <p style={{ ...styles.paragraph, fontSize: FONT_SIZES.BODY_TEXT * 0.9, color: COLORS.TEXT_SECONDARY }}>
             © {new Date().getFullYear()} Rubber Ducky Games. All rights reserved.
           </p>
