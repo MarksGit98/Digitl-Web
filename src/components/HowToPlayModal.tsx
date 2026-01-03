@@ -36,7 +36,6 @@ export default function HowToPlayModal({
       width: '80%',
       maxWidth: '550px',
       minWidth: '300px',
-    
       backgroundColor: COLORS.BACKGROUND_WHITE,
       borderRadius: `${BORDER_RADIUS.LARGE}px`,
       padding: `${SPACING.PADDING_MEDIUM}px`,
