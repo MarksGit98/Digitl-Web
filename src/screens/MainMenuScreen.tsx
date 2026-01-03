@@ -35,7 +35,7 @@ export default function MainMenuScreen({
       height: '100%',
       backgroundColor: '#f8f9fa',
       paddingTop: `${SPACING.VERTICAL_SPACING}px`,
-      paddingBottom: `${SPACING.VERTICAL_SPACING}px`,
+      paddingBottom: '20px',
       paddingLeft: '20px',
       paddingRight: '20px',
       overflowY: 'auto' as const,
@@ -72,13 +72,14 @@ export default function MainMenuScreen({
       fontFamily: 'system-ui, -apple-system, sans-serif',
       color: COLORS.TEXT_PRIMARY,
       textAlign: 'center' as const,
+      marginTop: `${SPACING.VERTICAL_SPACING}px`,
       marginBottom: `${SPACING.VERTICAL_SPACING}px`,
       maxWidth: `${CALCULATOR_DISPLAY.WIDTH * 0.8}px`,
       opacity: 0.8,
     },
     instructionsContainer: {
-      width: `${CALCULATOR_DISPLAY.WIDTH}px`,
-      backgroundColor: 'transparent',
+      width: '75%'
+,      backgroundColor: 'transparent',
       overflowY: 'auto' as const,
     },
     actionButton: {
@@ -139,9 +140,6 @@ export default function MainMenuScreen({
         
         {/* Daily Challenge Section */}
         <h2 style={styles.sectionTitle}>Daily Challenge</h2>
-        <div style={styles.sectionDescription}>
-          Complete three puzzles of increasing difficulty levels.
-        </div>
         
         {/* Daily Challenge Button */}
         <button 
@@ -169,12 +167,13 @@ export default function MainMenuScreen({
             <img src={calendarSvg} alt="calendar" width="20" height="20" style={{ display: 'block' }} />
           </span>
         </button>
+        
+        <div style={styles.sectionDescription}>
+          Complete three puzzles of increasing difficulty levels.
+        </div>
 
         {/* Sandbox Mode Section */}
         <h2 style={styles.sectionTitle}>Sandbox Mode</h2>
-        <div style={styles.sectionDescription}>
-          Generate random puzzles at your selected difficulty level.
-        </div>
         
         <div style={styles.difficultyContainer}>
           <button
@@ -298,6 +297,10 @@ export default function MainMenuScreen({
             <img src={presentSvg} alt="present" width="20" height="20" style={{ display: 'block' }} />
           </span>
         </button>
+        
+        <div style={styles.sectionDescription}>
+          Generate random puzzles at your selected difficulty level.
+        </div>
         
         {/* How to Play Section */}
         <h2 style={styles.sectionTitle}>How to Play</h2>

@@ -58,6 +58,7 @@ export default function GameScreen({
   const [selectedOperation, setSelectedOperation] = useState<Operation | null>(null);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [shakingDigitIndices, setShakingDigitIndices] = useState<number[]>([]);
+  const [showBanner, setShowBanner] = useState(false);
   const hasCompletedRef = useRef(false);
   
   // Height constant for top row elements (home button, DIGITL title, how to play button)
@@ -77,6 +78,19 @@ export default function GameScreen({
 
   // Keep success message visible until puzzle changes
   // No auto-hide - it will be reset when puzzle index changes
+
+  // Handle congratulations banner visibility and auto-hide after 3 seconds
+  useEffect(() => {
+    if (showAllPuzzlesComplete) {
+      setShowBanner(true);
+      const timer = setTimeout(() => {
+        setShowBanner(false);
+      }, 3000);
+      return () => clearTimeout(timer);
+    } else {
+      setShowBanner(false);
+    }
+  }, [showAllPuzzlesComplete]);
 
   const triggerInvalidOperationShake = (index1: number, index2: number) => {
     // Start shake animation
@@ -560,7 +574,7 @@ export default function GameScreen({
       position: 'fixed' as const,
       top: '50%',
       left: '50%',
-      transform: 'translate(-50%, -50%)',
+      transform: 'translate(-50%, -50%) scale(0.4)',
       backgroundColor: COLORS.DIFFICULTY_EASY,
       color: COLORS.TEXT_WHITE,
       padding: '30px 50px',
@@ -586,7 +600,7 @@ export default function GameScreen({
 
   return (
     <>
-      {showAllPuzzlesComplete && (
+      {showBanner && (
         <div style={styles.allPuzzlesCompleteBanner}>
           <div style={{ fontSize: FONT_SIZES.TITLE * 1.5, marginBottom: `${SPACING.VERTICAL_SPACING}px` }}>Congratulations!</div>
           <div>You solved all 3 puzzles!</div>

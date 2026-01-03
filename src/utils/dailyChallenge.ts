@@ -1,61 +1,59 @@
 import { Difficulty, Puzzle } from '../types';
 import { getPuzzlesByDifficulty, getPuzzleByIndex } from '../utils';
 
-const STORAGE_KEYS = {
-  DAILY_CHALLENGE_DATE: '@NumberBrain:dailyChallengeDate',
-  DAILY_CHALLENGE_EASY_INDEX: '@NumberBrain:dailyChallengeEasyIndex',
-  DAILY_CHALLENGE_MEDIUM_INDEX: '@NumberBrain:dailyChallengeMediumIndex',
-  DAILY_CHALLENGE_HARD_INDEX: '@NumberBrain:dailyChallengeHardIndex',
-};
-
-// Get current date in Eastern Time
-function getEasternDate(): string {
+// Reference date: January 1, 2024, 12:00 PM EST
+// Puzzles rotate at 12pm EST every 24 hours
+function getDaysSinceReference(): number {
   const now = new Date();
-  // Convert to Eastern Time
-  const easternTime = new Date(now.toLocaleString('en-US', { timeZone: 'America/New_York' }));
-  // Return YYYY-MM-DD format
-  return easternTime.toISOString().split('T')[0];
-}
-
-// Check if we need to reset daily challenge (new day in Eastern Time)
-function shouldResetDailyChallenge(): boolean {
-  const savedDate = localStorage.getItem(STORAGE_KEYS.DAILY_CHALLENGE_DATE);
-  const currentDate = getEasternDate();
-  return savedDate !== currentDate;
-}
-
-// Get or generate daily challenge puzzle indices
-function getDailyChallengeIndices(): { easy: number; medium: number; hard: number } {
-  if (shouldResetDailyChallenge()) {
-    // Generate new random indices for today
-    const easyPuzzles = getPuzzlesByDifficulty('easy');
-    const mediumPuzzles = getPuzzlesByDifficulty('medium');
-    const hardPuzzles = getPuzzlesByDifficulty('hard');
-    
-    const easyIndex = Math.floor(Math.random() * easyPuzzles.length);
-    const mediumIndex = Math.floor(Math.random() * mediumPuzzles.length);
-    const hardIndex = Math.floor(Math.random() * hardPuzzles.length);
-    
-    // Save for today
-    const currentDate = getEasternDate();
-    localStorage.setItem(STORAGE_KEYS.DAILY_CHALLENGE_DATE, currentDate);
-    localStorage.setItem(STORAGE_KEYS.DAILY_CHALLENGE_EASY_INDEX, JSON.stringify(easyIndex));
-    localStorage.setItem(STORAGE_KEYS.DAILY_CHALLENGE_MEDIUM_INDEX, JSON.stringify(mediumIndex));
-    localStorage.setItem(STORAGE_KEYS.DAILY_CHALLENGE_HARD_INDEX, JSON.stringify(hardIndex));
-    
-    return { easy: easyIndex, medium: mediumIndex, hard: hardIndex };
+  
+  // Get current date/time string in EST
+  const estDateString = now.toLocaleString('en-US', {
+    timeZone: 'America/New_York',
+    year: 'numeric',
+    month: '2-digit',
+    day: '2-digit',
+    hour: '2-digit',
+    minute: '2-digit',
+    hour12: false,
+  });
+  
+  // Parse: "MM/DD/YYYY, HH:MM"
+  const [datePart, timePart] = estDateString.split(', ');
+  const [month, day, year] = datePart.split('/');
+  const [hours] = timePart.split(':');
+  
+  const currentHour = parseInt(hours, 10);
+  const currentDate = new Date(parseInt(year, 10), parseInt(month, 10) - 1, parseInt(day, 10));
+  
+  // If before 12pm EST, use previous day
+  if (currentHour < 12) {
+    currentDate.setDate(currentDate.getDate() - 1);
   }
   
-  // Load saved indices
-  const easyIndexData = localStorage.getItem(STORAGE_KEYS.DAILY_CHALLENGE_EASY_INDEX);
-  const mediumIndexData = localStorage.getItem(STORAGE_KEYS.DAILY_CHALLENGE_MEDIUM_INDEX);
-  const hardIndexData = localStorage.getItem(STORAGE_KEYS.DAILY_CHALLENGE_HARD_INDEX);
+  // Reference date: January 1, 2024
+  const referenceDate = new Date(2024, 0, 1);
   
-  return {
-    easy: easyIndexData ? JSON.parse(easyIndexData) : 0,
-    medium: mediumIndexData ? JSON.parse(mediumIndexData) : 0,
-    hard: hardIndexData ? JSON.parse(hardIndexData) : 0,
-  };
+  // Calculate difference in days
+  const diffTime = currentDate.getTime() - referenceDate.getTime();
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  
+  return Math.max(0, diffDays);
+}
+
+// Get daily challenge puzzle indices based on date (rotates at 12pm EST)
+function getDailyChallengeIndices(): { easy: number; medium: number; hard: number } {
+  const easyPuzzles = getPuzzlesByDifficulty('easy');
+  const mediumPuzzles = getPuzzlesByDifficulty('medium');
+  const hardPuzzles = getPuzzlesByDifficulty('hard');
+  
+  const daysSinceReference = getDaysSinceReference();
+  
+  // Cycle through puzzles sequentially based on days since reference date
+  const easyIndex = daysSinceReference % easyPuzzles.length;
+  const mediumIndex = daysSinceReference % mediumPuzzles.length;
+  const hardIndex = daysSinceReference % hardPuzzles.length;
+  
+  return { easy: easyIndex, medium: mediumIndex, hard: hardIndex };
 }
 
 export function getDailyChallengePuzzle(round: 1 | 2 | 3): Puzzle | null {
@@ -85,4 +83,3 @@ export function getDailyChallengeDifficulty(round: 1 | 2 | 3): Difficulty {
       return 'easy';
   }
 }
-

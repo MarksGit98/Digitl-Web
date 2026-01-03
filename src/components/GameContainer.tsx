@@ -9,7 +9,7 @@ interface GameContainerProps {
 
 export default function GameContainer({ children }: GameContainerProps) {
   return (
-    <div style={{
+    <div className="hide-scrollbar" style={{
       width: '100vw',
       height: '100vh',
       display: 'flex',
@@ -17,7 +17,8 @@ export default function GameContainer({ children }: GameContainerProps) {
       justifyContent: 'center',
       backgroundColor: '#f8f9fa',
       position: 'relative',
-      overflow: 'hidden',
+      overflowY: 'auto',
+      overflowX: 'hidden',
     }}>
       {/* Top Ad Banner Space - Reserved for future ads */}
       <div style={{
