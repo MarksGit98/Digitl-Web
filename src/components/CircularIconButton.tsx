@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { BUTTON_SIZES, ANIMATION, COLORS } from '../constants/sizing';
-import { createCircular3DButtonStyle } from '../styles/buttonStyles';
+import { createCircular3DButtonStyle, SHADOW_OFFSETS } from '../styles/buttonStyles';
 
 interface CircularIconButtonProps {
   onPress: () => void;
@@ -21,7 +21,8 @@ export default function CircularIconButton({
   const buttonStyle = createCircular3DButtonStyle(
     BUTTON_SIZES.NAV_ARROW_SIZE,
     disabled ? COLORS.BACKGROUND_DISABLED : COLORS.BUTTON_BLUE,
-    COLORS.TEXT_WHITE
+    COLORS.TEXT_WHITE,
+    SHADOW_OFFSETS.OPERATION_UNDO // Use lower shadow for undo and other circular icon buttons
   );
 
   const handlePress = () => {

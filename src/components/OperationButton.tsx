@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { BUTTON_SIZES, BUTTON_BORDER, ANIMATION, COLORS } from '../constants/sizing';
-import { createCircular3DButtonStyle } from '../styles/buttonStyles';
+import { createCircular3DButtonStyle, SHADOW_OFFSETS } from '../styles/buttonStyles';
 
 interface OperationButtonProps {
   operation: string;
@@ -24,7 +24,8 @@ export default function OperationButton({
   const buttonStyle = createCircular3DButtonStyle(
     BUTTON_SIZES.OPERATION_BUTTON_SIZE,
     backgroundColor,
-    COLORS.TEXT_WHITE
+    COLORS.TEXT_WHITE,
+    SHADOW_OFFSETS.OPERATION_UNDO // Use lower shadow for operation buttons
   );
 
   const handlePress = () => {
@@ -40,10 +41,11 @@ export default function OperationButton({
   // Scale adjustments proportionally with button size
   const verticalAdjustmentScale = BUTTON_SIZES.OPERATION_BUTTON_SIZE / 100; // Scale factor based on button size
   const getVerticalAdjustment = () => {
+    if (operation === '+') return `translateY(${-1 * verticalAdjustmentScale}px)`; // Plus needs slight upward adjustment
     if (operation === '-') return `translateY(${-3 * verticalAdjustmentScale}px)`; // Minus needs to move up to center
     if (operation === '*') return `translateY(${-3 * verticalAdjustmentScale}px)`; // Multiplication needs to move up more
     if (operation === '/') return `translateY(${-3 * verticalAdjustmentScale}px)`; // Division needs to move up to center
-    return 'translateY(0px)'; // Plus is already perfect
+    return 'translateY(0px)';
   };
 
   return (

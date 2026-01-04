@@ -9,6 +9,10 @@ import { CalculatorDisplay } from '../components/CalculatorDisplay';
 
 const SCREEN_HEIGHT = SCREEN_DIMENSIONS.HEIGHT;
 
+// Shared constant for action buttons (Play Daily, Play Sandbox, Next Round, Next Puzzle)
+const ACTION_BUTTON_SHADOW_OFFSET = 4; // Base shadow for action buttons
+const ACTION_BUTTON_SHADOW_HOVER_OFFSET = 5; // Hover shadow for action buttons
+
 interface MainMenuScreenProps {
   selectedDifficulty: Difficulty;
   onDifficultyChange: (difficulty: Difficulty) => void;
@@ -96,7 +100,7 @@ export default function MainMenuScreen({
       fontSize: FONT_SIZES.DIFFICULTY_BUTTON * 0.7225, // 0.85 * 0.85
       fontFamily: 'system-ui, -apple-system, sans-serif',
       fontWeight: 'bold' as const,
-      boxShadow: '4px 4px 0 0 rgba(0, 0, 0, 1)',
+      boxShadow: `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_OFFSET}px 0 0 rgba(0, 0, 0, 1)`,
       transition: 'transform 0.15s ease-out, box-shadow 0.15s ease-out',
     },
     playButtonInnerBorder: {
@@ -124,8 +128,8 @@ export default function MainMenuScreen({
       borderRadius: `${BORDER_RADIUS.SMALL * 0.85}px`, // Scaled down 15%
       fontSize: FONT_SIZES.DIFFICULTY_BUTTON * 0.85, // Scaled down 15%
       fontFamily: 'system-ui, -apple-system, sans-serif',
-      width: '75px', // Fixed width - all buttons same size (matching medium button from buttonStyles small size)
-      minWidth: '75px', // Fixed min width
+      width: '82.5px', // Increased by 10% (75px * 1.1)
+      minWidth: '82.5px', // Increased by 10%
       minHeight: `${SCREEN_HEIGHT * 0.0425}px`, // 0.05 * 0.85
     },
   };
@@ -145,19 +149,19 @@ export default function MainMenuScreen({
           onClick={onStartDailyChallenge}
           onMouseEnter={(e) => {
             e.currentTarget.style.transform = 'translate(-1px, -1px)';
-            e.currentTarget.style.boxShadow = '4px 5px 0 0 rgba(0, 0, 0, 1)';
+            e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_HOVER_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
           }}
           onMouseLeave={(e) => {
             e.currentTarget.style.transform = 'translate(0, 0)';
-            e.currentTarget.style.boxShadow = '4px 4px 0 0 rgba(0, 0, 0, 1)';
+            e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
           }}
           onMouseDown={(e) => {
-            e.currentTarget.style.transform = 'translate(4px, 4px)';
+            e.currentTarget.style.transform = `translate(${ACTION_BUTTON_SHADOW_OFFSET}px, ${ACTION_BUTTON_SHADOW_OFFSET}px)`;
             e.currentTarget.style.boxShadow = '0 0 0 0 rgba(0, 0, 0, 1)';
           }}
           onMouseUp={(e) => {
             e.currentTarget.style.transform = 'translate(0, 0)';
-            e.currentTarget.style.boxShadow = '4px 4px 0 0 rgba(0, 0, 0, 1)';
+            e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
           }}
         >
           <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -191,7 +195,7 @@ export default function MainMenuScreen({
               ...(hoveredDifficulty === 'easy' && pressedDifficulty !== 'easy' && selectedDifficulty !== 'easy' ? easyButtonStyle.hover : {}),
               // Border matching mobile (slightly thicker for home screen)
               borderWidth: `${BUTTON_BORDER.WIDTH * 1.5}px`,
-              borderColor: (pressedDifficulty === 'easy' && selectedDifficulty !== 'easy') ? '#404040' : BUTTON_BORDER.COLOR,
+              borderColor: (pressedDifficulty === 'easy' && selectedDifficulty !== 'easy') ? '#404040' : '#1B5E20', // Further darkened green (#2E7D32 -> #1B5E20)
               borderStyle: 'solid',
             }}
             onClick={() => onDifficultyChange('easy')}
@@ -222,7 +226,7 @@ export default function MainMenuScreen({
               ...(hoveredDifficulty === 'medium' && pressedDifficulty !== 'medium' && selectedDifficulty !== 'medium' ? mediumButtonStyle.hover : {}),
               // Border matching mobile (slightly thicker for home screen)
               borderWidth: `${BUTTON_BORDER.WIDTH * 1.5}px`,
-              borderColor: (pressedDifficulty === 'medium' && selectedDifficulty !== 'medium') ? '#404040' : BUTTON_BORDER.COLOR,
+              borderColor: (pressedDifficulty === 'medium' && selectedDifficulty !== 'medium') ? '#404040' : '#BF360C', // Further darkened orange (#E65100 -> #BF360C)
               borderStyle: 'solid',
             }}
             onClick={() => onDifficultyChange('medium')}
@@ -253,7 +257,7 @@ export default function MainMenuScreen({
               ...(hoveredDifficulty === 'hard' && pressedDifficulty !== 'hard' && selectedDifficulty !== 'hard' ? hardButtonStyle.hover : {}),
               // Border matching mobile (slightly thicker for home screen)
               borderWidth: `${BUTTON_BORDER.WIDTH * 1.5}px`,
-              borderColor: (pressedDifficulty === 'hard' && selectedDifficulty !== 'hard') ? '#404040' : BUTTON_BORDER.COLOR,
+              borderColor: (pressedDifficulty === 'hard' && selectedDifficulty !== 'hard') ? '#404040' : '#B71C1C', // Further darkened red (#C62828 -> #B71C1C)
               borderStyle: 'solid',
             }}
             onClick={() => onDifficultyChange('hard')}
@@ -275,19 +279,19 @@ export default function MainMenuScreen({
           onClick={onStartSandbox}
           onMouseEnter={(e) => {
             e.currentTarget.style.transform = 'translate(-1px, -1px)';
-            e.currentTarget.style.boxShadow = '4px 5px 0 0 rgba(0, 0, 0, 1)';
+            e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_HOVER_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
           }}
           onMouseLeave={(e) => {
             e.currentTarget.style.transform = 'translate(0, 0)';
-            e.currentTarget.style.boxShadow = '4px 4px 0 0 rgba(0, 0, 0, 1)';
+            e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
           }}
           onMouseDown={(e) => {
-            e.currentTarget.style.transform = 'translate(4px, 4px)';
+            e.currentTarget.style.transform = `translate(${ACTION_BUTTON_SHADOW_OFFSET}px, ${ACTION_BUTTON_SHADOW_OFFSET}px)`;
             e.currentTarget.style.boxShadow = '0 0 0 0 rgba(0, 0, 0, 1)';
           }}
           onMouseUp={(e) => {
             e.currentTarget.style.transform = 'translate(0, 0)';
-            e.currentTarget.style.boxShadow = '4px 4px 0 0 rgba(0, 0, 0, 1)';
+            e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
           }}
         >
           <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>

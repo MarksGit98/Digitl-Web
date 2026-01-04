@@ -7,10 +7,10 @@ export interface Button3DStyle {
   hover?: React.CSSProperties;
 }
 
-// Standard shadow offset for 3D depth effect (4px)
-const SHADOW_OFFSET = 4;
-const SHADOW_OFFSET_SMALL = 3;
-const SHADOW_OFFSET_LARGE = 5;
+// Standard shadow offset for 3D depth effect (reduced by 5%)
+const SHADOW_OFFSET = 3.8; // 4 * 0.95
+const SHADOW_OFFSET_SMALL = 2.85; // 3 * 0.95
+const SHADOW_OFFSET_LARGE = 4.75; // 5 * 0.95
 
 // Base 3D button style
 const base3DButton: React.CSSProperties = {
@@ -127,14 +127,17 @@ export function create3DButtonStyle(
   };
 }
 
+// Shadow offset constants (rounded down to integers)
+const DIGIT_BUTTON_SHADOW_OFFSET = 3; // Shadow for digit buttons
+const OPERATION_UNDO_BUTTON_SHADOW_OFFSET = 2; // Lower shadow for operation and undo buttons
+
 // Circular button style (for digit and operation buttons)
 export function createCircular3DButtonStyle(
   size: number,
   backgroundColor: string,
-  color: string = '#fff'
+  color: string = '#fff',
+  shadowOffset: number = DIGIT_BUTTON_SHADOW_OFFSET // Default to digit button shadow, can be overridden
 ): Button3DStyle {
-  const shadowOffset = Math.max(3, Math.min(size * 0.06, 4)); // Scale shadow with button size
-
   return {
     base: {
       width: size,
@@ -166,4 +169,10 @@ export function createCircular3DButtonStyle(
     },
   };
 }
+
+// Export shadow offset constants for use in components
+export const SHADOW_OFFSETS = {
+  DIGIT: DIGIT_BUTTON_SHADOW_OFFSET,
+  OPERATION_UNDO: OPERATION_UNDO_BUTTON_SHADOW_OFFSET,
+};
 

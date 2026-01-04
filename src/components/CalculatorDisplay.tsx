@@ -68,7 +68,12 @@ export const CalculatorDisplay: React.FC<CalculatorDisplayProps> = ({
     justifyContent: 'center',
     overflow: 'hidden' as const,
     zIndex: 1,
-    paddingRight: `${CALCULATOR_DISPLAY.PADDING_HORIZONTAL * 0.75}px`,
+    // Increased padding to prevent text from being cut off during animation
+    // The text animates from -100% to 100%, so it needs space equal to its width on each side
+    // Font size is FONT_SIZES.TARGET_NUMBER * 0.5625, so we use that as base for padding
+    // Add generous padding (approximately 2x font size) to ensure text never clips
+    paddingLeft: `${FONT_SIZES.TARGET_NUMBER * 0.5625 * 2}px`,
+    paddingRight: `${FONT_SIZES.TARGET_NUMBER * 0.5625 * 2}px`,
     borderRadius: `${Math.max(0, CALCULATOR_DISPLAY.BORDER_RADIUS - (BUTTON_BORDER.WIDTH * 2.5) - 2)}px`,
   };
 
@@ -81,7 +86,7 @@ export const CalculatorDisplay: React.FC<CalculatorDisplayProps> = ({
     textShadow: '2px 2px 3px rgba(0, 0, 0, 0.8)',
     zIndex: 1,
     position: 'relative' as const,
-    lineHeight: `${FONT_SIZES.TARGET_NUMBER * 0.95}px`,
+    lineHeight: '1',
     display: 'inline-block' as const,
     pointerEvents: 'none' as const,
     whiteSpace: 'nowrap' as const,

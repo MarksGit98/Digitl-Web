@@ -315,6 +315,14 @@ export default function GameScreen({
   const operations: Operation[] = ['+', '-', '*', '/'];
   const maxHistoryEntries = difficulty === 'easy' ? 3 : difficulty === 'medium' ? 4 : 5;
 
+  // Single constant for button shadow offset (rounded down to integer)
+  const GAME_SCREEN_BUTTON_SHADOW_OFFSET = 3;
+  const GAME_SCREEN_BUTTON_SHADOW_HOVER_OFFSET = 4; // Rounded down from 4.75px
+  
+  // Shared constant for action buttons (Play Daily, Play Sandbox, Next Round, Next Puzzle)
+  const ACTION_BUTTON_SHADOW_OFFSET = 4; // Base shadow for action buttons
+  const ACTION_BUTTON_SHADOW_HOVER_OFFSET = 5; // Hover shadow for action buttons
+
   // All vertical spacing uses single constant
 
   const styles = {
@@ -355,7 +363,7 @@ export default function GameScreen({
       cursor: 'pointer',
       border: `${BUTTON_BORDER.WIDTH}px solid ${BUTTON_BORDER.COLOR}`, // Match digit button border
       padding: 0, // Remove default padding
-      boxShadow: '4px 4px 0 0 rgba(0, 0, 0, 1)', // Match digit button shadow
+      boxShadow: `${GAME_SCREEN_BUTTON_SHADOW_OFFSET}px ${GAME_SCREEN_BUTTON_SHADOW_OFFSET}px 0 0 rgba(0, 0, 0, 1)`,
       transition: 'transform 0.15s ease-out, box-shadow 0.15s ease-out',
     },
     gameTitleRow: {
@@ -385,7 +393,7 @@ export default function GameScreen({
       color: COLORS.BACKGROUND_DARK,
       fontWeight: 900 as const, // Increased boldness (from 'bold' which is 700 to 900)
       textAlign: 'center' as const,
-      boxShadow: '4px 4px 0 0 rgba(0, 0, 0, 1)',
+      boxShadow: `${GAME_SCREEN_BUTTON_SHADOW_OFFSET}px ${GAME_SCREEN_BUTTON_SHADOW_OFFSET}px 0 0 rgba(0, 0, 0, 1)`,
       border: `${BUTTON_BORDER.WIDTH}px solid ${BUTTON_BORDER.COLOR}`,
       pointerEvents: 'none' as const, // Prevent mouse interaction
       width: '80%',
@@ -467,7 +475,7 @@ export default function GameScreen({
     historyContainer: {
       display: 'flex',
       flexDirection: 'column' as const,
-      alignItems: 'flex-start',
+      alignItems: 'center',
       justifyContent: 'center',
       backgroundColor: COLORS.BACKGROUND_DARK,
       paddingLeft: `${CALCULATOR_DISPLAY.PADDING_HORIZONTAL * 0.75}px`, // Same as targetContainer
@@ -505,6 +513,19 @@ export default function GameScreen({
       backgroundColor: '#1F1F1F',
       borderRadius: `${Math.max(2, HISTORY_BOX.BORDER_RADIUS - (BUTTON_BORDER.WIDTH * 2.5) - 2)}px`,
       zIndex: 0,
+    },
+    historyContentWrapper: {
+      position: 'relative' as const,
+      width: '100%',
+      height: '100%',
+      paddingTop: `${HISTORY_BOX.INNER_PADDING}px`,
+      paddingBottom: `${HISTORY_BOX.INNER_PADDING}px`,
+      paddingLeft: `${HISTORY_BOX.INNER_PADDING}px`,
+      paddingRight: `${HISTORY_BOX.INNER_PADDING}px`,
+      zIndex: 1,
+      display: 'flex',
+      flexDirection: 'column' as const,
+      justifyContent: 'center' as const,
     },
     historyBar: {
       display: 'flex',
@@ -564,7 +585,7 @@ export default function GameScreen({
       fontSize: FONT_SIZES.DIFFICULTY_BUTTON * 0.7225, // Scaled down 15% then another 15%
       fontFamily: 'system-ui, -apple-system, sans-serif',
       fontWeight: 'bold' as const,
-      boxShadow: '4px 4px 0 0 rgba(0, 0, 0, 1)',
+      boxShadow: `${GAME_SCREEN_BUTTON_SHADOW_OFFSET}px ${GAME_SCREEN_BUTTON_SHADOW_OFFSET}px 0 0 rgba(0, 0, 0, 1)`,
       transition: 'transform 0.15s ease-out, box-shadow 0.15s ease-out',
     },
     undoButtonInRow: {
@@ -618,11 +639,11 @@ export default function GameScreen({
               style={styles.iconButton}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = 'translateY(-1px)';
-                e.currentTarget.style.boxShadow = '4px 5px 0 0 rgba(0, 0, 0, 1)';
+                e.currentTarget.style.boxShadow = `${GAME_SCREEN_BUTTON_SHADOW_OFFSET}px ${GAME_SCREEN_BUTTON_SHADOW_HOVER_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = 'translate(0, 0)';
-                e.currentTarget.style.boxShadow = '4px 4px 0 0 rgba(0, 0, 0, 1)';
+                e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
               }}
               onMouseDown={(e) => {
                 e.currentTarget.style.transform = 'translate(4px, 4px)';
@@ -630,7 +651,7 @@ export default function GameScreen({
               }}
               onMouseUp={(e) => {
                 e.currentTarget.style.transform = 'translate(0, 0)';
-                e.currentTarget.style.boxShadow = '4px 4px 0 0 rgba(0, 0, 0, 1)';
+                e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
               }}
             >
               <img 
@@ -650,11 +671,11 @@ export default function GameScreen({
               style={styles.iconButton}
               onMouseEnter={(e) => {
                 e.currentTarget.style.transform = 'translateY(-1px)';
-                e.currentTarget.style.boxShadow = '4px 5px 0 0 rgba(0, 0, 0, 1)';
+                e.currentTarget.style.boxShadow = `${GAME_SCREEN_BUTTON_SHADOW_OFFSET}px ${GAME_SCREEN_BUTTON_SHADOW_HOVER_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = 'translate(0, 0)';
-                e.currentTarget.style.boxShadow = '4px 4px 0 0 rgba(0, 0, 0, 1)';
+                e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
               }}
               onMouseDown={(e) => {
                 e.currentTarget.style.transform = 'translate(4px, 4px)';
@@ -662,7 +683,7 @@ export default function GameScreen({
               }}
               onMouseUp={(e) => {
                 e.currentTarget.style.transform = 'translate(0, 0)';
-                e.currentTarget.style.boxShadow = '4px 4px 0 0 rgba(0, 0, 0, 1)';
+                e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
               }}
             >
               <img 
@@ -703,20 +724,20 @@ export default function GameScreen({
               style={styles.actionButton}
               onClick={onGoToNextRound}
               onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translate(2px, 2px)';
-                e.currentTarget.style.boxShadow = 'none';
+                e.currentTarget.style.transform = 'translate(-1px, -1px)';
+                e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_HOVER_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = 'translate(0, 0)';
-                e.currentTarget.style.boxShadow = '4px 4px 0 0 rgba(0, 0, 0, 1)';
+                e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
               }}
               onMouseDown={(e) => {
-                e.currentTarget.style.transform = 'translate(4px, 4px)';
-                e.currentTarget.style.boxShadow = 'none';
+                e.currentTarget.style.transform = `translate(${ACTION_BUTTON_SHADOW_OFFSET}px, ${ACTION_BUTTON_SHADOW_OFFSET}px)`;
+                e.currentTarget.style.boxShadow = '0 0 0 0 rgba(0, 0, 0, 1)';
               }}
               onMouseUp={(e) => {
-                e.currentTarget.style.transform = 'translate(2px, 2px)';
-                e.currentTarget.style.boxShadow = 'none';
+                e.currentTarget.style.transform = 'translate(0, 0)';
+                e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
               }}
             >
               <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -835,20 +856,20 @@ export default function GameScreen({
               style={styles.actionButton}
               onClick={onNewPuzzle}
               onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'translate(2px, 2px)';
-                e.currentTarget.style.boxShadow = 'none';
+                e.currentTarget.style.transform = 'translate(-1px, -1px)';
+                e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_HOVER_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
               }}
               onMouseLeave={(e) => {
                 e.currentTarget.style.transform = 'translate(0, 0)';
-                e.currentTarget.style.boxShadow = '4px 4px 0 0 rgba(0, 0, 0, 1)';
+                e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
               }}
               onMouseDown={(e) => {
-                e.currentTarget.style.transform = 'translate(4px, 4px)';
-                e.currentTarget.style.boxShadow = 'none';
+                e.currentTarget.style.transform = `translate(${ACTION_BUTTON_SHADOW_OFFSET}px, ${ACTION_BUTTON_SHADOW_OFFSET}px)`;
+                e.currentTarget.style.boxShadow = '0 0 0 0 rgba(0, 0, 0, 1)';
               }}
               onMouseUp={(e) => {
-                e.currentTarget.style.transform = 'translate(2px, 2px)';
-                e.currentTarget.style.boxShadow = 'none';
+                e.currentTarget.style.transform = 'translate(0, 0)';
+                e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
               }}
             >
               <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
@@ -862,6 +883,7 @@ export default function GameScreen({
           <div style={styles.historyContainerWrapper}>
             <div style={styles.historyContainer}>
               <div style={styles.historyInnerBorder} />
+              <div style={styles.historyContentWrapper}>
               {Array.from({ length: maxHistoryEntries }, (_, i) => {
                   const hasEntry = i < gameState.history.length;
                   const entry = hasEntry ? gameState.history[i] : undefined;
@@ -886,6 +908,7 @@ export default function GameScreen({
                     </div>
                   );
                 })}
+              </div>
             </div>
           </div>
         </div>
