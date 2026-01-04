@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { BUTTON_SIZES, FONT_SIZES, BUTTON_BORDER, ANIMATION, COLORS, NUMERIC_CONSTANTS } from '../constants/sizing';
+import { BUTTON_SIZES, BUTTON_BORDER, ANIMATION, COLORS } from '../constants/sizing';
 import { createCircular3DButtonStyle } from '../styles/buttonStyles';
 
 interface OperationButtonProps {
@@ -40,9 +40,9 @@ export default function OperationButton({
   // Scale adjustments proportionally with button size
   const verticalAdjustmentScale = BUTTON_SIZES.OPERATION_BUTTON_SIZE / 100; // Scale factor based on button size
   const getVerticalAdjustment = () => {
-    if (operation === '-') return `translateY(${-1 * verticalAdjustmentScale}px)`; // Minus needs to move up to center
-    if (operation === '*') return `translateY(${-2 * verticalAdjustmentScale}px)`; // Multiplication needs to move up more
-    if (operation === '/') return `translateY(${-2 * verticalAdjustmentScale}px)`; // Division needs to move up to center
+    if (operation === '-') return `translateY(${-3 * verticalAdjustmentScale}px)`; // Minus needs to move up to center
+    if (operation === '*') return `translateY(${-3 * verticalAdjustmentScale}px)`; // Multiplication needs to move up more
+    if (operation === '/') return `translateY(${-3 * verticalAdjustmentScale}px)`; // Division needs to move up to center
     return 'translateY(0px)'; // Plus is already perfect
   };
 
@@ -87,7 +87,7 @@ export default function OperationButton({
         overflow: 'hidden',
       }}>
         <span style={{
-          fontSize: FONT_SIZES.OPERATION_SYMBOL * NUMERIC_CONSTANTS.FONT_MULTIPLIER_FULL,
+          fontSize: `${BUTTON_SIZES.OPERATION_BUTTON_SIZE * 0.85}px`,
           fontWeight: '900',
           color: COLORS.TEXT_WHITE,
           fontFamily: 'Digital-7-Mono, monospace',

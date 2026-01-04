@@ -1,5 +1,5 @@
 import React from 'react';
-import { FONT_SIZES, NUMERIC_CONSTANTS, COLORS, BUTTON_SIZES, BUTTON_BORDER } from '../constants/sizing';
+import { COLORS, BUTTON_SIZES, BUTTON_BORDER } from '../constants/sizing';
 import CircularIconButton from './CircularIconButton';
 
 interface UndoButtonProps {
@@ -13,12 +13,12 @@ export default function UndoButton({
   disabled = false,
   style,
 }: UndoButtonProps) {
-  // Calculate icon size based on button size
+  // Calculate icon size based on button size - scale proportionally like operation symbols
   const buttonSize = (style && 'width' in style && typeof style.width === 'number') 
     ? style.width 
     : BUTTON_SIZES.NAV_ARROW_SIZE;
-  const iconSizeMultiplier = buttonSize / BUTTON_SIZES.NAV_ARROW_SIZE;
-  const iconSizeScaled = FONT_SIZES.BUTTON_TEXT * NUMERIC_CONSTANTS.FONT_MULTIPLIER_NAV_ARROW * iconSizeMultiplier;
+  // Scale icon proportionally to button size (0.45 matches operation symbol scaling)
+  const iconSizeScaled = buttonSize * 0.5;
 
   const combinedStyle = disabled 
     ? { 
