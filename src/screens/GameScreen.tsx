@@ -386,9 +386,9 @@ export default function GameScreen({
     },
     gameTitle: {
       backgroundColor: COLORS.BACKGROUND_WHITE,
-      padding: `${SPACING.PADDING_MEDIUM * 0.421362}px ${SPACING.PADDING_LARGE * 0.421362}px`, // 0.85 * 0.9 * 0.85 * 0.6 * 0.9 * 1.2
-      borderRadius: `${BORDER_RADIUS.MEDIUM * 0.421362}px`, // 0.85 * 0.9 * 0.85 * 0.6 * 0.9 * 1.2
-      fontSize: FONT_SIZES.TITLE * 0.5407479, // 0.85 * 0.9 * 1.1 * 0.85 * 0.6 * 0.9 * 1.4
+      padding: `${SPACING.PADDING_MEDIUM * 0.42}px ${SPACING.PADDING_LARGE * 0.42}px`, // 0.85 * 0.9 * 0.85 * 0.6 * 0.9 * 1.2
+      borderRadius: `${BORDER_RADIUS.MEDIUM * 0.42}px`, // 0.85 * 0.9 * 0.85 * 0.6 * 0.9 * 1.2
+      fontSize: FONT_SIZES.TITLE * 0.55,
       fontFamily: 'Digital-7-Mono, monospace',
       color: COLORS.BACKGROUND_DARK,
       fontWeight: 900 as const, // Increased boldness (from 'bold' which is 700 to 900)
