@@ -1,5 +1,5 @@
 import React from 'react';
-import { SPACING, COLORS, FONT_SIZES, BORDER_RADIUS, BUTTON_BORDER } from '../constants/sizing';
+import { COLORS, FONT_SIZES, BORDER_RADIUS, BUTTON_BORDER } from '../constants/sizing';
 
 interface CloseButtonProps {
   onClick: () => void;

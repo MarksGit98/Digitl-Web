@@ -27,7 +27,6 @@ export default function App() {
   const [isAnimating, setIsAnimating] = useState(false);
   const [animatingDigit, setAnimatingDigit] = useState<number | null>(null);
   const [showAllPuzzlesComplete, setShowAllPuzzlesComplete] = useState(false);
-  const [nextPuzzle, setNextPuzzle] = useState<{ digits: number[]; target: number } | null>(null);
 
   useEffect(() => {
     const loadSavedData = async () => {
@@ -136,10 +135,6 @@ export default function App() {
       target: puzzle.target,
       history: [],
     });
-    
-    // Generate the next puzzle in the background for pre-loading
-    const newNextPuzzle = generateSolvablePuzzle(difficulty);
-    setNextPuzzle(newNextPuzzle);
     
     // Reset animation states
     setIsAnimating(false);
