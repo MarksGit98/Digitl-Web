@@ -17,6 +17,24 @@ export const CalculatorDisplay: React.FC<CalculatorDisplayProps> = ({
 }) => {
   const innerBorderOffset = BUTTON_BORDER.WIDTH * 2.5 + 2;
 
+  // Calculate animation bounds to keep text within inner border while scrolling left to right
+  const containerWidth = CALCULATOR_DISPLAY.WIDTH * 0.5625; // Display width
+  // Inner width is container width minus border offsets (no padding since wrapper is absolute positioned within borders)
+  const innerWidth = containerWidth - (innerBorderOffset * 2);
+  const chyronFontSize = FONT_SIZES.TARGET_NUMBER * 0.5625;
+  const chyronLetterSpacing = LETTER_SPACING.WIDE * 0.75;
+  // Estimate text width: "DIGITL" = 6 characters, 5 spaces between them
+  const estimatedTextWidth = (chyronFontSize * 6) + (chyronLetterSpacing * 5);
+  
+  // For left-to-right scroll, calculate start and end positions:
+  // Start: text's left edge should align with inner border's left edge (or slightly before)
+  // Since text is centered in its container by default, we need to offset it
+  // The text container is centered, so at 0% translateX, the center of text is at center of inner area
+  // To align left edge with left border: translateX = -(innerWidth/2) + (estimatedTextWidth/2)
+  // To align right edge with right border: translateX = (innerWidth/2) - (estimatedTextWidth/2)
+  const startOffset = -(innerWidth / 2) + (estimatedTextWidth / 2); // Left edge at left border
+  const endOffset = (innerWidth / 2) - (estimatedTextWidth / 2); // Right edge at right border
+
   const containerStyle: React.CSSProperties = {
     display: 'flex',
     alignItems: 'center',
@@ -68,20 +86,14 @@ export const CalculatorDisplay: React.FC<CalculatorDisplayProps> = ({
     justifyContent: 'center',
     overflow: 'hidden' as const,
     zIndex: 1,
-    // Increased padding to prevent text from being cut off during animation
-    // The text animates from -100% to 100%, so it needs space equal to its width on each side
-    // Font size is FONT_SIZES.TARGET_NUMBER * 0.5625, so we use that as base for padding
-    // Add generous padding (approximately 2x font size) to ensure text never clips
-    paddingLeft: `${FONT_SIZES.TARGET_NUMBER * 0.5625 * 2}px`,
-    paddingRight: `${FONT_SIZES.TARGET_NUMBER * 0.5625 * 2}px`,
     borderRadius: `${Math.max(0, CALCULATOR_DISPLAY.BORDER_RADIUS - (BUTTON_BORDER.WIDTH * 2.5) - 2)}px`,
   };
 
   const chyronTextStyle: React.CSSProperties = {
-    fontSize: FONT_SIZES.TARGET_NUMBER * 0.5625,
+    fontSize: chyronFontSize,
     color: COLORS.TEXT_SUCCESS,
     fontFamily: 'Digital-7-Mono, monospace',
-    letterSpacing: `${LETTER_SPACING.WIDE * 0.75}px`,
+    letterSpacing: `${chyronLetterSpacing}px`,
     textAlign: 'center' as const,
     textShadow: '2px 2px 3px rgba(0, 0, 0, 0.8)',
     zIndex: 1,
@@ -90,8 +102,11 @@ export const CalculatorDisplay: React.FC<CalculatorDisplayProps> = ({
     display: 'inline-block' as const,
     pointerEvents: 'none' as const,
     whiteSpace: 'nowrap' as const,
-    animation: 'chyron 10s linear infinite',
+    animation: `chyronLeftToRight 10s linear infinite`,
     fontWeight: 900 as const,
+    // CSS custom properties for animation start and end positions
+    ['--start-offset' as any]: `${startOffset}px`,
+    ['--end-offset' as any]: `${endOffset}px`,
   };
 
   // Target number mode (game screen)

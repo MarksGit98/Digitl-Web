@@ -44,6 +44,16 @@ body {
   }
 }
 
+/* Chyron animation left-to-right constrained to inner border (for DIGITL display) */
+@keyframes chyronLeftToRight {
+  0% {
+    transform: translateX(var(--end-offset, 50px));
+  }
+  100% {
+    transform: translateX(var(--start-offset, -50px));
+  }
+}
+
 /* Chyron animation with wrap-around effect - end appears on left before whole word fades to right */
 @keyframes chyronWrap {
   0% {
