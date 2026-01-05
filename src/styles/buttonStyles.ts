@@ -9,8 +9,8 @@ export interface Button3DStyle {
 
 // Standard shadow offset for 3D depth effect (reduced by 5%)
 const SHADOW_OFFSET = 3.8; // 4 * 0.95
-const SHADOW_OFFSET_SMALL = 2.85; // 3 * 0.95
-const SHADOW_OFFSET_LARGE = 4.75; // 5 * 0.95
+const SHADOW_OFFSET_SMALL = 3; // Match digit button shadow offset
+const SHADOW_OFFSET_LARGE = 5; 
 
 // Base 3D button style
 const base3DButton: React.CSSProperties = {

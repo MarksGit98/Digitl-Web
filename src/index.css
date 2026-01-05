@@ -70,10 +70,10 @@ body {
 /* Chyron animation for target number - ensures full word is visible */
 @keyframes chyronScroll {
   0% {
-    transform: translateX(100%); /* Start completely off-screen to the right */
+    transform: translateX(-100%); /* Start completely off-screen to the left */
   }
   100% {
-    transform: translateX(-100%); /* End completely off-screen to the left, ensuring full word scrolls through */
+    transform: translateX(100%); /* End completely off-screen to the right, ensuring full word scrolls through */
   }
 }
 

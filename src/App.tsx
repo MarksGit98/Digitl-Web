@@ -80,7 +80,7 @@ export default function App() {
       setIsAnimating(false);
       setAnimatingDigit(null);
       setShowSuccessBanner(false);
-      setShowAllPuzzlesComplete(false);
+      setSuccessMessage('');
       setShowMenu(false);
     }
   };
@@ -126,26 +126,6 @@ export default function App() {
     setShowAllPuzzlesComplete(false);
   };
 
-  const loadNextSandboxPuzzle = () => {
-    if (!difficulty || !nextPuzzle) return;
-    
-    // Load the pre-generated puzzle
-    setGameState({
-      digits: nextPuzzle.digits,
-      target: nextPuzzle.target,
-      history: [],
-    });
-    
-    // Generate the next puzzle in the background
-    const newNextPuzzle = generateSolvablePuzzle(difficulty);
-    setNextPuzzle(newNextPuzzle);
-    
-    // Reset animation states when loading new puzzle
-    setIsAnimating(false);
-    setAnimatingDigit(null);
-    setShowSuccessBanner(false);
-  };
-
   const generateNewSandboxPuzzle = () => {
     if (!difficulty) return;
     
@@ -185,6 +165,7 @@ export default function App() {
         setIsAnimating(false);
         setAnimatingDigit(null);
         setShowSuccessBanner(false);
+        setSuccessMessage(''); // Clear success message for next round
       }
     } else {
       // Completed all rounds, return to menu
@@ -206,16 +187,15 @@ export default function App() {
           // Show congratulations banner for completing all 3 puzzles
           setShowAllPuzzlesComplete(true);
         } else {
-          // Show success banner with random affirmation
+          // For rounds 1 and 2, show success message in chyron (not overlay)
           const affirmations = ['Amazing', 'Awesome', 'Great', 'Excellent', 'Perfect', 'Brilliant', 'Fantastic', 'Incredible', 'Outstanding', 'Superb'];
           const randomAffirmation = affirmations[Math.floor(Math.random() * affirmations.length)];
           setSuccessMessage(randomAffirmation);
-          setShowSuccessBanner(true);
         }
         // Keep bounce animation running - don't stop it
       }, 500);
     } else if (gameMode === 'sandbox') {
-      // For sandbox, show bounce animation and success banner, then load next puzzle
+      // For sandbox, show bounce animation and success banner (no auto-close)
       setTimeout(() => {
         setIsAnimating(true);
         setAnimatingDigit(finalDigit);
@@ -227,10 +207,7 @@ export default function App() {
         setShowSuccessBanner(true);
         
         // Keep bounce animation running - don't stop it
-        // After a delay, load next puzzle (which will reset the animation)
-        setTimeout(() => {
-          loadNextSandboxPuzzle();
-        }, 2000);
+        // Banner stays open until user closes it
       }, 500);
     } else {
       // Auto-advance to next level after a short delay for regular mode
@@ -283,6 +260,9 @@ export default function App() {
           isAnimating={isAnimating}
           animatingDigit={animatingDigit}
           showAllPuzzlesComplete={showAllPuzzlesComplete}
+          onStartSandbox={startSandbox}
+          onCloseSuccessBanner={() => setShowSuccessBanner(false)}
+          onCloseAllPuzzlesComplete={() => setShowAllPuzzlesComplete(false)}
         />
       </GameContainer>
     );

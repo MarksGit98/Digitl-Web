@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BUTTON_SIZES, BUTTON_BORDER, ANIMATION, COLORS } from '../constants/sizing';
 import { createCircular3DButtonStyle, SHADOW_OFFSETS } from '../styles/buttonStyles';
 
@@ -19,6 +19,17 @@ export default function OperationButton({
 }: OperationButtonProps) {
   const [isPressed, setIsPressed] = useState(false);
   const [isHovered, setIsHovered] = useState(false);
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
+
+  // Detect small screens (phone browsers)
+  useEffect(() => {
+    const checkScreenSize = () => {
+      setIsSmallScreen(window.innerWidth < 800);
+    };
+    checkScreenSize();
+    window.addEventListener('resize', checkScreenSize);
+    return () => window.removeEventListener('resize', checkScreenSize);
+  }, []);
 
   const backgroundColor = isSelected ? COLORS.BUTTON_ORANGE_DARK : COLORS.BUTTON_ORANGE;
   const buttonStyle = createCircular3DButtonStyle(
@@ -40,8 +51,15 @@ export default function OperationButton({
   // Adjust vertical alignment for different symbols to center them properly
   // Scale adjustments proportionally with button size
   const verticalAdjustmentScale = BUTTON_SIZES.OPERATION_BUTTON_SIZE / 100; // Scale factor based on button size
+  
+  // Adjust plus symbol offset for smaller screens (phone browsers)
+  // On smaller screens, the plus appears too high, so we move it down more
   const getVerticalAdjustment = () => {
-    if (operation === '+') return `translateY(${-1 * verticalAdjustmentScale}px)`; // Plus needs slight upward adjustment
+    if (operation === '+') {
+      // On small screens, move plus down more to center it properly
+      const plusOffset = isSmallScreen ? 1.5 * verticalAdjustmentScale : -1 * verticalAdjustmentScale;
+      return `translateY(${plusOffset}px)`;
+    }
     if (operation === '-') return `translateY(${-3 * verticalAdjustmentScale}px)`; // Minus needs to move up to center
     if (operation === '*') return `translateY(${-3 * verticalAdjustmentScale}px)`; // Multiplication needs to move up more
     if (operation === '/') return `translateY(${-3 * verticalAdjustmentScale}px)`; // Division needs to move up to center

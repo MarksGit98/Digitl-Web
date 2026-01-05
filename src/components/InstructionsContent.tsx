@@ -103,8 +103,9 @@ export default function InstructionsContent() {
       height: `${SCREEN_WIDTH * 0.05 * 0.85}px`,
       backgroundColor: COLORS.BACKGROUND_DARK,
       borderRadius: `${SCREEN_WIDTH * 0.01 * 0.85}px`,
-      border: `${BUTTON_BORDER.WIDTH * 2}px solid ${BUTTON_BORDER.COLOR}`,
+      border: `${BUTTON_BORDER.WIDTH * 1.2}px solid ${BUTTON_BORDER.COLOR}`, // Reduced from 2 to 1.2
       paddingHorizontal: `${SCREEN_WIDTH * 0.01 * 0.85}px`,
+      paddingTop: `${SCREEN_WIDTH * 0.003}px`, // Added slight top padding
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',

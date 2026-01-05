@@ -1,8 +1,8 @@
 import { Difficulty, Puzzle } from '../types';
 import { getPuzzlesByDifficulty, getPuzzleByIndex } from '../utils';
 
-// Reference date: January 1, 2024, 12:00 PM EST
-// Puzzles rotate at 12pm EST every 24 hours
+// Reference date: January 1, 2024, 12:00 AM EST
+// Puzzles rotate at 12am EST (midnight) every 24 hours
 function getDaysSinceReference(): number {
   const now = new Date();
   
@@ -18,17 +18,13 @@ function getDaysSinceReference(): number {
   });
   
   // Parse: "MM/DD/YYYY, HH:MM"
-  const [datePart, timePart] = estDateString.split(', ');
+  const [datePart] = estDateString.split(', ');
   const [month, day, year] = datePart.split('/');
-  const [hours] = timePart.split(':');
   
-  const currentHour = parseInt(hours, 10);
   const currentDate = new Date(parseInt(year, 10), parseInt(month, 10) - 1, parseInt(day, 10));
   
-  // If before 12pm EST, use previous day
-  if (currentHour < 12) {
-    currentDate.setDate(currentDate.getDate() - 1);
-  }
+  // Puzzles rotate at 12am EST (midnight) - no day adjustment needed
+  // The current date from the EST timezone is used directly
   
   // Reference date: January 1, 2024
   const referenceDate = new Date(2024, 0, 1);

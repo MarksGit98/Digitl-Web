@@ -3,16 +3,20 @@ import { GameState, Operation, Difficulty } from '../types';
 import { performOperation, getPuzzleKey } from '../utils';
 import { 
   FONT_SIZES, SPACING, COLORS, BUTTON_BORDER, BUTTON_SIZES,
-  CALCULATOR_DISPLAY, HISTORY_BOX, SCREEN_DIMENSIONS, BORDER_RADIUS
+  CALCULATOR_DISPLAY, HISTORY_BOX, SCREEN_DIMENSIONS, BORDER_RADIUS,
+  OVERLAY_BORDER
 } from '../constants/sizing';
 import DigitButton from '../components/DigitButton';
 import OperationButton from '../components/OperationButton';
 import UndoButton from '../components/UndoButton';
 import HowToPlayModal from '../components/HowToPlayModal';
 import { CalculatorDisplay } from '../components/CalculatorDisplay';
+import CloseButton from '../components/CloseButton';
+import OverlayBackdrop from '../components/OverlayBackdrop';
 import nextArrowSvg from '../assets/svgs/next-arrow.svg';
 import homeSvg from '../assets/svgs/home.svg';
 import librarySvg from '../assets/svgs/library.svg';
+import presentSvg from '../assets/svgs/present.svg';
 
 const SCREEN_WIDTH = SCREEN_DIMENSIONS.WIDTH;
 
@@ -33,6 +37,9 @@ interface GameScreenProps {
   isAnimating?: boolean;
   animatingDigit?: number | null;
   showAllPuzzlesComplete?: boolean;
+  onStartSandbox?: () => void;
+  onCloseSuccessBanner?: () => void;
+  onCloseAllPuzzlesComplete?: () => void;
 }
 
 export default function GameScreen({
@@ -51,6 +58,9 @@ export default function GameScreen({
   isAnimating = false,
   animatingDigit = null,
   showAllPuzzlesComplete = false,
+  onStartSandbox,
+  onCloseSuccessBanner,
+  onCloseAllPuzzlesComplete,
 }: GameScreenProps) {
   const [showHowToPlayModal, setShowHowToPlayModal] = useState(false);
   const [firstSelectedIndex, setFirstSelectedIndex] = useState<number | null>(null);
@@ -58,7 +68,6 @@ export default function GameScreen({
   const [selectedOperation, setSelectedOperation] = useState<Operation | null>(null);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [shakingDigitIndices, setShakingDigitIndices] = useState<number[]>([]);
-  const [showBanner, setShowBanner] = useState(false);
   const hasCompletedRef = useRef(false);
   
   // Height constant for top row elements (home button, DIGITL title, how to play button)
@@ -79,18 +88,7 @@ export default function GameScreen({
   // Keep success message visible until puzzle changes
   // No auto-hide - it will be reset when puzzle index changes
 
-  // Handle congratulations banner visibility and auto-hide after 3 seconds
-  useEffect(() => {
-    if (showAllPuzzlesComplete) {
-      setShowBanner(true);
-      const timer = setTimeout(() => {
-        setShowBanner(false);
-      }, 3000);
-      return () => clearTimeout(timer);
-    } else {
-      setShowBanner(false);
-    }
-  }, [showAllPuzzlesComplete]);
+  // All puzzles complete banner stays open until user closes it (no auto-hide)
 
   const triggerInvalidOperationShake = (index1: number, index2: number) => {
     // Start shake animation
@@ -596,24 +594,75 @@ export default function GameScreen({
     },
     allPuzzlesCompleteBanner: {
       position: 'absolute' as const,
-      top: '50%',
+      top: `${BUTTON_BORDER.WIDTH * 2.5 + 4}px`, // Just below top border of target display
       left: '50%',
-      transform: 'translate(-50%, -50%) scale(0.4)',
-      backgroundColor: COLORS.DIFFICULTY_EASY,
-      color: COLORS.TEXT_WHITE,
-      padding: '30px 50px',
-      borderRadius: '16px',
-      fontSize: FONT_SIZES.TITLE * 1.2,
-      fontFamily: 'Digital-7-Mono, monospace',
-      fontWeight: 'bold' as const,
-      zIndex: 3000,
-      boxShadow: '0 6px 20px rgba(0,0,0,0.4)',
-      textAlign: 'center' as const,
-      pointerEvents: 'auto' as const,
+      transform: 'translateX(-50%)',
+      backgroundColor: COLORS.BACKGROUND_WHITE,
+      border: `${BUTTON_BORDER.WIDTH}px solid ${BUTTON_BORDER.COLOR}`,
+      borderRadius: `${BORDER_RADIUS.MEDIUM * 0.7225}px`,
+      padding: `${SPACING.PADDING_MEDIUM * 0.7225}px ${SPACING.PADDING_LARGE * 0.7225}px`,
+      zIndex: 2000,
       display: 'flex',
       flexDirection: 'column' as const,
       alignItems: 'center',
-      gap: '10px',
+      gap: `${SPACING.VERTICAL_SPACING}px`,
+      boxShadow: `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_OFFSET}px 0 0 rgba(0, 0, 0, 1)`,
+      minWidth: `${CALCULATOR_DISPLAY.WIDTH * 0.5625 * 0.9}px`,
+    },
+    successBannerOverlay: {
+      position: 'absolute' as const,
+      top: `${BUTTON_BORDER.WIDTH * 2.5 + 4}px`, // Just below top border of target display
+      left: '50%',
+      transform: 'translateX(-50%)',
+      backgroundColor: COLORS.BACKGROUND_WHITE,
+      border: `${OVERLAY_BORDER.WIDTH}px solid ${OVERLAY_BORDER.COLOR}`,
+      borderRadius: `${BORDER_RADIUS.MEDIUM}px`,
+      padding: `${SPACING.PADDING_LARGE * 0.75}px ${SPACING.PADDING_XLARGE * 0.75}px`, // Increased padding for bigger gap between buttons and borders
+      zIndex: 2000,
+      display: 'flex',
+      flexDirection: 'column' as const,
+      alignItems: 'center',
+      gap: `${SPACING.VERTICAL_SPACING}px`,
+      boxShadow: '0 8px 24px rgba(0, 0, 0, 0.2)', // Natural shadow with blur
+      backdropFilter: 'blur(4px)', // Slight blur to background
+      WebkitBackdropFilter: 'blur(4px)', // Safari support
+      maxWidth: `${SCREEN_DIMENSIONS.WIDTH * 0.6}px`, // 60% of container max width
+    },
+    successBannerTitle: {
+      fontSize: FONT_SIZES.TITLE * 0.49, // Match modeTitle font size
+      fontFamily: 'system-ui, -apple-system, sans-serif',
+      backgroundColor: COLORS.BACKGROUND_DARK,
+      color: COLORS.TEXT_WHITE,
+      padding: `${SPACING.PADDING_MEDIUM * 0.7}px ${SPACING.PADDING_LARGE * 0.7}px`, // Match modeTitle padding
+      borderRadius: `${BORDER_RADIUS.MEDIUM * 0.7}px`, // Match modeTitle border radius
+      textAlign: 'center' as const,
+      fontWeight: 'bold' as const,
+      width: '110%', // Increased width for Congratulations banner
+    },
+    successBannerMessage: {
+      fontSize: FONT_SIZES.SUBTEXT, // Match sectionDescription font size
+      fontFamily: 'system-ui, -apple-system, sans-serif',
+      color: COLORS.TEXT_PRIMARY,
+      textAlign: 'center' as const,
+      opacity: 0.8, // Match sectionDescription opacity
+    },
+    successBannerButton: {
+      padding: `${14 * 0.7225}px ${24 * 0.7225}px`,
+      minWidth: `${200 * 0.7225}px`,
+      minHeight: `${50 * 0.7225}px`,
+      borderRadius: `${BORDER_RADIUS.MEDIUM * 0.7225}px`,
+      backgroundColor: COLORS.BACKGROUND_WHITE,
+      color: COLORS.TEXT_SECONDARY,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      cursor: 'pointer',
+      border: `${BUTTON_BORDER.WIDTH}px solid ${BUTTON_BORDER.COLOR}`,
+      fontSize: FONT_SIZES.DIFFICULTY_BUTTON * 0.7225,
+      fontFamily: 'system-ui, -apple-system, sans-serif',
+      fontWeight: 'bold' as const,
+      boxShadow: `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_OFFSET}px 0 0 rgba(0, 0, 0, 1)`,
+      transition: 'transform 0.15s ease-out, box-shadow 0.15s ease-out',
     },
   };
 
@@ -625,12 +674,6 @@ export default function GameScreen({
   return (
     <>
       <div style={styles.container} className="hide-scrollbar">
-        {showBanner && (
-          <div style={styles.allPuzzlesCompleteBanner}>
-            <div style={{ fontSize: FONT_SIZES.TITLE * 1.5, marginBottom: `${SPACING.VERTICAL_SPACING}px` }}>Congratulations!</div>
-            <div>You solved all 3 puzzles!</div>
-          </div>
-        )}
         {/* Game Title Row with Home Button */}
         <div style={styles.gameTitleRow}>
           <div style={styles.homeButtonContainer}>
@@ -710,16 +753,119 @@ export default function GameScreen({
 
         <div style={styles.gameContent}>
           {/* Target Display */}
-          <div style={{ marginBottom: `${SPACING.VERTICAL_SPACING}px` }}>
+          <div style={{ marginBottom: `${SPACING.VERTICAL_SPACING}px`, position: 'relative' as const }}>
             <CalculatorDisplay
-              mode={(showSuccessMessage || showSuccessBanner) ? 'success' : 'target'}
+              mode={gameMode === 'dailyChallenge' && dailyChallengeRound !== null && dailyChallengeRound < 3 && successMessage ? 'success' : 'target'}
               targetNumber={gameState.target}
-              successMessage={showSuccessBanner && successMessage ? successMessage : undefined}
+              successMessage={gameMode === 'dailyChallenge' && dailyChallengeRound !== null && dailyChallengeRound < 3 ? successMessage : undefined}
             />
+            {/* Success Banner Overlay (for rounds 1 and 2) */}
+            {showSuccessBanner && (
+              <>
+                <OverlayBackdrop zIndex={2000} />
+                <div style={styles.successBannerOverlay}>
+                <div style={styles.successBannerMessage}>
+                  {successMessage ? `${successMessage}!` : 'Success!'}
+                </div>
+                {onStartSandbox && (
+                  <button
+                    style={styles.successBannerButton}
+                    onClick={() => {
+                      onStartSandbox();
+                      if (onCloseSuccessBanner) {
+                        onCloseSuccessBanner();
+                      }
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'translate(-1px, -1px)';
+                      e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_HOVER_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'translate(0, 0)';
+                      e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
+                    }}
+                    onMouseDown={(e) => {
+                      e.currentTarget.style.transform = `translate(${ACTION_BUTTON_SHADOW_OFFSET}px, ${ACTION_BUTTON_SHADOW_OFFSET}px)`;
+                      e.currentTarget.style.boxShadow = '0 0 0 0 rgba(0, 0, 0, 1)';
+                    }}
+                    onMouseUp={(e) => {
+                      e.currentTarget.style.transform = 'translate(0, 0)';
+                      e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
+                    }}
+                  >
+                    <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      Play Sandbox
+                      <img src={presentSvg} alt="present" width="20" height="20" style={{ display: 'block' }} />
+                    </span>
+                  </button>
+                )}
+                {onCloseSuccessBanner && (
+                  <CloseButton 
+                    onClick={onCloseSuccessBanner}
+                    style={{ marginTop: `${SPACING.VERTICAL_SPACING}px` }}
+                  />
+                )}
+                </div>
+              </>
+            )}
+            {/* All Puzzles Complete Banner (for round 3) */}
+            {showAllPuzzlesComplete && (
+              <>
+                <OverlayBackdrop zIndex={2000} />
+                <div style={styles.successBannerOverlay}>
+                <div style={styles.successBannerTitle}>
+                  Congratulations!
+                </div>
+                <div style={styles.successBannerMessage}>
+                  You solved all 3 puzzles!
+                </div>
+                {onStartSandbox && (
+                  <button
+                    style={styles.successBannerButton}
+                    onClick={() => {
+                      onStartSandbox();
+                      if (onCloseAllPuzzlesComplete) {
+                        onCloseAllPuzzlesComplete();
+                      } else if (onCloseSuccessBanner) {
+                        onCloseSuccessBanner();
+                      }
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'translate(-1px, -1px)';
+                      e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_HOVER_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'translate(0, 0)';
+                      e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
+                    }}
+                    onMouseDown={(e) => {
+                      e.currentTarget.style.transform = `translate(${ACTION_BUTTON_SHADOW_OFFSET}px, ${ACTION_BUTTON_SHADOW_OFFSET}px)`;
+                      e.currentTarget.style.boxShadow = '0 0 0 0 rgba(0, 0, 0, 1)';
+                    }}
+                    onMouseUp={(e) => {
+                      e.currentTarget.style.transform = 'translate(0, 0)';
+                      e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
+                    }}
+                  >
+                    <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      Play Sandbox
+                      <img src={presentSvg} alt="present" width="20" height="20" style={{ display: 'block' }} />
+                    </span>
+                  </button>
+                )}
+                {(onCloseAllPuzzlesComplete || onCloseSuccessBanner) && (
+                  <CloseButton 
+                    onClick={onCloseAllPuzzlesComplete || onCloseSuccessBanner || (() => {})}
+                    style={{ marginTop: `${SPACING.VERTICAL_SPACING}px` }}
+                  />
+                )}
+                </div>
+              </>
+            )}
           </div>
 
           {/* Next Round Button - Only shown in daily challenge mode after puzzle is completed */}
-          {gameMode === 'dailyChallenge' && dailyChallengeRound !== null && dailyChallengeRound < 3 && onGoToNextRound && (showSuccessMessage || showSuccessBanner) && (
+          {gameMode === 'dailyChallenge' && dailyChallengeRound !== null && dailyChallengeRound < 3 && onGoToNextRound && (showSuccessMessage || successMessage) && (
             <button
               style={styles.actionButton}
               onClick={onGoToNextRound}

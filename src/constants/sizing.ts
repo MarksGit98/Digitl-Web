@@ -117,6 +117,11 @@ export const BUTTON_BORDER = {
   COLOR: '#000000',
 };
 
+export const OVERLAY_BORDER = {
+  WIDTH: 3, // Overlay border width
+  COLOR: '#000000',
+};
+
 export const BORDER_RADIUS = {
   SMALL: 4 * GLOBAL_SCALE,
   MEDIUM: 8 * GLOBAL_SCALE,
