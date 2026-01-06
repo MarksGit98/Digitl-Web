@@ -611,7 +611,7 @@ export default function GameScreen({
     },
     successBannerOverlay: {
       position: 'absolute' as const,
-      top: `${BUTTON_BORDER.WIDTH * 2.5 + 4}px`, // Just below top border of target display
+      top: `${BUTTON_BORDER.WIDTH * 2.5 + 8}px`, // Just below top border of target display
       left: '50%',
       transform: 'translateX(-50%)',
       backgroundColor: COLORS.BACKGROUND_WHITE,
@@ -623,10 +623,8 @@ export default function GameScreen({
       flexDirection: 'column' as const,
       alignItems: 'center',
       gap: `${SPACING.VERTICAL_SPACING}px`,
-      boxShadow: '0 8px 24px rgba(0, 0, 0, 0.2)', // Natural shadow with blur
-      backdropFilter: 'blur(4px)', // Slight blur to background
-      WebkitBackdropFilter: 'blur(4px)', // Safari support
-      maxWidth: `${SCREEN_DIMENSIONS.WIDTH * 0.6}px`, // 60% of container max width
+      boxShadow: '0 8px 24px rgba(6, 5, 5, 0.2)', // Natural shadow with blur
+      width: `${SCREEN_DIMENSIONS.WIDTH * 0.5}px`,
     },
     successBannerTitle: {
       fontSize: FONT_SIZES.TITLE * 0.49, // Match modeTitle font size
@@ -637,7 +635,7 @@ export default function GameScreen({
       borderRadius: `${BORDER_RADIUS.MEDIUM * 0.7}px`, // Match modeTitle border radius
       textAlign: 'center' as const,
       fontWeight: 'bold' as const,
-      width: '110%', // Increased width for Congratulations banner
+      width: '100%', // Increased width for Congratulations banner
     },
     successBannerMessage: {
       fontSize: FONT_SIZES.SUBTEXT, // Match sectionDescription font size
@@ -702,7 +700,7 @@ export default function GameScreen({
                 alt="Home" 
                 width={topRowElementHeight * 0.5} 
                 height={topRowElementHeight * 0.5}
-                style={{ display: 'block', cursor: 'pointer' }}
+                style={{ display: 'block', pointerEvents: 'none' }}
               />
             </div>
           </div>
@@ -811,7 +809,7 @@ export default function GameScreen({
             {/* All Puzzles Complete Banner (for round 3) */}
             {showAllPuzzlesComplete && (
               <>
-                <OverlayBackdrop zIndex={2000} />
+                <OverlayBackdrop />
                 <div style={styles.successBannerOverlay}>
                 <div style={styles.successBannerTitle}>
                   Congratulations!

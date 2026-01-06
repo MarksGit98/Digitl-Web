@@ -1,5 +1,5 @@
 import React from 'react';
-import { SPACING, COLORS, FONT_SIZES, BORDER_RADIUS, OVERLAY_BORDER } from '../constants/sizing';
+import { SPACING, COLORS, FONT_SIZES, BORDER_RADIUS, OVERLAY_BORDER, SCREEN_DIMENSIONS } from '../constants/sizing';
 import InstructionsContent from './InstructionsContent';
 import CloseButton from './CloseButton';
 import OverlayBackdrop from './OverlayBackdrop';
@@ -28,19 +28,21 @@ export default function HowToPlayModal({
       left: 0,
       right: 0,
       bottom: 0,
-      display: 'flex',
-      justifyContent: 'center',
-      alignItems: 'center',
       zIndex: 1000,
       pointerEvents: 'none' as const, // Allow clicks to pass through to backdrop
     },
     modalContentWrapper: {
       pointerEvents: 'auto' as const, // Re-enable pointer events for content
+      position: 'absolute' as const,
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      zIndex: 1001, // Above the backdrop
+      width: `${SCREEN_DIMENSIONS.WIDTH * 0.72}px`,
+
     },
     modalContent: {
-      width: '80%',
-      maxWidth: '550px',
-      minWidth: '300px',
+      width: '100%',
       backgroundColor: COLORS.BACKGROUND_WHITE,
       borderRadius: `${BORDER_RADIUS.LARGE}px`,
       border: `${OVERLAY_BORDER.WIDTH}px solid ${OVERLAY_BORDER.COLOR}`,
@@ -78,10 +80,11 @@ export default function HowToPlayModal({
   };
 
   return (
-    <div style={styles.modalOverlay}>
+    <>
       <OverlayBackdrop onClick={handleBackdropClick} zIndex={1000} />
-      <div style={styles.modalContentWrapper}>
-        <div style={styles.modalContent} onClick={(e) => e.stopPropagation()}>
+      <div style={styles.modalOverlay}>
+        <div style={styles.modalContentWrapper}>
+          <div style={styles.modalContent} onClick={(e) => e.stopPropagation()}>
         <div style={styles.modalTitle}>How to Play</div>
         
         <div style={styles.scrollView}>
@@ -91,9 +94,10 @@ export default function HowToPlayModal({
         </div>
 
         <CloseButton onClick={onClose} />
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
