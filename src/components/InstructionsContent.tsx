@@ -99,13 +99,13 @@ export default function InstructionsContent() {
       verticalAlign: 'middle',
     },
     miniTarget: {
-      minWidth: `${SCREEN_WIDTH * 0.08 * 0.85}px`,
-      height: `${SCREEN_WIDTH * 0.05 * 0.85}px`,
+      minWidth: `${SCREEN_WIDTH * 0.08 * 0.65}px`,
+      height: `${SCREEN_WIDTH * 0.05 * 0.65}px`,
       backgroundColor: COLORS.BACKGROUND_DARK,
-      borderRadius: `${SCREEN_WIDTH * 0.01 * 0.85}px`,
+      borderRadius: `${SCREEN_WIDTH * 0.01 * 0.65}px`,
       border: `${BUTTON_BORDER.WIDTH * 1.2}px solid ${BUTTON_BORDER.COLOR}`, // Reduced from 2 to 1.2
-      paddingHorizontal: `${SCREEN_WIDTH * 0.01 * 0.85}px`,
-      paddingTop: `${SCREEN_WIDTH * 0.003}px`, // Added slight top padding
+      paddingHorizontal: `${SCREEN_WIDTH * 0.01 * 0.65}px`,
+      paddingTop: `${SCREEN_WIDTH * 0.0023}px`, // Proportionally adjusted top padding
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',

@@ -635,7 +635,7 @@ export default function GameScreen({
       borderRadius: `${BORDER_RADIUS.MEDIUM * 0.7}px`, // Match modeTitle border radius
       textAlign: 'center' as const,
       fontWeight: 'bold' as const,
-      width: '100%', // Increased width for Congratulations banner
+      width: '100%', 
     },
     successBannerMessage: {
       fontSize: FONT_SIZES.SUBTEXT, // Match sectionDescription font size
@@ -809,7 +809,7 @@ export default function GameScreen({
             {/* All Puzzles Complete Banner (for round 3) */}
             {showAllPuzzlesComplete && (
               <>
-                <OverlayBackdrop />
+                <OverlayBackdrop zIndex={2000} />
                 <div style={styles.successBannerOverlay}>
                 <div style={styles.successBannerTitle}>
                   Congratulations!

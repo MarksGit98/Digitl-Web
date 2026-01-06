@@ -23,7 +23,7 @@ export default function HowToPlayModal({
 
   const styles = {
     modalOverlay: {
-      position: 'fixed' as const,
+      position: 'absolute' as const,
       top: 0,
       left: 0,
       right: 0,
@@ -34,19 +34,19 @@ export default function HowToPlayModal({
     modalContentWrapper: {
       pointerEvents: 'auto' as const, // Re-enable pointer events for content
       position: 'absolute' as const,
-      top: '50%',
+      top: '10%',
       left: '50%',
-      transform: 'translate(-50%, -50%)',
+      transform: 'translateX(-50%)', // Only horizontal centering
       zIndex: 1001, // Above the backdrop
-      width: `${SCREEN_DIMENSIONS.WIDTH * 0.72}px`,
-
+      width: '80%',
+      maxWidth: `${SCREEN_DIMENSIONS.WIDTH * 0.8}px`,
+      minWidth: '300px',
     },
     modalContent: {
-      width: '100%',
       backgroundColor: COLORS.BACKGROUND_WHITE,
       borderRadius: `${BORDER_RADIUS.LARGE}px`,
       border: `${OVERLAY_BORDER.WIDTH}px solid ${OVERLAY_BORDER.COLOR}`,
-      padding: `${SPACING.PADDING_MEDIUM}px`,
+      padding: `${SPACING.PADDING_MEDIUM * 0.7}px ${SPACING.PADDING_LARGE * 0.7}px`,
       boxShadow: '0 4px 8px rgba(0, 0, 0, 0.3)',
       display: 'flex',
       flexDirection: 'column' as const,

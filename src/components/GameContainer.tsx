@@ -18,7 +18,7 @@ export default function GameContainer({ children }: GameContainerProps) {
       backgroundColor: '#f8f9fa',
       position: 'relative',
       overflowY: 'auto',
-      paddingTop: '8px',
+      paddingTop: '5px',
     }}>
       {/* Top Ad Banner Space - Reserved for future ads */}
       <div style={{
