@@ -5,6 +5,7 @@ import { create3DButtonStyle } from '../styles/buttonStyles';
 import presentSvg from '../assets/svgs/present.svg';
 import calendarSvg from '../assets/svgs/calendar-icon.svg';
 import stopwatchSvg from '../assets/svgs/stopwatch-icon.svg';
+import mailSvg from '../assets/svgs/mail-icon.svg';
 import InstructionsContent from '../components/InstructionsContent';
 import { CalculatorDisplay } from '../components/CalculatorDisplay';
 
@@ -134,6 +135,29 @@ export default function MainMenuScreen({
       width: '82.5px', // Increased by 10% (75px * 1.1)
       minWidth: '82.5px', // Increased by 10%
       minHeight: `${SCREEN_HEIGHT * 0.0425}px`, // 0.05 * 0.85
+    },
+    separatorLine: {
+      width: '85%',
+      height: '1px',
+      backgroundColor: '#000000',
+      margin: `${SPACING.VERTICAL_SPACING * 1.5}px auto`,
+    },
+    contactLink: {
+      display: 'block',
+      marginTop: '0px',
+      marginBottom: `${SPACING.VERTICAL_SPACING}px`,
+      fontSize: FONT_SIZES.SUBTEXT,
+      fontFamily: 'system-ui, -apple-system, sans-serif',
+      color: COLORS.TEXT_PRIMARY,
+      textDecoration: 'none',
+      textAlign: 'center' as const,
+      opacity: 0.8,
+      cursor: 'pointer',
+      transition: 'opacity 0.2s ease',
+      background: 'none',
+      border: 'none',
+      padding: '0',
+      width: '100%',
     },
   };
 
@@ -347,6 +371,36 @@ export default function MainMenuScreen({
         <div style={styles.instructionsContainer}>
           <InstructionsContent />
         </div>
+        
+        {/* Separator Line */}
+        <div style={styles.separatorLine}></div>
+        
+        {/* Contact Section */}
+        <button
+          style={styles.contactLink}
+          onClick={() => {
+            const email = 'rubberduckygamescontact@gmail.com';
+            // Try to open email client
+            window.location.href = `mailto:${email}`;
+            // Also copy to clipboard as backup
+            navigator.clipboard.writeText(email).then(() => {
+              alert(`Email copied to clipboard!\n${email}`);
+            }).catch(() => {
+              alert(`Contact email:\n${email}`);
+            });
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.opacity = '0.7';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.opacity = '1';
+          }}
+        >
+          <span style={{ display: 'flex', alignItems: 'center', gap: '8px', justifyContent: 'center' }}>
+            <img src={mailSvg} alt="mail" width="20" height="20" style={{ display: 'block' }} />
+            Contact me
+          </span>
+        </button>
       </div>
     </div>
   );

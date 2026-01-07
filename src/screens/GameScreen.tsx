@@ -29,7 +29,7 @@ interface GameScreenProps {
   difficulty: Difficulty;
   currentPuzzleIndex: number;
   onReturnToMenu: () => void;
-  onPuzzleComplete: (puzzleKey: string, finalDigit: number) => void;
+  onPuzzleComplete: (puzzleKey: string, finalDigit: number, completedHistory: any[]) => void;
   completedPuzzles: Set<string>;
   gameMode?: 'regular' | 'dailyChallenge' | 'dailyTimed' | 'sandbox';
   dailyChallengeRound?: 1 | 2 | 3 | null;
@@ -51,6 +51,11 @@ interface GameScreenProps {
   isTimerRunning?: boolean;
   roundTimes?: number[];
   userPercentile?: number | null;
+  solutionUniqueness?: {
+    easy: number | null;
+    medium: number | null;
+    hard: number | null;
+  };
 }
 
 export default function GameScreen({
@@ -80,6 +85,7 @@ export default function GameScreen({
   isTimerRunning = false,
   roundTimes = [],
   userPercentile = null,
+  solutionUniqueness = { easy: null, medium: null, hard: null },
 }: GameScreenProps) {
   const [showHowToPlayModal, setShowHowToPlayModal] = useState(false);
   const [firstSelectedIndex, setFirstSelectedIndex] = useState<number | null>(null);
@@ -121,20 +127,42 @@ export default function GameScreen({
     return <><b>{mins} minute{mins !== 1 ? 's' : ''}</b> and <b>{secs} second{secs !== 1 ? 's' : ''}</b></>;
   };
 
-  // Helper function to share results
+  // Helper function to share results (Daily Timed)
   const shareResults = () => {
     const [easy, medium, hard] = roundTimes;
     const totalSeconds = roundTimes.reduce((sum, time) => sum + time, 0);
     const percentile = userPercentile !== null ? userPercentile : 100;
     
-    const message = `DIGITL - Daily Timed Challenge
+    const message = `DIGITL - Daily Timed Challenge 🧮
 
-✅ Easy: ${formatTime(easy)}
-✅ Medium: ${formatTime(medium)}
-✅ Hard: ${formatTime(hard)}
+🟩 Easy: ${formatTime(easy)}
+🟨 Medium: ${formatTime(medium)}
+🟥 Hard: ${formatTime(hard)}
 
 ⏱️ Total Time: ${formatTime(totalSeconds)}
 🏆 Faster than ${percentile}% of players today!
+
+Play now at:
+https://www.digitlgame.com/`;
+
+    navigator.clipboard.writeText(message).then(() => {
+      // Silently copy to clipboard without popup
+    }).catch(err => {
+      console.error('Failed to copy:', err);
+    });
+  };
+
+  // Helper function to share results (Daily Challenge)
+  const shareDailyChallengeResults = () => {
+    const easyPercent = solutionUniqueness.easy !== null ? solutionUniqueness.easy : 100;
+    const mediumPercent = solutionUniqueness.medium !== null ? solutionUniqueness.medium : 100;
+    const hardPercent = solutionUniqueness.hard !== null ? solutionUniqueness.hard : 100;
+    
+    const message = `DIGITL - Daily Challenge 🧮
+
+🟩 Easy Puzzle - Shared solution with ${easyPercent}% of players today
+🟨 Medium Puzzle - Shared solution with ${mediumPercent}% of players today
+🟥 Hard Puzzle - Shared solution with ${hardPercent}% of players today
 
 Play now at:
 https://www.digitlgame.com/`;
@@ -230,7 +258,7 @@ https://www.digitlgame.com/`;
       hasCompletedRef.current = true;
       const puzzleKey = getPuzzleKey(difficulty, currentPuzzleIndex);
       setShowSuccessMessage(true);
-      onPuzzleComplete(puzzleKey, newDigits[0]);
+      onPuzzleComplete(puzzleKey, newDigits[0], newHistory); // Pass the complete history including final operation
     }
   };
 
@@ -979,11 +1007,18 @@ https://www.digitlgame.com/`;
                         Total Time: {formatTimeBold(roundTimes[0] + roundTimes[1] + roundTimes[2])} - Faster than <b style={{ color: '#16A34A' }}>{userPercentile !== null ? userPercentile : 100}%</b> of players today!
                       </div>
                     </div>
+                  ) : gameMode === 'dailyChallenge' ? (
+                    <div style={{ textAlign: 'center', width: '100%' }}>
+                      <div style={{ marginBottom: '12px', fontSize: FONT_SIZES.SUBTEXT }}>You solved all 3 puzzles!</div>
+                      <div style={{ marginBottom: '6px', fontSize: FONT_SIZES.SUBTEXT * 0.85 }}>Easy Puzzle - Shared solution with <b>{solutionUniqueness.easy !== null ? solutionUniqueness.easy : 100}%</b> of players today</div>
+                      <div style={{ marginBottom: '6px', fontSize: FONT_SIZES.SUBTEXT * 0.85 }}>Medium Puzzle - Shared solution with <b>{solutionUniqueness.medium !== null ? solutionUniqueness.medium : 100}%</b> of players today</div>
+                      <div style={{ marginBottom: '6px', fontSize: FONT_SIZES.SUBTEXT * 0.85 }}>Hard Puzzle - Shared solution with <b>{solutionUniqueness.hard !== null ? solutionUniqueness.hard : 100}%</b> of players today</div>
+                    </div>
                   ) : (
                     'You solved all 3 puzzles!'
                   )}
                 </div>
-                {/* Share Results Button - appears first for Daily Timed */}
+                {/* Share Results Button - appears first for Daily Timed and Daily Challenge */}
                 {gameMode === 'dailyTimed' && roundTimes.length === 3 && (
                   <button
                     style={{ ...styles.successBannerButton, marginTop: `${SPACING.VERTICAL_SPACING}px` }}
@@ -1012,8 +1047,36 @@ https://www.digitlgame.com/`;
                   </button>
                 )}
                 
+                {gameMode === 'dailyChallenge' && (
+                  <button
+                    style={{ ...styles.successBannerButton, marginTop: `${SPACING.VERTICAL_SPACING}px` }}
+                    onClick={shareDailyChallengeResults}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'translate(-1px, -1px)';
+                      e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_HOVER_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'translate(0, 0)';
+                      e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
+                    }}
+                    onMouseDown={(e) => {
+                      e.currentTarget.style.transform = `translate(${ACTION_BUTTON_SHADOW_OFFSET}px, ${ACTION_BUTTON_SHADOW_OFFSET}px)`;
+                      e.currentTarget.style.boxShadow = '0 0 0 0 rgba(0, 0, 0, 1)';
+                    }}
+                    onMouseUp={(e) => {
+                      e.currentTarget.style.transform = 'translate(0, 0)';
+                      e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
+                    }}
+                  >
+                    <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      Share Results
+                      <img src={paperPlaneSvg} alt="share" width="20" height="20" style={{ display: 'block' }} />
+                    </span>
+                  </button>
+                )}
+                
                 {/* Divider line - separates Share Results from other buttons */}
-                {gameMode === 'dailyTimed' && roundTimes.length === 3 && (
+                {(gameMode === 'dailyTimed' && roundTimes.length === 3) || gameMode === 'dailyChallenge' ? (
                   <div style={{
                     width: '100%',
                     height: '1px',
@@ -1021,7 +1084,7 @@ https://www.digitlgame.com/`;
                     marginTop: `${SPACING.VERTICAL_SPACING}px`,
                     marginBottom: `${SPACING.VERTICAL_SPACING * 0.5}px`,
                   }} />
-                )}
+                ) : null}
                 
                 {/* Show appropriate button based on game mode */}
                 {gameMode === 'dailyTimed' && onStartDailyChallenge && (

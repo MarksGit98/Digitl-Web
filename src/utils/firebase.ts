@@ -1,6 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { getFirestore } from 'firebase/firestore';
 
+// Firebase configuration
 const firebaseConfig = {
   apiKey: "AIzaSyAr8a-VFw4YrlZpBFjCsWmtvdgLjzuNuyE",
   authDomain: "digitl-game.firebaseapp.com",
@@ -13,6 +14,6 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
-// Initialize Firestore with custom database ID
+// Initialize Firestore with digitl-web database
 export const db = getFirestore(app, 'digitl-web');
 

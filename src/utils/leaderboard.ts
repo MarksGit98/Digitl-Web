@@ -76,19 +76,22 @@ export async function submitDailyTimedResult(
   puzzleIndex: number,
   roundTimes: [number, number, number]
 ): Promise<boolean> {
+  console.log('🚀 [Daily Timed] Starting submission...', { puzzleIndex, roundTimes });
+  
   try {
     // Check if user already submitted today
     const alreadySubmitted = await hasSubmittedToday();
+    console.log('📋 [Daily Timed] Already submitted check:', alreadySubmitted);
     if (alreadySubmitted) {
-      console.log('User has already submitted a result for today. Skipping submission.');
+      console.log('⚠️ [Daily Timed] User has already submitted a result for today. Skipping submission.');
       return false;
     }
     
     // Check if we've reached the daily limit (free tier protection)
     const limitReached = await hasReachedDailyLimit();
+    console.log('📊 [Daily Timed] Daily limit check:', limitReached);
     if (limitReached) {
-      console.warn('Daily submission limit reached. Result not submitted to preserve free tier.');
-      // Still return false, but user can still see percentile based on existing data
+      console.warn('⚠️ [Daily Timed] Daily submission limit reached. Result not submitted to preserve free tier.');
       return false;
     }
     
@@ -107,11 +110,12 @@ export async function submitDailyTimedResult(
       completedAt: new Date(),
     };
     
+    console.log('📤 [Daily Timed] Submitting to Firebase:', result);
     await addDoc(collection(db, 'dailyTimedResults'), result);
-    console.log('Successfully submitted daily timed result');
+    console.log('✅ [Daily Timed] Successfully submitted daily timed result to Firebase!');
     return true;
   } catch (error) {
-    console.error('Error submitting daily timed result:', error);
+    console.error('❌ [Daily Timed] Error submitting daily timed result:', error);
     return false;
   }
 }

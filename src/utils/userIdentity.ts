@@ -12,6 +12,9 @@ export function getAnonymousUserId(): string {
   if (!userId) {
     userId = `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
     localStorage.setItem(STORAGE_KEY, userId);
+    console.log('🆔 [User Identity] Generated new user ID:', userId);
+  } else {
+    console.log('🆔 [User Identity] Retrieved existing user ID:', userId);
   }
   
   return userId;
