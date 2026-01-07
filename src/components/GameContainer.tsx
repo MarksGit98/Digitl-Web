@@ -13,7 +13,7 @@ export default function GameContainer({ children, isMainMenu = false }: GameCont
   const containerHeight = isMainMenu ? MAIN_MENU_HEIGHT : CONTAINER_HEIGHT;
   
   return (
-    <div className="hide-scrollbar" style={{
+    <div style={{
       width: '100vw',
       minHeight: '100vh',
       display: 'flex',
@@ -51,10 +51,10 @@ export default function GameContainer({ children, isMainMenu = false }: GameCont
       {/* Fixed size game container */}
       <div style={{
         width: `${CONTAINER_WIDTH}px`,
-        minHeight: `${containerHeight}px`,
+        height: `${containerHeight}px`,
         backgroundColor: '#f8f9fa',
         position: 'relative',
-        overflow: 'hidden',
+        overflow: 'visible',
         marginTop: '25px',
         marginBottom: '50px',
       }}>
