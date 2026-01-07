@@ -93,6 +93,7 @@ export default function GameScreen({
   const [selectedOperation, setSelectedOperation] = useState<Operation | null>(null);
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [shakingDigitIndices, setShakingDigitIndices] = useState<number[]>([]);
+  const [showCopiedMessage, setShowCopiedMessage] = useState(false);
   const hasCompletedRef = useRef(false);
   
   // Helper function to format time (for plain text)
@@ -146,7 +147,12 @@ Play now at:
 https://www.digitlgame.com/`;
 
     navigator.clipboard.writeText(message).then(() => {
-      // Silently copy to clipboard without popup
+      // Show copied message
+      setShowCopiedMessage(true);
+      // Hide after 2 seconds
+      setTimeout(() => {
+        setShowCopiedMessage(false);
+      }, 2000);
     }).catch(err => {
       console.error('Failed to copy:', err);
     });
@@ -168,7 +174,12 @@ Play now at:
 https://www.digitlgame.com/`;
 
     navigator.clipboard.writeText(message).then(() => {
-      // Silently copy to clipboard without popup
+      // Show copied message
+      setShowCopiedMessage(true);
+      // Hide after 2 seconds
+      setTimeout(() => {
+        setShowCopiedMessage(false);
+      }, 2000);
     }).catch(err => {
       console.error('Failed to copy:', err);
     });
@@ -1020,59 +1031,85 @@ https://www.digitlgame.com/`;
                 </div>
                 {/* Share Results Button - appears first for Daily Timed and Daily Challenge */}
                 {gameMode === 'dailyTimed' && roundTimes.length === 3 && (
-                  <button
-                    style={{ ...styles.successBannerButton, marginTop: `${SPACING.VERTICAL_SPACING}px` }}
-                    onClick={shareResults}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = 'translate(-1px, -1px)';
-                      e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_HOVER_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = 'translate(0, 0)';
-                      e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
-                    }}
-                    onMouseDown={(e) => {
-                      e.currentTarget.style.transform = `translate(${ACTION_BUTTON_SHADOW_OFFSET}px, ${ACTION_BUTTON_SHADOW_OFFSET}px)`;
-                      e.currentTarget.style.boxShadow = '0 0 0 0 rgba(0, 0, 0, 1)';
-                    }}
-                    onMouseUp={(e) => {
-                      e.currentTarget.style.transform = 'translate(0, 0)';
-                      e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
-                    }}
-                  >
-                    <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      Share Results
-                      <img src={paperPlaneSvg} alt="share" width="20" height="20" style={{ display: 'block' }} />
-                    </span>
-                  </button>
+                  <>
+                    <button
+                      style={{ ...styles.successBannerButton, marginTop: `${SPACING.VERTICAL_SPACING}px` }}
+                      onClick={shareResults}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'translate(-1px, -1px)';
+                        e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_HOVER_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'translate(0, 0)';
+                        e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
+                      }}
+                      onMouseDown={(e) => {
+                        e.currentTarget.style.transform = `translate(${ACTION_BUTTON_SHADOW_OFFSET}px, ${ACTION_BUTTON_SHADOW_OFFSET}px)`;
+                        e.currentTarget.style.boxShadow = '0 0 0 0 rgba(0, 0, 0, 1)';
+                      }}
+                      onMouseUp={(e) => {
+                        e.currentTarget.style.transform = 'translate(0, 0)';
+                        e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
+                      }}
+                    >
+                      <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        Share Results
+                        <img src={paperPlaneSvg} alt="share" width="20" height="20" style={{ display: 'block' }} />
+                      </span>
+                    </button>
+                    {showCopiedMessage && (
+                      <div style={{
+                        fontSize: FONT_SIZES.SUBTEXT,
+                        fontStyle: 'italic',
+                        color: COLORS.TEXT_SECONDARY,
+                        marginTop: '8px',
+                        textAlign: 'center',
+                      }}>
+                        Copied!
+                      </div>
+                    )}
+                  </>
                 )}
                 
                 {gameMode === 'dailyChallenge' && (
-                  <button
-                    style={{ ...styles.successBannerButton, marginTop: `${SPACING.VERTICAL_SPACING}px` }}
-                    onClick={shareDailyChallengeResults}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = 'translate(-1px, -1px)';
-                      e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_HOVER_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = 'translate(0, 0)';
-                      e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
-                    }}
-                    onMouseDown={(e) => {
-                      e.currentTarget.style.transform = `translate(${ACTION_BUTTON_SHADOW_OFFSET}px, ${ACTION_BUTTON_SHADOW_OFFSET}px)`;
-                      e.currentTarget.style.boxShadow = '0 0 0 0 rgba(0, 0, 0, 1)';
-                    }}
-                    onMouseUp={(e) => {
-                      e.currentTarget.style.transform = 'translate(0, 0)';
-                      e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
-                    }}
-                  >
-                    <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                      Share Results
-                      <img src={paperPlaneSvg} alt="share" width="20" height="20" style={{ display: 'block' }} />
-                    </span>
-                  </button>
+                  <>
+                    <button
+                      style={{ ...styles.successBannerButton, marginTop: `${SPACING.VERTICAL_SPACING}px` }}
+                      onClick={shareDailyChallengeResults}
+                      onMouseEnter={(e) => {
+                        e.currentTarget.style.transform = 'translate(-1px, -1px)';
+                        e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_HOVER_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
+                      }}
+                      onMouseLeave={(e) => {
+                        e.currentTarget.style.transform = 'translate(0, 0)';
+                        e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
+                      }}
+                      onMouseDown={(e) => {
+                        e.currentTarget.style.transform = `translate(${ACTION_BUTTON_SHADOW_OFFSET}px, ${ACTION_BUTTON_SHADOW_OFFSET}px)`;
+                        e.currentTarget.style.boxShadow = '0 0 0 0 rgba(0, 0, 0, 1)';
+                      }}
+                      onMouseUp={(e) => {
+                        e.currentTarget.style.transform = 'translate(0, 0)';
+                        e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
+                      }}
+                    >
+                      <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                        Share Results
+                        <img src={paperPlaneSvg} alt="share" width="20" height="20" style={{ display: 'block' }} />
+                      </span>
+                    </button>
+                    {showCopiedMessage && (
+                      <div style={{
+                        fontSize: FONT_SIZES.SUBTEXT,
+                        fontStyle: 'italic',
+                        color: COLORS.TEXT_SECONDARY,
+                        marginTop: '8px',
+                        textAlign: 'center',
+                      }}>
+                        Copied!
+                      </div>
+                    )}
+                  </>
                 )}
                 
                 {/* Divider line - separates Share Results from other buttons */}
