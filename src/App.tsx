@@ -5,12 +5,14 @@ import { getPuzzlesByDifficulty } from './utils';
 import { loadCompletedPuzzles, saveCompletedPuzzles } from './utils/storage';
 import { adManager } from './utils/adManager';
 import { getDailyChallengePuzzle, getDailyChallengeDifficulty } from './utils/dailyChallenge';
+import { getDailyTimedPuzzle, getDailyTimedDifficulty } from './utils/dailyTimed';
 import { generateSolvablePuzzle } from './utils/puzzleGenerator';
+import { submitDailyTimedResult, calculatePercentile } from './utils/leaderboard';
 import GameContainer from './components/GameContainer';
 import MainMenuScreen from './screens/MainMenuScreen';
 import GameScreen from './screens/GameScreen';
 
-type GameMode = 'regular' | 'dailyChallenge' | 'sandbox';
+type GameMode = 'regular' | 'dailyChallenge' | 'dailyTimed' | 'sandbox';
 
 export default function App() {
   const [, setShowMenu] = useState(true);
@@ -27,6 +29,14 @@ export default function App() {
   const [isAnimating, setIsAnimating] = useState(false);
   const [animatingDigit, setAnimatingDigit] = useState<number | null>(null);
   const [showAllPuzzlesComplete, setShowAllPuzzlesComplete] = useState(false);
+  
+  // Daily Timed mode states
+  const [showCountdown, setShowCountdown] = useState(false);
+  const [countdownValue, setCountdownValue] = useState(3);
+  const [timerSeconds, setTimerSeconds] = useState(0);
+  const [isTimerRunning, setIsTimerRunning] = useState(false);
+  const [roundTimes, setRoundTimes] = useState<number[]>([]);
+  const [userPercentile, setUserPercentile] = useState<number | null>(null);
 
   useEffect(() => {
     const loadSavedData = async () => {
@@ -48,6 +58,37 @@ export default function App() {
       saveCompletedPuzzles(completedPuzzles);
     }
   }, [completedPuzzles, isLoadingSavedData]);
+
+  // Countdown effect for Daily Timed mode
+  useEffect(() => {
+    if (showCountdown && countdownValue > 0) {
+      const timer = setTimeout(() => {
+        setCountdownValue(countdownValue - 1);
+      }, 1000);
+      return () => clearTimeout(timer);
+    } else if (showCountdown && countdownValue === 0) {
+      // Countdown finished, start the timer
+      setShowCountdown(false);
+      setIsTimerRunning(true);
+    }
+  }, [showCountdown, countdownValue]);
+
+  // Timer effect for Daily Timed mode
+  useEffect(() => {
+    if (isTimerRunning) {
+      const timer = setInterval(() => {
+        setTimerSeconds(prev => {
+          // Stop timer at 1 hour (3600 seconds)
+          if (prev >= 3599) {
+            setIsTimerRunning(false);
+            return 3600;
+          }
+          return prev + 1;
+        });
+      }, 1000);
+      return () => clearInterval(timer);
+    }
+  }, [isTimerRunning]);
 
   const loadPuzzleByIndex = (index: number) => {
     if (!difficulty) return;
@@ -81,6 +122,36 @@ export default function App() {
       setShowSuccessBanner(false);
       setSuccessMessage('');
       setShowMenu(false);
+    }
+  };
+
+  const startDailyTimed = () => {
+    setGameMode('dailyTimed');
+    setDailyChallengeRound(1);
+    const puzzle = getDailyTimedPuzzle(1);
+    if (puzzle) {
+      setDifficulty(getDailyTimedDifficulty(1));
+      setCurrentPuzzleIndex(0);
+      setGameState({
+        digits: puzzle.digits,
+        target: puzzle.target,
+        history: [],
+      });
+      // Reset states
+      setIsAnimating(false);
+      setAnimatingDigit(null);
+      setShowSuccessBanner(false);
+      setSuccessMessage('');
+      setShowAllPuzzlesComplete(false);
+      setRoundTimes([]);
+      setTimerSeconds(0);
+      setIsTimerRunning(false);
+      setUserPercentile(null);
+      setShowMenu(false);
+      
+      // Start countdown
+      setShowCountdown(true);
+      setCountdownValue(3);
     }
   };
 
@@ -168,6 +239,37 @@ export default function App() {
     }
   };
 
+  const goToNextDailyTimedRound = () => {
+    if (dailyChallengeRound < 3) {
+      const nextRound = (dailyChallengeRound + 1) as 1 | 2 | 3;
+      setDailyChallengeRound(nextRound);
+      const puzzle = getDailyTimedPuzzle(nextRound);
+      if (puzzle) {
+        setDifficulty(getDailyTimedDifficulty(nextRound));
+        setCurrentPuzzleIndex(0);
+        setGameState({
+          digits: puzzle.digits,
+          target: puzzle.target,
+          history: [],
+        });
+        // Reset animation and timer states
+        setIsAnimating(false);
+        setAnimatingDigit(null);
+        setShowSuccessBanner(false);
+        setSuccessMessage('');
+        setTimerSeconds(0);
+        setIsTimerRunning(false);
+        
+        // Start countdown for next round
+        setShowCountdown(true);
+        setCountdownValue(3);
+      }
+    } else {
+      // Completed all rounds, return to menu
+      returnToMenu();
+    }
+  };
+
   const handlePuzzleComplete = (puzzleKey: string, finalDigit: number) => {
     setCompletedPuzzles(prev => new Set([...prev, puzzleKey]));
     
@@ -188,6 +290,53 @@ export default function App() {
           setSuccessMessage(randomAffirmation);
         }
         // Keep bounce animation running - don't stop it
+      }, 500);
+    } else if (gameMode === 'dailyTimed') {
+      // Stop the timer immediately
+      setIsTimerRunning(false);
+      // Save the time for this round
+      setRoundTimes(prev => [...prev, timerSeconds]);
+      
+      // Start bounce animation and show success message
+      setTimeout(() => {
+        setIsAnimating(true);
+        setAnimatingDigit(finalDigit);
+        
+        // Set success message for timer highlight (all rounds)
+        const affirmations = ['Amazing', 'Awesome', 'Great', 'Excellent', 'Perfect', 'Brilliant', 'Fantastic', 'Incredible', 'Outstanding', 'Superb'];
+        const randomAffirmation = affirmations[Math.floor(Math.random() * affirmations.length)];
+        setSuccessMessage(randomAffirmation);
+        
+        // Check if this is the final puzzle (round 3)
+        if (dailyChallengeRound === 3) {
+          // Submit results to Firebase and calculate percentile
+          const totalTime = roundTimes[0] + roundTimes[1] + timerSeconds;
+          
+          // Submit to Firebase (async, but don't wait for it)
+          submitDailyTimedResult(currentPuzzleIndex, [roundTimes[0], roundTimes[1], timerSeconds] as [number, number, number])
+            .then((submitted) => {
+              if (submitted) {
+                console.log('Successfully submitted daily timed result');
+              }
+            })
+            .catch((error) => {
+              console.error('Error submitting result:', error);
+            });
+          
+          // Calculate percentile (async, don't wait for it)
+          calculatePercentile(totalTime)
+            .then((percentile) => {
+              setUserPercentile(percentile);
+            })
+            .catch((error) => {
+              console.error('Error calculating percentile:', error);
+            });
+          
+          // Show congratulations banner for completing all 3 puzzles after a brief delay
+          setTimeout(() => {
+            setShowAllPuzzlesComplete(true);
+          }, 1000); // Extra delay to show red timer and bounce animation
+        }
       }, 500);
     } else if (gameMode === 'sandbox') {
       // For sandbox, show bounce animation and success banner (no auto-close)
@@ -247,8 +396,12 @@ export default function App() {
           onPuzzleComplete={handlePuzzleComplete}
           completedPuzzles={completedPuzzles}
           gameMode={gameMode}
-          dailyChallengeRound={gameMode === 'dailyChallenge' ? dailyChallengeRound : null}
-          onGoToNextRound={gameMode === 'dailyChallenge' ? goToNextDailyChallengeRound : undefined}
+          dailyChallengeRound={gameMode === 'dailyChallenge' || gameMode === 'dailyTimed' ? dailyChallengeRound : null}
+          onGoToNextRound={
+            gameMode === 'dailyChallenge' ? goToNextDailyChallengeRound :
+            gameMode === 'dailyTimed' ? goToNextDailyTimedRound :
+            undefined
+          }
           onNewPuzzle={gameMode === 'sandbox' ? generateNewSandboxPuzzle : undefined}
           showSuccessBanner={showSuccessBanner}
           successMessage={successMessage}
@@ -256,8 +409,16 @@ export default function App() {
           animatingDigit={animatingDigit}
           showAllPuzzlesComplete={showAllPuzzlesComplete}
           onStartSandbox={startSandbox}
+          onStartDailyChallenge={startDailyChallenge}
+          onStartDailyTimed={startDailyTimed}
           onCloseSuccessBanner={() => setShowSuccessBanner(false)}
           onCloseAllPuzzlesComplete={() => setShowAllPuzzlesComplete(false)}
+          showCountdown={showCountdown}
+          countdownValue={countdownValue}
+          timerSeconds={timerSeconds}
+          isTimerRunning={isTimerRunning}
+          roundTimes={roundTimes}
+          userPercentile={userPercentile}
         />
       </GameContainer>
     );
@@ -269,6 +430,7 @@ export default function App() {
         selectedDifficulty={selectedDifficulty}
         onDifficultyChange={setSelectedDifficulty}
         onStartDailyChallenge={startDailyChallenge}
+        onStartDailyTimed={startDailyTimed}
         onStartSandbox={startSandbox}
       />
     </GameContainer>

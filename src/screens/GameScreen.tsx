@@ -4,7 +4,7 @@ import { performOperation, getPuzzleKey } from '../utils';
 import { 
   FONT_SIZES, SPACING, COLORS, BUTTON_BORDER, BUTTON_SIZES,
   CALCULATOR_DISPLAY, HISTORY_BOX, SCREEN_DIMENSIONS, BORDER_RADIUS,
-  OVERLAY_BORDER
+  OVERLAY_BORDER, LETTER_SPACING
 } from '../constants/sizing';
 import DigitButton from '../components/DigitButton';
 import OperationButton from '../components/OperationButton';
@@ -17,6 +17,9 @@ import nextArrowSvg from '../assets/svgs/next-arrow.svg';
 import homeSvg from '../assets/svgs/home.svg';
 import librarySvg from '../assets/svgs/library.svg';
 import presentSvg from '../assets/svgs/present.svg';
+import calendarSvg from '../assets/svgs/calendar-icon.svg';
+import stopwatchSvg from '../assets/svgs/stopwatch-icon.svg';
+import paperPlaneSvg from '../assets/svgs/paper-plane-icon.svg';
 
 const SCREEN_WIDTH = SCREEN_DIMENSIONS.WIDTH;
 
@@ -28,7 +31,7 @@ interface GameScreenProps {
   onReturnToMenu: () => void;
   onPuzzleComplete: (puzzleKey: string, finalDigit: number) => void;
   completedPuzzles: Set<string>;
-  gameMode?: 'regular' | 'dailyChallenge' | 'sandbox';
+  gameMode?: 'regular' | 'dailyChallenge' | 'dailyTimed' | 'sandbox';
   dailyChallengeRound?: 1 | 2 | 3 | null;
   onGoToNextRound?: () => void;
   onNewPuzzle?: () => void;
@@ -38,8 +41,16 @@ interface GameScreenProps {
   animatingDigit?: number | null;
   showAllPuzzlesComplete?: boolean;
   onStartSandbox?: () => void;
+  onStartDailyChallenge?: () => void;
+  onStartDailyTimed?: () => void;
   onCloseSuccessBanner?: () => void;
   onCloseAllPuzzlesComplete?: () => void;
+  showCountdown?: boolean;
+  countdownValue?: number;
+  timerSeconds?: number;
+  isTimerRunning?: boolean;
+  roundTimes?: number[];
+  userPercentile?: number | null;
 }
 
 export default function GameScreen({
@@ -59,8 +70,16 @@ export default function GameScreen({
   animatingDigit = null,
   showAllPuzzlesComplete = false,
   onStartSandbox,
+  onStartDailyChallenge,
+  onStartDailyTimed,
   onCloseSuccessBanner,
   onCloseAllPuzzlesComplete,
+  showCountdown = false,
+  countdownValue = 3,
+  timerSeconds = 0,
+  isTimerRunning = false,
+  roundTimes = [],
+  userPercentile = null,
 }: GameScreenProps) {
   const [showHowToPlayModal, setShowHowToPlayModal] = useState(false);
   const [firstSelectedIndex, setFirstSelectedIndex] = useState<number | null>(null);
@@ -69,6 +88,63 @@ export default function GameScreen({
   const [showSuccessMessage, setShowSuccessMessage] = useState(false);
   const [shakingDigitIndices, setShakingDigitIndices] = useState<number[]>([]);
   const hasCompletedRef = useRef(false);
+  
+  // Helper function to format time (for plain text)
+  const formatTime = (seconds: number): string => {
+    if (seconds >= 3600) {
+      return '1 hour+';
+    }
+    if (seconds < 60) {
+      return `${seconds} second${seconds !== 1 ? 's' : ''}`;
+    }
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    if (secs === 0) {
+      return `${mins} minute${mins !== 1 ? 's' : ''}`;
+    }
+    return `${mins} minute${mins !== 1 ? 's' : ''} and ${secs} second${secs !== 1 ? 's' : ''}`;
+  };
+
+  // Helper function to format time with bold styling (for overlay display)
+  const formatTimeBold = (seconds: number): JSX.Element => {
+    if (seconds >= 3600) {
+      return <><b>1 hour+</b></>;
+    }
+    if (seconds < 60) {
+      return <><b>{seconds} second{seconds !== 1 ? 's' : ''}</b></>;
+    }
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    if (secs === 0) {
+      return <><b>{mins} minute{mins !== 1 ? 's' : ''}</b></>;
+    }
+    return <><b>{mins} minute{mins !== 1 ? 's' : ''}</b> and <b>{secs} second{secs !== 1 ? 's' : ''}</b></>;
+  };
+
+  // Helper function to share results
+  const shareResults = () => {
+    const [easy, medium, hard] = roundTimes;
+    const totalSeconds = roundTimes.reduce((sum, time) => sum + time, 0);
+    const percentile = userPercentile !== null ? userPercentile : 100;
+    
+    const message = `DIGITL - Daily Timed Challenge
+
+✅ Easy: ${formatTime(easy)}
+✅ Medium: ${formatTime(medium)}
+✅ Hard: ${formatTime(hard)}
+
+⏱️ Total Time: ${formatTime(totalSeconds)}
+🏆 Faster than ${percentile}% of players today!
+
+Play now at:
+https://www.digitlgame.com/`;
+
+    navigator.clipboard.writeText(message).then(() => {
+      // Silently copy to clipboard without popup
+    }).catch(err => {
+      console.error('Failed to copy:', err);
+    });
+  };
   
   // Height constant for top row elements (home button, DIGITL title, how to play button)
   // Calculate based on gameTitle element: fontSize + vertical padding * 2 + border * 2
@@ -645,10 +721,10 @@ export default function GameScreen({
       opacity: 0.8, // Match sectionDescription opacity
     },
     successBannerButton: {
-      padding: `${14 * 0.7225}px ${24 * 0.7225}px`,
-      minWidth: `${200 * 0.7225}px`,
-      minHeight: `${50 * 0.7225}px`,
-      borderRadius: `${BORDER_RADIUS.MEDIUM * 0.7225}px`,
+      padding: `${14 * 0.72}px ${24 * 0.72}px`,
+      minWidth: `${200 * 0.72}px`,
+      minHeight: `${50 * 0.72}px`,
+      borderRadius: `${BORDER_RADIUS.MEDIUM * 0.72}px`,
       backgroundColor: COLORS.BACKGROUND_WHITE,
       color: COLORS.TEXT_SECONDARY,
       display: 'flex',
@@ -661,6 +737,65 @@ export default function GameScreen({
       fontWeight: 'bold' as const,
       boxShadow: `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_OFFSET}px 0 0 rgba(0, 0, 0, 1)`,
       transition: 'transform 0.15s ease-out, box-shadow 0.15s ease-out',
+    },
+    timerDisplay: {
+      width: `${SCREEN_WIDTH * 0.24 * 0.9}px`, // Scaled down 10%
+      height: `${SCREEN_WIDTH * 0.09 * 0.9}px`, // Scaled down 10%
+      backgroundColor: COLORS.BACKGROUND_DARK,
+      borderRadius: `${CALCULATOR_DISPLAY.BORDER_RADIUS}px`,
+      borderTopWidth: `${BUTTON_BORDER.WIDTH * 1.3 }px`, // Thinner border
+      borderLeftWidth: `${BUTTON_BORDER.WIDTH * 1.3 }px`,
+      borderRightWidth: `${BUTTON_BORDER.WIDTH * 1.3 }px`,
+      borderBottomWidth: `${BUTTON_BORDER.WIDTH * 1.3 }px`,
+      borderColor: BUTTON_BORDER.COLOR,
+      borderStyle: 'solid',
+      boxShadow: '0 1px 1.5px rgba(160, 160, 160, 0.25)',
+      position: 'relative' as const,
+      overflow: 'hidden' as const,
+      alignSelf: 'center' as const,
+      marginBottom: `${SPACING.VERTICAL_SPACING * 0.72}px`,
+    },
+    timerInnerBorder: {
+      position: 'absolute' as const,
+      top: `${BUTTON_BORDER.WIDTH * 1.5 }px`,
+      left: `${BUTTON_BORDER.WIDTH * 1.5 }px`,
+      right: `${BUTTON_BORDER.WIDTH * 1.5 }px`,
+      bottom: `${BUTTON_BORDER.WIDTH * 1.5 }px`,
+      backgroundColor: '#c4d6a4', // LCD greenish-yellow background like digital timer
+      borderRadius: `${Math.max(0, CALCULATOR_DISPLAY.BORDER_RADIUS - (BUTTON_BORDER.WIDTH * 1.5) - 2)}px`,
+      zIndex: 0,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    timerText: {
+      fontSize: FONT_SIZES.TARGET_NUMBER * 0.28 * 0.9, // Scaled down 10%
+      color: '#000000', // Black text
+      fontFamily: 'Digital-7-Mono, monospace', // Digital font
+      fontWeight: 'normal' as const,
+      letterSpacing: `${LETTER_SPACING.WIDE * 0.3 * 0.9}px`, // Scaled down 10%
+      lineHeight: 1,
+    },
+    countdownOverlay: {
+      position: 'fixed' as const,
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: 'rgba(0, 0, 0, 0.7)',
+      backdropFilter: 'blur(10px)',
+      WebkitBackdropFilter: 'blur(10px)',
+      zIndex: 3000,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+    },
+    countdownText: {
+      fontSize: FONT_SIZES.TARGET_NUMBER * 1.5, // Smaller countdown
+      color: '#000000', // Black text
+      fontFamily: 'Digital-7-Mono, monospace', // Digital font
+      fontWeight: 'normal' as const,
+      textShadow: '0 0 10px rgba(255, 255, 255, 0.8)', // White glow for visibility
     },
   };
 
@@ -737,10 +872,12 @@ export default function GameScreen({
             </div>
         </div>
 
-        {/* Mode Title - Daily Challenge or Sandbox Mode */}
+        {/* Mode Title - Daily Challenge, Daily Timed Challenge, or Sandbox Mode */}
         {gameMode !== 'regular' && (
           <div style={styles.modeTitle}>
-            {gameMode === 'dailyChallenge' ? 'Daily Challenge' : 'Sandbox Mode'}
+            {gameMode === 'dailyChallenge' ? 'Daily Challenge' : 
+             gameMode === 'dailyTimed' ? 'Daily Timed Challenge' : 
+             'Sandbox Mode'}
           </div>
         )}
 
@@ -750,12 +887,29 @@ export default function GameScreen({
         </div>
 
         <div style={styles.gameContent}>
+          {/* Timer Display (Daily Timed mode only) */}
+          {gameMode === 'dailyTimed' && (
+            <div style={styles.timerDisplay}>
+              <div style={styles.timerInnerBorder}>
+                <div style={{
+                  ...styles.timerText,
+                  color: !isTimerRunning && successMessage ? '#dc2626' : '#000000', // Red when stopped and puzzle complete
+                }}>
+                  {timerSeconds >= 3600 
+                    ? '1:00:00+' 
+                    : `${Math.floor(timerSeconds / 60).toString().padStart(2, '0')}:${(timerSeconds % 60).toString().padStart(2, '0')}`
+                  }
+                </div>
+              </div>
+            </div>
+          )}
+          
           {/* Target Display */}
           <div style={{ marginBottom: `${SPACING.VERTICAL_SPACING}px`, position: 'relative' as const }}>
             <CalculatorDisplay
-              mode={gameMode === 'dailyChallenge' && dailyChallengeRound !== null && dailyChallengeRound < 3 && successMessage ? 'success' : 'target'}
+              mode={(gameMode === 'dailyChallenge' || gameMode === 'dailyTimed') && dailyChallengeRound !== null && dailyChallengeRound < 3 && successMessage ? 'success' : 'target'}
               targetNumber={gameState.target}
-              successMessage={gameMode === 'dailyChallenge' && dailyChallengeRound !== null && dailyChallengeRound < 3 ? successMessage : undefined}
+              successMessage={(gameMode === 'dailyChallenge' || gameMode === 'dailyTimed') && dailyChallengeRound !== null && dailyChallengeRound < 3 ? successMessage : undefined}
             />
             {/* Success Banner Overlay (for rounds 1 and 2) */}
             {showSuccessBanner && (
@@ -815,11 +969,141 @@ export default function GameScreen({
                   Congratulations!
                 </div>
                 <div style={styles.successBannerMessage}>
-                  You solved all 3 puzzles!
+                  {gameMode === 'dailyTimed' && roundTimes.length === 3 ? (
+                    <div style={{ textAlign: 'center', width: '100%' }}>
+                      <div style={{ marginBottom: '12px', fontSize: FONT_SIZES.SUBTEXT }}>You solved all 3 puzzles!</div>
+                      <div style={{ marginBottom: '6px', fontSize: FONT_SIZES.SUBTEXT * 0.85 }}>Easy Puzzle - {formatTimeBold(roundTimes[0])}</div>
+                      <div style={{ marginBottom: '6px', fontSize: FONT_SIZES.SUBTEXT * 0.85 }}>Medium Puzzle - {formatTimeBold(roundTimes[1])}</div>
+                      <div style={{ marginBottom: '6px', fontSize: FONT_SIZES.SUBTEXT * 0.85 }}>Hard Puzzle - {formatTimeBold(roundTimes[2])}</div>
+                      <div style={{ marginTop: '16px', fontSize: FONT_SIZES.SUBTEXT, fontWeight: 'bold' }}>
+                        Total Time: {formatTimeBold(roundTimes[0] + roundTimes[1] + roundTimes[2])} - Faster than <b style={{ color: '#16A34A' }}>{userPercentile !== null ? userPercentile : 100}%</b> of players today!
+                      </div>
+                    </div>
+                  ) : (
+                    'You solved all 3 puzzles!'
+                  )}
                 </div>
-                {onStartSandbox && (
+                {/* Share Results Button - appears first for Daily Timed */}
+                {gameMode === 'dailyTimed' && roundTimes.length === 3 && (
                   <button
-                    style={styles.successBannerButton}
+                    style={{ ...styles.successBannerButton, marginTop: `${SPACING.VERTICAL_SPACING}px` }}
+                    onClick={shareResults}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'translate(-1px, -1px)';
+                      e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_HOVER_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'translate(0, 0)';
+                      e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
+                    }}
+                    onMouseDown={(e) => {
+                      e.currentTarget.style.transform = `translate(${ACTION_BUTTON_SHADOW_OFFSET}px, ${ACTION_BUTTON_SHADOW_OFFSET}px)`;
+                      e.currentTarget.style.boxShadow = '0 0 0 0 rgba(0, 0, 0, 1)';
+                    }}
+                    onMouseUp={(e) => {
+                      e.currentTarget.style.transform = 'translate(0, 0)';
+                      e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
+                    }}
+                  >
+                    <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      Share Results
+                      <img src={paperPlaneSvg} alt="share" width="20" height="20" style={{ display: 'block' }} />
+                    </span>
+                  </button>
+                )}
+                
+                {/* Divider line - separates Share Results from other buttons */}
+                {gameMode === 'dailyTimed' && roundTimes.length === 3 && (
+                  <div style={{
+                    width: '100%',
+                    height: '1px',
+                    backgroundColor: '#000000',
+                    marginTop: `${SPACING.VERTICAL_SPACING}px`,
+                    marginBottom: `${SPACING.VERTICAL_SPACING * 0.5}px`,
+                  }} />
+                )}
+                
+                {/* Show appropriate button based on game mode */}
+                {gameMode === 'dailyTimed' && onStartDailyChallenge && (
+                  <button
+                    style={{ 
+                      ...styles.successBannerButton, 
+                      marginTop: roundTimes.length === 3 ? 0 : `${SPACING.VERTICAL_SPACING}px` 
+                    }}
+                    onClick={() => {
+                      onStartDailyChallenge();
+                      if (onCloseAllPuzzlesComplete) {
+                        onCloseAllPuzzlesComplete();
+                      } else if (onCloseSuccessBanner) {
+                        onCloseSuccessBanner();
+                      }
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'translate(-1px, -1px)';
+                      e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_HOVER_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'translate(0, 0)';
+                      e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
+                    }}
+                    onMouseDown={(e) => {
+                      e.currentTarget.style.transform = `translate(${ACTION_BUTTON_SHADOW_OFFSET}px, ${ACTION_BUTTON_SHADOW_OFFSET}px)`;
+                      e.currentTarget.style.boxShadow = '0 0 0 0 rgba(0, 0, 0, 1)';
+                    }}
+                    onMouseUp={(e) => {
+                      e.currentTarget.style.transform = 'translate(0, 0)';
+                      e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
+                    }}
+                  >
+                    <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      Play Daily
+                      <img src={calendarSvg} alt="calendar" width="20" height="20" style={{ display: 'block' }} />
+                    </span>
+                  </button>
+                )}
+                {gameMode === 'dailyChallenge' && onStartDailyTimed && (
+                  <button
+                    style={{ 
+                      ...styles.successBannerButton, 
+                      marginTop: `${SPACING.VERTICAL_SPACING}px` 
+                    }}
+                    onClick={() => {
+                      onStartDailyTimed();
+                      if (onCloseAllPuzzlesComplete) {
+                        onCloseAllPuzzlesComplete();
+                      } else if (onCloseSuccessBanner) {
+                        onCloseSuccessBanner();
+                      }
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'translate(-1px, -1px)';
+                      e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_HOVER_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'translate(0, 0)';
+                      e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
+                    }}
+                    onMouseDown={(e) => {
+                      e.currentTarget.style.transform = `translate(${ACTION_BUTTON_SHADOW_OFFSET}px, ${ACTION_BUTTON_SHADOW_OFFSET}px)`;
+                      e.currentTarget.style.boxShadow = '0 0 0 0 rgba(0, 0, 0, 1)';
+                    }}
+                    onMouseUp={(e) => {
+                      e.currentTarget.style.transform = 'translate(0, 0)';
+                      e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
+                    }}
+                  >
+                    <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                      Play Timed Daily
+                      <img src={stopwatchSvg} alt="stopwatch" width="20" height="20" style={{ display: 'block' }} />
+                    </span>
+                  </button>
+                )}
+                {gameMode === 'sandbox' && onStartSandbox && (
+                  <button
+                    style={{ 
+                      ...styles.successBannerButton, 
+                      marginTop: `${SPACING.VERTICAL_SPACING}px` 
+                    }}
                     onClick={() => {
                       onStartSandbox();
                       if (onCloseAllPuzzlesComplete) {
@@ -862,8 +1146,8 @@ export default function GameScreen({
             )}
           </div>
 
-          {/* Next Round Button - Only shown in daily challenge mode after puzzle is completed */}
-          {gameMode === 'dailyChallenge' && dailyChallengeRound !== null && dailyChallengeRound < 3 && onGoToNextRound && (showSuccessMessage || successMessage) && (
+          {/* Next Round Button - Only shown in daily challenge or daily timed mode after puzzle is completed */}
+          {(gameMode === 'dailyChallenge' || gameMode === 'dailyTimed') && dailyChallengeRound !== null && dailyChallengeRound < 3 && onGoToNextRound && (showSuccessMessage || successMessage) && (
             <button
               style={styles.actionButton}
               onClick={onGoToNextRound}
@@ -1061,6 +1345,13 @@ export default function GameScreen({
       visible={showHowToPlayModal}
       onClose={() => setShowHowToPlayModal(false)}
     />
+    
+    {/* Countdown Overlay (Daily Timed mode only) */}
+    {showCountdown && countdownValue > 0 && (
+      <div style={styles.countdownOverlay}>
+        <div style={styles.countdownText}>{countdownValue}</div>
+      </div>
+    )}
     </>
   );
 }

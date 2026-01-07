@@ -4,6 +4,7 @@ import { FONT_SIZES, SPACING, COLORS, BUTTON_BORDER, SCREEN_DIMENSIONS, ANIMATIO
 import { create3DButtonStyle } from '../styles/buttonStyles';
 import presentSvg from '../assets/svgs/present.svg';
 import calendarSvg from '../assets/svgs/calendar-icon.svg';
+import stopwatchSvg from '../assets/svgs/stopwatch-icon.svg';
 import InstructionsContent from '../components/InstructionsContent';
 import { CalculatorDisplay } from '../components/CalculatorDisplay';
 
@@ -17,6 +18,7 @@ interface MainMenuScreenProps {
   selectedDifficulty: Difficulty;
   onDifficultyChange: (difficulty: Difficulty) => void;
   onStartDailyChallenge: () => void;
+  onStartDailyTimed: () => void;
   onStartSandbox: () => void;
 }
 
@@ -24,6 +26,7 @@ export default function MainMenuScreen({
   selectedDifficulty,
   onDifficultyChange,
   onStartDailyChallenge,
+  onStartDailyTimed,
   onStartSandbox,
 }: MainMenuScreenProps) {
   const [hoveredDifficulty, setHoveredDifficulty] = useState<Difficulty | null>(null);
@@ -172,6 +175,40 @@ export default function MainMenuScreen({
         
         <div style={styles.sectionDescription}>
           Complete three puzzles of increasing difficulty levels.
+        </div>
+
+        {/* Daily Timed Section */}
+        <h2 style={styles.sectionTitle}>Daily Timed Challenge</h2>
+        
+        {/* Daily Timed Button */}
+        <button 
+          style={styles.actionButton}
+          onClick={onStartDailyTimed}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'translate(-1px, -1px)';
+            e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_HOVER_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'translate(0, 0)';
+            e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
+          }}
+          onMouseDown={(e) => {
+            e.currentTarget.style.transform = `translate(${ACTION_BUTTON_SHADOW_OFFSET}px, ${ACTION_BUTTON_SHADOW_OFFSET}px)`;
+            e.currentTarget.style.boxShadow = '0 0 0 0 rgba(0, 0, 0, 1)';
+          }}
+          onMouseUp={(e) => {
+            e.currentTarget.style.transform = 'translate(0, 0)';
+            e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
+          }}
+        >
+          <span style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+            Play Daily Timed
+            <img src={stopwatchSvg} alt="stopwatch" width="20" height="20" style={{ display: 'block' }} />
+          </span>
+        </button>
+        
+        <div style={styles.sectionDescription}>
+          Exactly the same as the Daily Challenge but each puzzle is timed. Can you solve the Daily faster than your friends?
         </div>
 
         {/* Sandbox Mode Section */}
