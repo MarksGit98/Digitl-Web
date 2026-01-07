@@ -2,33 +2,31 @@
 // Fixed container dimensions
 const CONTAINER_WIDTH = 600;
 const CONTAINER_HEIGHT = 1200;
-const MAIN_MENU_HEIGHT = 1800; // Taller height for main menu to fit all content
 
 interface GameContainerProps {
   children: React.ReactNode;
-  isMainMenu?: boolean;
 }
 
-export default function GameContainer({ children, isMainMenu = false }: GameContainerProps) {
-  const containerHeight = isMainMenu ? MAIN_MENU_HEIGHT : CONTAINER_HEIGHT;
-  
+export default function GameContainer({ children }: GameContainerProps) {
   return (
     <div style={{
       width: '100vw',
-      minHeight: '100vh',
+      height: '100vh',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',
       backgroundColor: '#f8f9fa',
-      position: 'relative',
+      position: 'fixed',
+      top: 0,
+      left: 0,
       overflowX: 'hidden',
-      overflowY: 'scroll',
+      overflowY: 'auto',
       WebkitOverflowScrolling: 'touch',
     } as React.CSSProperties}>
-      {/* Top Ad Banner Space - Reserved for future ads */}
+      {/* Top spacing - reduced from 50px to 25px */}
       <div style={{
         width: '100%',
-        height: '50px',
+        height: '25px',
         flexShrink: 0,
       }} />
 
@@ -36,22 +34,16 @@ export default function GameContainer({ children, isMainMenu = false }: GameCont
       <div style={{
         width: '100%',
         maxWidth: `${CONTAINER_WIDTH}px`,
-        minHeight: `${containerHeight}px`,
         backgroundColor: '#f8f9fa',
         position: 'relative',
         paddingLeft: '10px',
         paddingRight: '10px',
+        paddingBottom: '15px',
         boxSizing: 'border-box',
+        flexShrink: 0,
       }}>
         {children}
       </div>
-
-      {/* Bottom Ad Banner Space - Reserved for future ads */}
-      <div style={{
-        width: '100%',
-        height: '50px',
-        flexShrink: 0,
-      }} />
     </div>
   );
 }
