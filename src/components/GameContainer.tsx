@@ -18,8 +18,11 @@ export default function GameContainer({ children }: GameContainerProps) {
       backgroundColor: '#f8f9fa',
       position: 'relative',
       overflowY: 'auto',
-      paddingTop: '5px',
-    }}>
+      overflowX: 'hidden',
+      paddingTop: '8px',
+      scrollBehavior: 'smooth',
+      WebkitOverflowScrolling: 'touch',
+    } as React.CSSProperties}>
       {/* Top Ad Banner Space - Reserved for future ads */}
       <div style={{
         position: 'absolute',
