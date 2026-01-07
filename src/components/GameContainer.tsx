@@ -2,16 +2,20 @@
 // Fixed container dimensions
 const CONTAINER_WIDTH = 600;
 const CONTAINER_HEIGHT = 1200;
+const MAIN_MENU_HEIGHT = 1800; // Taller height for main menu to fit all content
 
 interface GameContainerProps {
   children: React.ReactNode;
+  isMainMenu?: boolean;
 }
 
-export default function GameContainer({ children }: GameContainerProps) {
+export default function GameContainer({ children, isMainMenu = false }: GameContainerProps) {
+  const containerHeight = isMainMenu ? MAIN_MENU_HEIGHT : CONTAINER_HEIGHT;
+  
   return (
     <div className="hide-scrollbar" style={{
       width: '100vw',
-      height: '100vh',
+      minHeight: '100vh',
       display: 'flex',
       alignItems: 'flex-start',
       justifyContent: 'center',
@@ -20,6 +24,7 @@ export default function GameContainer({ children }: GameContainerProps) {
       overflowY: 'auto',
       overflowX: 'hidden',
       paddingTop: '8px',
+      paddingBottom: '50px',
       scrollBehavior: 'smooth',
       WebkitOverflowScrolling: 'touch',
     } as React.CSSProperties}>
@@ -46,7 +51,7 @@ export default function GameContainer({ children }: GameContainerProps) {
       {/* Fixed size game container */}
       <div style={{
         width: `${CONTAINER_WIDTH}px`,
-        height: `${CONTAINER_HEIGHT}px`,
+        minHeight: `${containerHeight}px`,
         backgroundColor: '#f8f9fa',
         position: 'relative',
         overflow: 'hidden',

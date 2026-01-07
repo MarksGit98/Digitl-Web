@@ -491,7 +491,7 @@ export default function App() {
   }
 
   return (
-    <GameContainer>
+    <GameContainer isMainMenu={true}>
       <MainMenuScreen
         selectedDifficulty={selectedDifficulty}
         onDifficultyChange={setSelectedDifficulty}

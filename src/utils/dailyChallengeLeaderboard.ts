@@ -1,11 +1,10 @@
-import { collection, addDoc, query, where, getDocs } from 'firebase/firestore';
+import { collection, addDoc, query, where, getDocs, limit } from 'firebase/firestore';
 import { db } from './firebase';
 import { getAnonymousUserId, getTodaysDate } from './userIdentity';
 import { HistoryEntry } from '../types';
 
 // Maximum submissions per day per difficulty to stay within Firebase free tier
-// DISABLED: Not used until we re-enable hasReachedDailyLimitForDifficulty()
-// const MAX_DAILY_SUBMISSIONS_PER_DIFFICULTY = 5000;
+const MAX_DAILY_SUBMISSIONS_PER_DIFFICULTY = 5000;
 
 export interface DailyChallengeResult {
   date: string;
@@ -26,9 +25,8 @@ export function solutionToString(history: HistoryEntry[]): string {
 
 /**
  * Checks if the user has already submitted a result for this difficulty today
- * DISABLED: Requires composite index on (date, userId, difficulty)
+ * Requires composite index on (date, userId, difficulty)
  */
-/*
 async function hasSubmittedTodayForDifficulty(difficulty: 'easy' | 'medium' | 'hard'): Promise<boolean> {
   try {
     const userId = getAnonymousUserId();
@@ -50,13 +48,11 @@ async function hasSubmittedTodayForDifficulty(difficulty: 'easy' | 'medium' | 'h
     return false;
   }
 }
-*/
 
 /**
  * Checks if we've reached the daily submission limit for this difficulty
- * DISABLED: Requires composite index on (date, difficulty)
+ * Requires composite index on (date, difficulty)
  */
-/*
 async function hasReachedDailyLimitForDifficulty(difficulty: 'easy' | 'medium' | 'hard'): Promise<boolean> {
   try {
     const today = getTodaysDate();
@@ -81,7 +77,6 @@ async function hasReachedDailyLimitForDifficulty(difficulty: 'easy' | 'medium' |
     return false;
   }
 }
-*/
 
 /**
  * Submits a daily challenge result to Firebase
@@ -94,24 +89,21 @@ export async function submitDailyChallengeResult(
   console.log(`🚀 [Daily Challenge - ${difficulty}] Starting submission...`, { puzzleIndex, historyLength: history.length });
   
   try {
-    // TEMPORARILY DISABLED: These queries require composite indexes
-    // Uncomment after creating indexes in Firebase Console
+    // Check if user already submitted for this difficulty today
+    const alreadySubmitted = await hasSubmittedTodayForDifficulty(difficulty);
+    console.log(`📋 [Daily Challenge - ${difficulty}] Already submitted check:`, alreadySubmitted);
+    if (alreadySubmitted) {
+      console.log(`⚠️ [Daily Challenge - ${difficulty}] User has already submitted result for today. Skipping submission.`);
+      return false;
+    }
     
-    // const alreadySubmitted = await hasSubmittedTodayForDifficulty(difficulty);
-    // console.log(`📋 [Daily Challenge - ${difficulty}] Already submitted check:`, alreadySubmitted);
-    // if (alreadySubmitted) {
-    //   console.log(`⚠️ [Daily Challenge - ${difficulty}] User has already submitted result for today. Skipping submission.`);
-    //   return false;
-    // }
-    
-    // const limitReached = await hasReachedDailyLimitForDifficulty(difficulty);
-    // console.log(`📊 [Daily Challenge - ${difficulty}] Daily limit check:`, limitReached);
-    // if (limitReached) {
-    //   console.warn(`⚠️ [Daily Challenge - ${difficulty}] Daily submission limit reached. Result not submitted.`);
-    //   return false;
-    // }
-    
-    console.log(`⚠️ [Daily Challenge - ${difficulty}] Skipping duplicate/limit checks (indexes not created yet)`);
+    // Check if we've reached the daily limit
+    const limitReached = await hasReachedDailyLimitForDifficulty(difficulty);
+    console.log(`📊 [Daily Challenge - ${difficulty}] Daily limit check:`, limitReached);
+    if (limitReached) {
+      console.warn(`⚠️ [Daily Challenge - ${difficulty}] Daily submission limit reached. Result not submitted.`);
+      return false;
+    }
     
     const userId = getAnonymousUserId();
     const today = getTodaysDate();
