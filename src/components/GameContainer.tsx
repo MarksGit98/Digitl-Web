@@ -17,49 +17,41 @@ export default function GameContainer({ children, isMainMenu = false }: GameCont
       width: '100vw',
       minHeight: '100vh',
       display: 'flex',
-      alignItems: 'flex-start',
-      justifyContent: 'center',
+      flexDirection: 'column',
+      alignItems: 'center',
       backgroundColor: '#f8f9fa',
       position: 'relative',
-      overflowY: 'auto',
       overflowX: 'hidden',
-      paddingTop: '8px',
-      paddingBottom: '50px',
-      scrollBehavior: 'smooth',
+      overflowY: 'scroll',
       WebkitOverflowScrolling: 'touch',
     } as React.CSSProperties}>
       {/* Top Ad Banner Space - Reserved for future ads */}
       <div style={{
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        right: 0,
+        width: '100%',
         height: '50px',
-        zIndex: 1000,
+        flexShrink: 0,
       }} />
 
-      {/* Bottom Ad Banner Space - Reserved for future ads */}
+      {/* Game container - responsive width */}
       <div style={{
-        position: 'absolute',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        height: '50px',
-        zIndex: 1000,
-      }} />
-
-      {/* Fixed size game container */}
-      <div style={{
-        width: `${CONTAINER_WIDTH}px`,
-        height: `${containerHeight}px`,
+        width: '100%',
+        maxWidth: `${CONTAINER_WIDTH}px`,
+        minHeight: `${containerHeight}px`,
         backgroundColor: '#f8f9fa',
         position: 'relative',
-        overflow: 'visible',
-        marginTop: '25px',
-        marginBottom: '50px',
+        paddingLeft: '10px',
+        paddingRight: '10px',
+        boxSizing: 'border-box',
       }}>
         {children}
       </div>
+
+      {/* Bottom Ad Banner Space - Reserved for future ads */}
+      <div style={{
+        width: '100%',
+        height: '50px',
+        flexShrink: 0,
+      }} />
     </div>
   );
 }
