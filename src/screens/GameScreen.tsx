@@ -831,9 +831,10 @@ https://www.digitlgame.com/`;
     },
     countdownText: {
       fontSize: FONT_SIZES.TARGET_NUMBER * 1.5, // Smaller countdown
-      color: '#000000', // Black text
+      color: '#F5F5F5', // Off-white text
       fontFamily: 'Digital-7-Mono, monospace', // Digital font
       fontWeight: 'normal' as const,
+      WebkitTextStroke: '2px #000000', // Black stroke
       textShadow: '0 0 10px rgba(255, 255, 255, 0.8)', // White glow for visibility
     },
   };

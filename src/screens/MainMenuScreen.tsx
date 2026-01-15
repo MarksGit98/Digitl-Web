@@ -401,6 +401,21 @@ export default function MainMenuScreen({
             Contact me
           </span>
         </button>
+
+        <a
+          href="https://peopleplacesandthings.io"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={styles.contactLink}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.opacity = '0.7';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.opacity = '1';
+          }}
+        >
+          Play my other game!
+        </a>
       </div>
     </div>
   );
