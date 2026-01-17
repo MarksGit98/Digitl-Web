@@ -1037,9 +1037,9 @@ https://www.digitlgame.com/`;
                   {gameMode === 'dailyTimed' && roundTimes.length === 3 ? (
                     <div style={{ textAlign: 'center', width: '100%' }}>
                       <div style={{ marginBottom: '12px', fontSize: FONT_SIZES.SUBTEXT }}>You solved all 3 puzzles!</div>
-                      <div style={{ marginBottom: '6px', fontSize: FONT_SIZES.SUBTEXT * 0.85 }}>Easy Puzzle - {formatTimeBold(roundTimes[0])}</div>
-                      <div style={{ marginBottom: '6px', fontSize: FONT_SIZES.SUBTEXT * 0.85 }}>Medium Puzzle - {formatTimeBold(roundTimes[1])}</div>
-                      <div style={{ marginBottom: '6px', fontSize: FONT_SIZES.SUBTEXT * 0.85 }}>Hard Puzzle - {formatTimeBold(roundTimes[2])}</div>
+                      <div style={{ marginBottom: '6px', fontSize: FONT_SIZES.SUBTEXT * 0.85 }}>Easy - {formatTimeBold(roundTimes[0])}</div>
+                      <div style={{ marginBottom: '6px', fontSize: FONT_SIZES.SUBTEXT * 0.85 }}>Medium - {formatTimeBold(roundTimes[1])}</div>
+                      <div style={{ marginBottom: '6px', fontSize: FONT_SIZES.SUBTEXT * 0.85 }}>Hard - {formatTimeBold(roundTimes[2])}</div>
                       <div style={{ marginTop: '16px', fontSize: FONT_SIZES.SUBTEXT, fontWeight: 'bold' }}>
                         Total Time: {formatTimeBold(roundTimes[0] + roundTimes[1] + roundTimes[2])} - Faster than <b style={{ color: '#16A34A' }}>{userPercentile !== null ? userPercentile : 100}%</b> of players today!
                       </div>
