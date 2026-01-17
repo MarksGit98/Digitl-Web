@@ -168,9 +168,9 @@ https://www.digitlgame.com/`;
     
     const message = `DIGITL - Daily Challenge 🧮
 
-🟩 Easy Puzzle - Shared solution with ${easyPercent}% of players today
-🟨 Medium Puzzle - Shared solution with ${mediumPercent}% of players today
-🟥 Hard Puzzle - Shared solution with ${hardPercent}% of players today
+🟩 Easy - Same solution as ${easyPercent}% of players
+🟨 Medium - Same solution as ${mediumPercent}% of players
+🟥 Hard - Same solution as ${hardPercent}% of players
 
 Play now at:
 https://www.digitlgame.com/`;
@@ -1047,9 +1047,9 @@ https://www.digitlgame.com/`;
                   ) : gameMode === 'dailyChallenge' ? (
                     <div style={{ textAlign: 'center', width: '100%' }}>
                       <div style={{ marginBottom: '12px', fontSize: FONT_SIZES.SUBTEXT }}>You solved all 3 puzzles!</div>
-                      <div style={{ marginBottom: '6px', fontSize: FONT_SIZES.SUBTEXT * 0.85 }}>Easy Puzzle - Shared solution with <b>{solutionUniqueness.easy !== null ? solutionUniqueness.easy : 100}%</b> of players today</div>
-                      <div style={{ marginBottom: '6px', fontSize: FONT_SIZES.SUBTEXT * 0.85 }}>Medium Puzzle - Shared solution with <b>{solutionUniqueness.medium !== null ? solutionUniqueness.medium : 100}%</b> of players today</div>
-                      <div style={{ marginBottom: '6px', fontSize: FONT_SIZES.SUBTEXT * 0.85 }}>Hard Puzzle - Shared solution with <b>{solutionUniqueness.hard !== null ? solutionUniqueness.hard : 100}%</b> of players today</div>
+                      <div style={{ marginBottom: '6px', fontSize: FONT_SIZES.SUBTEXT * 0.85 }}>Easy - Same solution as <b>{solutionUniqueness.easy !== null ? solutionUniqueness.easy : 100}%</b> of players</div>
+                      <div style={{ marginBottom: '6px', fontSize: FONT_SIZES.SUBTEXT * 0.85 }}>Medium - Same solution as <b>{solutionUniqueness.medium !== null ? solutionUniqueness.medium : 100}%</b> of players</div>
+                      <div style={{ marginBottom: '6px', fontSize: FONT_SIZES.SUBTEXT * 0.85 }}>Hard - Same solution as <b>{solutionUniqueness.hard !== null ? solutionUniqueness.hard : 100}%</b> of players</div>
                     </div>
                   ) : (
                     'You solved all 3 puzzles!'
