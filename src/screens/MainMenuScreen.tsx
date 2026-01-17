@@ -6,6 +6,7 @@ import presentSvg from '../assets/svgs/present.svg';
 import calendarSvg from '../assets/svgs/calendar-icon.svg';
 import stopwatchSvg from '../assets/svgs/stopwatch-icon.svg';
 import mailSvg from '../assets/svgs/mail-icon.svg';
+import pptIcon from '../assets/ppt-icon.png';
 import InstructionsContent from '../components/InstructionsContent';
 import { CalculatorDisplay } from '../components/CalculatorDisplay';
 
@@ -376,46 +377,49 @@ export default function MainMenuScreen({
         <div style={styles.separatorLine}></div>
         
         {/* Contact Section */}
-        <button
-          style={styles.contactLink}
-          onClick={() => {
-            const email = 'rubberduckygamescontact@gmail.com';
-            // Try to open email client
-            window.location.href = `mailto:${email}`;
-            // Also copy to clipboard as backup
-            navigator.clipboard.writeText(email).then(() => {
-              alert(`Email copied to clipboard!\n${email}`);
-            }).catch(() => {
-              alert(`Contact email:\n${email}`);
-            });
-          }}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.opacity = '0.7';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.opacity = '1';
-          }}
-        >
-          <span style={{ display: 'flex', alignItems: 'center', gap: '8px', justifyContent: 'center' }}>
-            <img src={mailSvg} alt="mail" width="20" height="20" style={{ display: 'block' }} />
-            Contact me
-          </span>
-        </button>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+          <button
+            style={styles.contactLink}
+            onClick={() => {
+              const email = 'rubberduckygamescontact@gmail.com';
+              // Try to open email client
+              window.location.href = `mailto:${email}`;
+              // Also copy to clipboard as backup
+              navigator.clipboard.writeText(email).then(() => {
+                alert(`Email copied to clipboard!\n${email}`);
+              }).catch(() => {
+                alert(`Contact email:\n${email}`);
+              });
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.opacity = '0.7';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.opacity = '1';
+            }}
+          >
+            <span style={{ display: 'flex', alignItems: 'center', gap: '8px', justifyContent: 'center' }}>
+              <img src={mailSvg} alt="mail" width="20" height="20" style={{ display: 'block' }} />
+              Contact me
+            </span>
+          </button>
 
-        <a
-          href="https://peopleplacesandthings.io"
-          target="_blank"
-          rel="noopener noreferrer"
-          style={styles.contactLink}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.opacity = '0.7';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.opacity = '1';
-          }}
-        >
-          Play my other game!
-        </a>
+          <a
+            href="https://peopleplacesandthings.io"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ ...styles.contactLink, display: 'flex', alignItems: 'center', gap: '8px' }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.opacity = '0.7';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.opacity = '1';
+            }}
+          >
+            <img src={pptIcon} alt="People, Places & Things" width="20" height="20" style={{ borderRadius: '4px' }} />
+            Play my other game
+          </a>
+        </div>
       </div>
     </div>
   );
