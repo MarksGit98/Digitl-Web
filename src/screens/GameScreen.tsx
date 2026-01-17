@@ -145,7 +145,6 @@ export default function GameScreen({
 ⏱️ Total Time: ${formatTime(totalSeconds)}
 🏆 Faster than ${percentile}% of players today!
 
-Play now at:
 https://www.digitlgame.com/`;
 
     navigator.clipboard.writeText(message).then(() => {
@@ -172,7 +171,6 @@ https://www.digitlgame.com/`;
 🟨 Medium - Same solution as ${mediumPercent}% of players
 🟥 Hard - Same solution as ${hardPercent}% of players
 
-Play now at:
 https://www.digitlgame.com/`;
 
     navigator.clipboard.writeText(message).then(() => {
