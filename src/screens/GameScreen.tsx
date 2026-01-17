@@ -20,6 +20,8 @@ import presentSvg from '../assets/svgs/present.svg';
 import calendarSvg from '../assets/svgs/calendar-icon.svg';
 import stopwatchSvg from '../assets/svgs/stopwatch-icon.svg';
 import paperPlaneSvg from '../assets/svgs/paper-plane-icon.svg';
+import mailSvg from '../assets/svgs/mail-icon.svg';
+import pptIcon from '../assets/ppt-icon.png';
 
 const SCREEN_WIDTH = SCREEN_DIMENSIONS.WIDTH;
 
@@ -725,8 +727,8 @@ https://www.digitlgame.com/`;
       minWidth: `${CALCULATOR_DISPLAY.WIDTH * 0.5625 * 0.9}px`,
     },
     successBannerOverlay: {
-      position: 'absolute' as const,
-      top: `${BUTTON_BORDER.WIDTH * 2.5 + 8}px`, // Just below top border of target display
+      position: 'fixed' as const,
+      top: '15%', // Positioned at 15% from top of viewport
       left: '50%',
       transform: 'translateX(-50%)',
       backgroundColor: COLORS.BACKGROUND_WHITE,
@@ -836,6 +838,29 @@ https://www.digitlgame.com/`;
       fontWeight: 'normal' as const,
       WebkitTextStroke: '2px #000000', // Black stroke
       textShadow: '0 0 10px rgba(255, 255, 255, 0.8)', // White glow for visibility
+    },
+    separatorLine: {
+      width: '85%',
+      height: '1px',
+      backgroundColor: '#000000',
+      margin: `${SPACING.VERTICAL_SPACING * 1.5}px auto`,
+    },
+    contactLink: {
+      display: 'block',
+      marginTop: '0px',
+      marginBottom: `${SPACING.VERTICAL_SPACING}px`,
+      fontSize: FONT_SIZES.SUBTEXT,
+      fontFamily: 'system-ui, -apple-system, sans-serif',
+      color: COLORS.TEXT_PRIMARY,
+      textDecoration: 'none',
+      textAlign: 'center' as const,
+      opacity: 0.8,
+      cursor: 'pointer',
+      transition: 'opacity 0.2s ease',
+      background: 'none',
+      border: 'none',
+      padding: '0',
+      width: '100%',
     },
   };
 
@@ -1439,6 +1464,52 @@ https://www.digitlgame.com/`;
                 })}
               </div>
             </div>
+          </div>
+
+          {/* Separator Line */}
+          <div style={styles.separatorLine}></div>
+
+          {/* Footer Links */}
+          <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
+            <button
+              style={styles.contactLink}
+              onClick={() => {
+                const email = 'rubberduckygamescontact@gmail.com';
+                window.location.href = `mailto:${email}`;
+                navigator.clipboard.writeText(email).then(() => {
+                  alert(`Email copied to clipboard!\n${email}`);
+                }).catch(() => {
+                  alert(`Contact email:\n${email}`);
+                });
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.opacity = '0.7';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.opacity = '1';
+              }}
+            >
+              <span style={{ display: 'flex', alignItems: 'center', gap: '8px', justifyContent: 'center' }}>
+                <img src={mailSvg} alt="mail" width="20" height="20" style={{ display: 'block' }} />
+                Contact me
+              </span>
+            </button>
+
+            <a
+              href="https://peopleplacesandthings.io"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ ...styles.contactLink, display: 'flex', alignItems: 'center', gap: '8px' }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.opacity = '0.7';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.opacity = '1';
+              }}
+            >
+              <img src={pptIcon} alt="People, Places & Things" width="20" height="20" style={{ borderRadius: '4px' }} />
+              Play my other game
+            </a>
           </div>
         </div>
     </div>

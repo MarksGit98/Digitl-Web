@@ -14,6 +14,8 @@ export default function OverlayBackdrop({ onClick, zIndex = 1000 }: OverlayBackd
     bottom: 0,
     backgroundColor: 'rgba(0, 0, 0, 0.5)',
     zIndex: zIndex - 1, // Backdrop should be behind the overlay content
+    transition: 'opacity 0.15s ease-in-out',
+    willChange: 'opacity', // Hint to browser for optimization
   };
 
   return <div style={backdropStyle} onClick={onClick} />;
