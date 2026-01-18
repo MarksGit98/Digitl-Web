@@ -20,6 +20,16 @@ export default function ContactScreen() {
       overflowY: 'auto' as const,
       overflowX: 'hidden' as const,
     },
+    headerRow: {
+      width: '100%',
+      maxWidth: '650px',
+      display: 'flex',
+      flexDirection: 'row' as const,
+      alignItems: 'center',
+      justifyContent: 'center',
+      position: 'relative' as const,
+      marginBottom: `${SPACING.VERTICAL_SPACING}px`,
+    },
     content: {
       maxWidth: '650px',
       width: '100%',
@@ -35,10 +45,8 @@ export default function ContactScreen() {
       padding: `${SPACING.PADDING_SMALL * 0.765}px ${SPACING.PADDING_MEDIUM * 0.765}px`,
       borderRadius: `${BORDER_RADIUS.MEDIUM * 0.765}px`,
       textAlign: 'center' as const,
-      marginTop: `${SPACING.VERTICAL_SPACING}px`,
-      marginBottom: `${SPACING.VERTICAL_SPACING}px`,
       fontWeight: 'bold' as const,
-      width: '100%',
+      flex: 1,
     },
     sectionTitle: {
       fontSize: FONT_SIZES.TITLE * 0.459,
@@ -92,9 +100,6 @@ export default function ContactScreen() {
       fontWeight: 'bold' as const,
     },
     homeButton: {
-      position: 'absolute' as const,
-      top: `${SPACING.PADDING_MEDIUM}px`,
-      left: `${SPACING.PADDING_MEDIUM}px`,
       width: `${homeButtonSize}px`,
       height: `${homeButtonSize}px`,
       borderRadius: `${BORDER_RADIUS.MEDIUM}px`,
@@ -107,37 +112,40 @@ export default function ContactScreen() {
       textDecoration: 'none' as const,
       boxShadow: '3px 3px 0 0 rgba(0, 0, 0, 1)',
       transition: 'transform 0.15s ease-out, box-shadow 0.15s ease-out',
+      marginRight: `${SPACING.PADDING_MEDIUM}px`,
+      flexShrink: 0,
     },
   };
 
   return (
     <div style={styles.container}>
-      <a
-        href="/"
-        style={styles.homeButton}
-        onMouseEnter={(e) => {
-          e.currentTarget.style.transform = 'translate(-1px, -1px)';
-          e.currentTarget.style.boxShadow = '4px 4px 0 0 rgba(0, 0, 0, 1)';
-        }}
-        onMouseLeave={(e) => {
-          e.currentTarget.style.transform = 'translate(0, 0)';
-          e.currentTarget.style.boxShadow = '3px 3px 0 0 rgba(0, 0, 0, 1)';
-        }}
-        onMouseDown={(e) => {
-          e.currentTarget.style.transform = 'translate(3px, 3px)';
-          e.currentTarget.style.boxShadow = 'none';
-        }}
-        onMouseUp={(e) => {
-          e.currentTarget.style.transform = 'translate(0, 0)';
-          e.currentTarget.style.boxShadow = '3px 3px 0 0 rgba(0, 0, 0, 1)';
-        }}
-      >
-        <img src={homeSvg} alt="Home" width={homeButtonSize * 0.5} height={homeButtonSize * 0.5} />
-      </a>
+      <div style={styles.headerRow}>
+        <a
+          href="/"
+          style={styles.homeButton}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'translate(-1px, -1px)';
+            e.currentTarget.style.boxShadow = '4px 4px 0 0 rgba(0, 0, 0, 1)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'translate(0, 0)';
+            e.currentTarget.style.boxShadow = '3px 3px 0 0 rgba(0, 0, 0, 1)';
+          }}
+          onMouseDown={(e) => {
+            e.currentTarget.style.transform = 'translate(3px, 3px)';
+            e.currentTarget.style.boxShadow = 'none';
+          }}
+          onMouseUp={(e) => {
+            e.currentTarget.style.transform = 'translate(0, 0)';
+            e.currentTarget.style.boxShadow = '3px 3px 0 0 rgba(0, 0, 0, 1)';
+          }}
+        >
+          <img src={homeSvg} alt="Home" width={homeButtonSize * 0.5} height={homeButtonSize * 0.5} />
+        </a>
+        <h1 style={styles.title}>Contact Us</h1>
+      </div>
 
       <div style={styles.content}>
-        <h1 style={styles.title}>Contact Us</h1>
-
         <p style={styles.paragraph}>
           We'd love to hear from you! Whether you have feedback, suggestions, or bug reports, feel free to reach out.
         </p>

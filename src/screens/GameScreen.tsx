@@ -1465,11 +1465,13 @@ https://www.digitlgame.com/`;
             </div>
           </div>
 
-          {/* Separator Line */}
-          <div style={styles.separatorLine}></div>
+          {/* Footer Section */}
+          <div style={{ maxWidth: '650px', width: '100%', margin: '0 auto' }}>
+            {/* Separator Line */}
+            <div style={styles.separatorLine}></div>
 
-          {/* Footer Links */}
-          <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' as const, gap: '24px', width: '100%', marginBottom: `${SPACING.VERTICAL_SPACING}px` }}>
+            {/* Footer Links */}
+            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' as const, gap: '24px', width: '100%', marginBottom: `${SPACING.VERTICAL_SPACING}px` }}>
             <a
               href="/how-to-play"
               style={{ ...styles.contactLink, marginBottom: 0, width: 'auto', display: 'flex', alignItems: 'center', gap: '6px' }}
@@ -1524,6 +1526,7 @@ https://www.digitlgame.com/`;
               <img src={pptIcon} alt="People, Places & Things" width="16" height="16" style={{ borderRadius: '4px' }} />
               Play my other game
             </a>
+            </div>
           </div>
         </div>
     </div>
