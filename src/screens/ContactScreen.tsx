@@ -1,9 +1,7 @@
 import { COLORS, FONT_SIZES, SPACING, BORDER_RADIUS, BUTTON_BORDER } from '../constants/sizing';
-import homeSvg from '../assets/svgs/home.svg';
+import GameIconButton from '../components/GameIconButton';
 
 export default function ContactScreen() {
-  const homeButtonSize = 36;
-
   const styles = {
     container: {
       width: '100%',
@@ -101,49 +99,12 @@ export default function ContactScreen() {
     contactLabel: {
       fontWeight: 'bold' as const,
     },
-    homeButton: {
-      width: `${homeButtonSize}px`,
-      height: `${homeButtonSize}px`,
-      borderRadius: `${BORDER_RADIUS.MEDIUM}px`,
-      backgroundColor: COLORS.BACKGROUND_WHITE,
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      cursor: 'pointer',
-      border: `${BUTTON_BORDER.WIDTH}px solid ${BUTTON_BORDER.COLOR}`,
-      textDecoration: 'none' as const,
-      boxShadow: '3px 3px 0 0 rgba(0, 0, 0, 1)',
-      transition: 'transform 0.15s ease-out, box-shadow 0.15s ease-out',
-      marginRight: `${SPACING.PADDING_MEDIUM}px`,
-      flexShrink: 0,
-    },
   };
 
   return (
     <div style={styles.container}>
       <div style={styles.headerRow}>
-        <a
-          href="/"
-          style={styles.homeButton}
-          onMouseEnter={(e) => {
-            e.currentTarget.style.transform = 'translate(-1px, -1px)';
-            e.currentTarget.style.boxShadow = '4px 4px 0 0 rgba(0, 0, 0, 1)';
-          }}
-          onMouseLeave={(e) => {
-            e.currentTarget.style.transform = 'translate(0, 0)';
-            e.currentTarget.style.boxShadow = '3px 3px 0 0 rgba(0, 0, 0, 1)';
-          }}
-          onMouseDown={(e) => {
-            e.currentTarget.style.transform = 'translate(3px, 3px)';
-            e.currentTarget.style.boxShadow = 'none';
-          }}
-          onMouseUp={(e) => {
-            e.currentTarget.style.transform = 'translate(0, 0)';
-            e.currentTarget.style.boxShadow = '3px 3px 0 0 rgba(0, 0, 0, 1)';
-          }}
-        >
-          <img src={homeSvg} alt="Home" width={homeButtonSize * 0.5} height={homeButtonSize * 0.5} />
-        </a>
+        <GameIconButton style={{ marginRight: `${SPACING.PADDING_MEDIUM}px` }} />
         <h1 style={styles.title}>Contact Us</h1>
       </div>
 
