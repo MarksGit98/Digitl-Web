@@ -6,6 +6,8 @@ import presentSvg from '../assets/svgs/present.svg';
 import calendarSvg from '../assets/svgs/calendar-icon.svg';
 import stopwatchSvg from '../assets/svgs/stopwatch-icon.svg';
 import mailSvg from '../assets/svgs/mail-icon.svg';
+import librarySvg from '../assets/svgs/library.svg';
+import shieldSvg from '../assets/svgs/shield-icon.svg';
 import pptIcon from '../assets/ppt-icon.png';
 import InstructionsContent from '../components/InstructionsContent';
 import { CalculatorDisplay } from '../components/CalculatorDisplay';
@@ -375,22 +377,12 @@ export default function MainMenuScreen({
         
         {/* Separator Line */}
         <div style={styles.separatorLine}></div>
-        
-        {/* Contact Section */}
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', width: '100%' }}>
-          <button
-            style={styles.contactLink}
-            onClick={() => {
-              const email = 'rubberduckygamescontact@gmail.com';
-              // Try to open email client
-              window.location.href = `mailto:${email}`;
-              // Also copy to clipboard as backup
-              navigator.clipboard.writeText(email).then(() => {
-                alert(`Email copied to clipboard!\n${email}`);
-              }).catch(() => {
-                alert(`Contact email:\n${email}`);
-              });
-            }}
+
+        {/* Navigation Links */}
+        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' as const, gap: '24px', width: '100%', marginBottom: `${SPACING.VERTICAL_SPACING}px` }}>
+          <a
+            href="/how-to-play"
+            style={{ ...styles.contactLink, marginBottom: 0, width: 'auto', display: 'flex', alignItems: 'center', gap: '6px' }}
             onMouseEnter={(e) => {
               e.currentTarget.style.opacity = '0.7';
             }}
@@ -398,17 +390,40 @@ export default function MainMenuScreen({
               e.currentTarget.style.opacity = '1';
             }}
           >
-            <span style={{ display: 'flex', alignItems: 'center', gap: '8px', justifyContent: 'center' }}>
-              <img src={mailSvg} alt="mail" width="20" height="20" style={{ display: 'block' }} />
-              Contact me
-            </span>
-          </button>
-
+            <img src={librarySvg} alt="help" width="16" height="16" style={{ display: 'block', position: 'relative', top: '1px' }} />
+            How to Play
+          </a>
+          <a
+            href="/privacy-policy"
+            style={{ ...styles.contactLink, marginBottom: 0, width: 'auto', display: 'flex', alignItems: 'center', gap: '6px' }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.opacity = '0.7';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.opacity = '1';
+            }}
+          >
+            <img src={shieldSvg} alt="privacy" width="16" height="16" style={{ display: 'block', position: 'relative', top: '1px' }} />
+            Privacy Policy
+          </a>
+          <a
+            href="/contact"
+            style={{ ...styles.contactLink, marginBottom: 0, width: 'auto', display: 'flex', alignItems: 'center', gap: '6px' }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.opacity = '0.7';
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.opacity = '1';
+            }}
+          >
+            <img src={mailSvg} alt="mail" width="16" height="16" style={{ display: 'block', position: 'relative', top: '1px' }} />
+            Contact
+          </a>
           <a
             href="https://peopleplacesandthings.io"
             target="_blank"
             rel="noopener noreferrer"
-            style={{ ...styles.contactLink, display: 'flex', alignItems: 'center', gap: '8px' }}
+            style={{ ...styles.contactLink, marginBottom: 0, width: 'auto', display: 'flex', alignItems: 'center', gap: '6px' }}
             onMouseEnter={(e) => {
               e.currentTarget.style.opacity = '0.7';
             }}
@@ -416,7 +431,7 @@ export default function MainMenuScreen({
               e.currentTarget.style.opacity = '1';
             }}
           >
-            <img src={pptIcon} alt="People, Places & Things" width="20" height="20" style={{ borderRadius: '4px' }} />
+            <img src={pptIcon} alt="People, Places & Things" width="16" height="16" style={{ borderRadius: '4px' }} />
             Play my other game
           </a>
         </div>

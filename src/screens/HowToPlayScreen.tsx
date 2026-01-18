@@ -1,7 +1,8 @@
 import { COLORS, FONT_SIZES, SPACING, BORDER_RADIUS, BUTTON_BORDER } from '../constants/sizing';
+import InstructionsContent from '../components/InstructionsContent';
 import homeSvg from '../assets/svgs/home.svg';
 
-export default function PrivacyPolicyScreen() {
+export default function HowToPlayScreen() {
   const homeButtonSize = 36;
 
   const styles = {
@@ -40,15 +41,6 @@ export default function PrivacyPolicyScreen() {
       fontWeight: 'bold' as const,
       width: '100%',
     },
-    lastUpdated: {
-      fontSize: FONT_SIZES.SUBTEXT * 0.9,
-      fontFamily: 'system-ui, -apple-system, sans-serif',
-      color: COLORS.TEXT_SECONDARY,
-      marginBottom: `${SPACING.VERTICAL_SPACING}px`,
-      textAlign: 'center' as const,
-      fontStyle: 'italic' as const,
-      opacity: 0.8,
-    },
     sectionTitle: {
       fontSize: FONT_SIZES.TITLE * 0.459,
       fontFamily: 'system-ui, -apple-system, sans-serif',
@@ -73,23 +65,9 @@ export default function PrivacyPolicyScreen() {
       width: '85%',
       lineHeight: '1.5',
     },
-    list: {
-      fontSize: FONT_SIZES.SUBTEXT,
-      fontFamily: 'system-ui, -apple-system, sans-serif',
-      color: COLORS.TEXT_PRIMARY,
-      lineHeight: '1.5',
-      marginLeft: `${SPACING.PADDING_LARGE}px`,
-      marginBottom: `${SPACING.VERTICAL_SPACING}px`,
-      opacity: 0.8,
+    instructionsWrapper: {
       width: '85%',
-      textAlign: 'left' as const,
-    },
-    listItem: {
-      marginBottom: `${SPACING.VERTICAL_SPACING * 0.5}px`,
-    },
-    link: {
-      color: COLORS.DIFFICULTY_MEDIUM,
-      textDecoration: 'underline' as const,
+      backgroundColor: 'transparent',
     },
     homeButton: {
       position: 'absolute' as const,
@@ -136,55 +114,42 @@ export default function PrivacyPolicyScreen() {
       </a>
 
       <div style={styles.content}>
-        <h1 style={styles.title}>Privacy Policy</h1>
-        <p style={styles.lastUpdated}>Last updated: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+        <h1 style={styles.title}>How to Play DIGITL</h1>
 
-        <h2 style={styles.sectionTitle}>Introduction</h2>
         <p style={styles.paragraph}>
-          This Privacy Policy describes how DIGITL ("we", "our", or "us") collects, uses, and protects your information when you use our web application.
+          DIGITL is a number puzzle game where you combine digits using mathematical operations to reach a target number.
         </p>
 
-        <h2 style={styles.sectionTitle}>Information We Collect</h2>
-        <p style={styles.paragraph}>
-          <strong>Game Progress Data:</strong> We store your game progress locally on your device, including:
-        </p>
-        <ul style={styles.list}>
-          <li style={styles.listItem}>Current level reached</li>
-          <li style={styles.listItem}>Maximum level unlocked</li>
-          <li style={styles.listItem}>Game settings and preferences</li>
-          <li style={styles.listItem}>Daily challenge progress</li>
-          <li style={styles.listItem}>Completed puzzles</li>
-        </ul>
+        <h2 style={styles.sectionTitle}>Basic Rules</h2>
+        <div style={styles.instructionsWrapper}>
+          <InstructionsContent />
+        </div>
 
-        <h2 style={styles.sectionTitle}>How We Use Your Information</h2>
+        <h2 style={styles.sectionTitle}>Game Modes</h2>
         <p style={styles.paragraph}>
-          We use the information we collect to save your game progress, provide a personalized gaming experience, and improve our app's functionality.
+          <strong>Daily Challenge:</strong> A new set of three puzzles every day. Complete an Easy, Medium, and Hard puzzle.
         </p>
-
-        <h2 style={styles.sectionTitle}>Data Storage</h2>
         <p style={styles.paragraph}>
-          All game data is stored locally on your device using secure storage methods. We do not collect, store, or transmit your personal information to external servers.
+          <strong>Daily Timed:</strong> The same three puzzles as the Daily Challenge, but with a timer. Race against the clock!
+        </p>
+        <p style={styles.paragraph}>
+          <strong>Sandbox Mode:</strong> Practice with unlimited randomly generated puzzles at your chosen difficulty.
         </p>
 
-        <h2 style={styles.sectionTitle}>Third-Party Services</h2>
+        <h2 style={styles.sectionTitle}>Difficulty Levels</h2>
         <p style={styles.paragraph}>
-          DIGITL uses Firebase to store anonymous game analytics, including Daily Challenge completion times for leaderboard functionality. This data does not include any personally identifiable information. We do not use advertising or other data collection services.
+          <strong>Easy:</strong> 4 number tiles. Great for beginners.
+        </p>
+        <p style={styles.paragraph}>
+          <strong>Medium:</strong> 5 number tiles. More combinations to consider.
+        </p>
+        <p style={styles.paragraph}>
+          <strong>Hard:</strong> 6 number tiles. The ultimate challenge!
         </p>
 
-        <h2 style={styles.sectionTitle}>Children's Privacy</h2>
+        <h2 style={styles.sectionTitle}>Tips</h2>
         <p style={styles.paragraph}>
-          Our app is suitable for all ages. We do not knowingly collect personal information from children under 13.
-        </p>
-
-        <h2 style={styles.sectionTitle}>Changes to This Policy</h2>
-        <p style={styles.paragraph}>
-          We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page.
-        </p>
-
-        <h2 style={styles.sectionTitle}>Contact Us</h2>
-        <p style={styles.paragraph}>
-          If you have any questions about this Privacy Policy, please contact us at{' '}
-          <a href="mailto:rubberduckygamescontact@gmail.com" style={styles.link}>rubberduckygamescontact@gmail.com</a>
+          Start by looking for easy combinations that get you close to the target. You can undo moves if you get stuck. Division only works when the result is a whole number.
         </p>
 
         <p style={{ ...styles.paragraph, fontSize: FONT_SIZES.SUBTEXT * 0.9, marginTop: `${SPACING.VERTICAL_SPACING * 2}px` }}>

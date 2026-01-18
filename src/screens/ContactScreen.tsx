@@ -1,7 +1,7 @@
 import { COLORS, FONT_SIZES, SPACING, BORDER_RADIUS, BUTTON_BORDER } from '../constants/sizing';
 import homeSvg from '../assets/svgs/home.svg';
 
-export default function PrivacyPolicyScreen() {
+export default function ContactScreen() {
   const homeButtonSize = 36;
 
   const styles = {
@@ -40,15 +40,6 @@ export default function PrivacyPolicyScreen() {
       fontWeight: 'bold' as const,
       width: '100%',
     },
-    lastUpdated: {
-      fontSize: FONT_SIZES.SUBTEXT * 0.9,
-      fontFamily: 'system-ui, -apple-system, sans-serif',
-      color: COLORS.TEXT_SECONDARY,
-      marginBottom: `${SPACING.VERTICAL_SPACING}px`,
-      textAlign: 'center' as const,
-      fontStyle: 'italic' as const,
-      opacity: 0.8,
-    },
     sectionTitle: {
       fontSize: FONT_SIZES.TITLE * 0.459,
       fontFamily: 'system-ui, -apple-system, sans-serif',
@@ -73,23 +64,32 @@ export default function PrivacyPolicyScreen() {
       width: '85%',
       lineHeight: '1.5',
     },
-    list: {
-      fontSize: FONT_SIZES.SUBTEXT,
-      fontFamily: 'system-ui, -apple-system, sans-serif',
-      color: COLORS.TEXT_PRIMARY,
-      lineHeight: '1.5',
-      marginLeft: `${SPACING.PADDING_LARGE}px`,
-      marginBottom: `${SPACING.VERTICAL_SPACING}px`,
-      opacity: 0.8,
-      width: '85%',
-      textAlign: 'left' as const,
-    },
-    listItem: {
-      marginBottom: `${SPACING.VERTICAL_SPACING * 0.5}px`,
-    },
     link: {
       color: COLORS.DIFFICULTY_MEDIUM,
       textDecoration: 'underline' as const,
+    },
+    contactCard: {
+      width: '85%',
+      backgroundColor: COLORS.BACKGROUND_WHITE,
+      borderRadius: `${BORDER_RADIUS.MEDIUM}px`,
+      padding: `${SPACING.PADDING_MEDIUM}px`,
+      border: `2px solid ${COLORS.BACKGROUND_DARK}`,
+      boxShadow: '3px 3px 0 0 rgba(0, 0, 0, 1)',
+      marginTop: `${SPACING.VERTICAL_SPACING}px`,
+      marginBottom: `${SPACING.VERTICAL_SPACING}px`,
+    },
+    contactItem: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      gap: '8px',
+      marginBottom: `${SPACING.VERTICAL_SPACING}px`,
+      fontSize: FONT_SIZES.SUBTEXT,
+      fontFamily: 'system-ui, -apple-system, sans-serif',
+      color: COLORS.TEXT_PRIMARY,
+    },
+    contactLabel: {
+      fontWeight: 'bold' as const,
     },
     homeButton: {
       position: 'absolute' as const,
@@ -136,55 +136,33 @@ export default function PrivacyPolicyScreen() {
       </a>
 
       <div style={styles.content}>
-        <h1 style={styles.title}>Privacy Policy</h1>
-        <p style={styles.lastUpdated}>Last updated: {new Date().toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}</p>
+        <h1 style={styles.title}>Contact Us</h1>
 
-        <h2 style={styles.sectionTitle}>Introduction</h2>
         <p style={styles.paragraph}>
-          This Privacy Policy describes how DIGITL ("we", "our", or "us") collects, uses, and protects your information when you use our web application.
+          We'd love to hear from you! Whether you have feedback, suggestions, or bug reports, feel free to reach out.
         </p>
 
-        <h2 style={styles.sectionTitle}>Information We Collect</h2>
-        <p style={styles.paragraph}>
-          <strong>Game Progress Data:</strong> We store your game progress locally on your device, including:
-        </p>
-        <ul style={styles.list}>
-          <li style={styles.listItem}>Current level reached</li>
-          <li style={styles.listItem}>Maximum level unlocked</li>
-          <li style={styles.listItem}>Game settings and preferences</li>
-          <li style={styles.listItem}>Daily challenge progress</li>
-          <li style={styles.listItem}>Completed puzzles</li>
-        </ul>
+        <div style={styles.contactCard}>
+          <div style={{ ...styles.contactItem, marginBottom: 0 }}>
+            <span style={styles.contactLabel}>Email:</span>
+            <a href="mailto:rubberduckygamescontact@gmail.com" style={styles.link}>
+              rubberduckygamescontact@gmail.com
+            </a>
+          </div>
+        </div>
 
-        <h2 style={styles.sectionTitle}>How We Use Your Information</h2>
+        <h2 style={styles.sectionTitle}>Feedback</h2>
         <p style={styles.paragraph}>
-          We use the information we collect to save your game progress, provide a personalized gaming experience, and improve our app's functionality.
+          Your feedback helps us make DIGITL better! Let us know if you encounter any issues or have ideas for new features.
         </p>
 
-        <h2 style={styles.sectionTitle}>Data Storage</h2>
+        <h2 style={styles.sectionTitle}>Other Games</h2>
         <p style={styles.paragraph}>
-          All game data is stored locally on your device using secure storage methods. We do not collect, store, or transmit your personal information to external servers.
-        </p>
-
-        <h2 style={styles.sectionTitle}>Third-Party Services</h2>
-        <p style={styles.paragraph}>
-          DIGITL uses Firebase to store anonymous game analytics, including Daily Challenge completion times for leaderboard functionality. This data does not include any personally identifiable information. We do not use advertising or other data collection services.
-        </p>
-
-        <h2 style={styles.sectionTitle}>Children's Privacy</h2>
-        <p style={styles.paragraph}>
-          Our app is suitable for all ages. We do not knowingly collect personal information from children under 13.
-        </p>
-
-        <h2 style={styles.sectionTitle}>Changes to This Policy</h2>
-        <p style={styles.paragraph}>
-          We may update this Privacy Policy from time to time. We will notify you of any changes by posting the new Privacy Policy on this page.
-        </p>
-
-        <h2 style={styles.sectionTitle}>Contact Us</h2>
-        <p style={styles.paragraph}>
-          If you have any questions about this Privacy Policy, please contact us at{' '}
-          <a href="mailto:rubberduckygamescontact@gmail.com" style={styles.link}>rubberduckygamescontact@gmail.com</a>
+          Check out our other game{' '}
+          <a href="https://peopleplacesandthings.io" target="_blank" rel="noopener noreferrer" style={styles.link}>
+            People, Places & Things
+          </a>
+          !
         </p>
 
         <p style={{ ...styles.paragraph, fontSize: FONT_SIZES.SUBTEXT * 0.9, marginTop: `${SPACING.VERTICAL_SPACING * 2}px` }}>
