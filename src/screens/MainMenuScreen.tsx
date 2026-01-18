@@ -46,9 +46,9 @@ export default function MainMenuScreen({
       height: '100%',
       backgroundColor: '#f8f9fa',
       paddingTop: `${SPACING.VERTICAL_SPACING}px`,
-      paddingBottom: '20px',
-      paddingLeft: '20px',
-      paddingRight: '20px',
+      paddingBottom: `${SPACING.VERTICAL_SPACING}px`,
+      paddingLeft: `${SPACING.CONTAINER_PADDING_HORIZONTAL}px`,
+      paddingRight: `${SPACING.CONTAINER_PADDING_HORIZONTAL}px`,
       overflowY: 'auto' as const,
       overflowX: 'hidden' as const,
       scrollbarWidth: 'none' as const, // Firefox

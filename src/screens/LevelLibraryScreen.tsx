@@ -1,6 +1,6 @@
 import { Difficulty, Puzzle } from '../types';
 import { getPuzzlesByDifficulty, getPuzzleKey } from '../utils';
-import { FONT_SIZES, SPACING, COLORS, BUTTON_BORDER } from '../constants/sizing';
+import { FONT_SIZES, SPACING, COLORS, BUTTON_BORDER, BORDER_RADIUS } from '../constants/sizing';
 
 interface LevelLibraryScreenProps {
   libraryTab: Difficulty;
@@ -37,11 +37,19 @@ export default function LevelLibraryScreen({
       justifyContent: 'space-between',
       alignItems: 'center',
       marginBottom: SPACING.MARGIN_LARGE,
+      position: 'relative' as const,
     },
     title: {
-      fontSize: FONT_SIZES.TITLE,
+      backgroundColor: COLORS.BACKGROUND_WHITE,
+      padding: `${SPACING.PADDING_SMALL}px ${SPACING.PADDING_LARGE}px`,
+      borderRadius: `${BORDER_RADIUS.MEDIUM}px`,
+      fontSize: FONT_SIZES.TITLE * 0.7,
       fontFamily: 'Digital-7-Mono, monospace',
-      color: COLORS.TEXT_SUCCESS,
+      color: COLORS.BACKGROUND_DARK,
+      fontWeight: 'bold' as const,
+      textAlign: 'center' as const,
+      boxShadow: '3px 3px 0 0 rgba(0, 0, 0, 1)',
+      border: `${BUTTON_BORDER.WIDTH}px solid ${BUTTON_BORDER.COLOR}`,
     },
     tabs: {
       display: 'flex',
@@ -75,26 +83,70 @@ export default function LevelLibraryScreen({
       fontWeight: 'bold' as const,
     },
     homeButton: {
-      width: '45px',
-      height: '45px',
-      borderRadius: '50%',
-      backgroundColor: COLORS.BACKGROUND_DARK,
+      width: '40px',
+      height: '40px',
+      borderRadius: `${BORDER_RADIUS.MEDIUM}px`,
+      backgroundColor: COLORS.BACKGROUND_WHITE,
       border: `${BUTTON_BORDER.WIDTH}px solid ${BUTTON_BORDER.COLOR}`,
       cursor: 'pointer',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
-      color: COLORS.TEXT_WHITE,
-      fontSize: '20px',
+      color: COLORS.TEXT_SECONDARY,
+      fontSize: '18px',
+      boxShadow: '3px 3px 0 0 rgba(0, 0, 0, 1)',
+      transition: 'transform 0.15s ease-out, box-shadow 0.15s ease-out',
     },
   };
 
   return (
     <div style={styles.container}>
       <div style={styles.header}>
-        <div style={styles.homeButton} onClick={onReturnToMenu}>🏠</div>
-        <h1 style={styles.title}>LEVELS</h1>
-        <div style={styles.homeButton} onClick={onClose}>✕</div>
+        <div
+          style={styles.homeButton}
+          onClick={onReturnToMenu}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'translate(-1px, -1px)';
+            e.currentTarget.style.boxShadow = '4px 4px 0 0 rgba(0, 0, 0, 1)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'translate(0, 0)';
+            e.currentTarget.style.boxShadow = '3px 3px 0 0 rgba(0, 0, 0, 1)';
+          }}
+          onMouseDown={(e) => {
+            e.currentTarget.style.transform = 'translate(3px, 3px)';
+            e.currentTarget.style.boxShadow = 'none';
+          }}
+          onMouseUp={(e) => {
+            e.currentTarget.style.transform = 'translate(0, 0)';
+            e.currentTarget.style.boxShadow = '3px 3px 0 0 rgba(0, 0, 0, 1)';
+          }}
+        >
+          ←
+        </div>
+        <div style={styles.title}>LEVELS</div>
+        <div
+          style={styles.homeButton}
+          onClick={onClose}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'translate(-1px, -1px)';
+            e.currentTarget.style.boxShadow = '4px 4px 0 0 rgba(0, 0, 0, 1)';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'translate(0, 0)';
+            e.currentTarget.style.boxShadow = '3px 3px 0 0 rgba(0, 0, 0, 1)';
+          }}
+          onMouseDown={(e) => {
+            e.currentTarget.style.transform = 'translate(3px, 3px)';
+            e.currentTarget.style.boxShadow = 'none';
+          }}
+          onMouseUp={(e) => {
+            e.currentTarget.style.transform = 'translate(0, 0)';
+            e.currentTarget.style.boxShadow = '3px 3px 0 0 rgba(0, 0, 0, 1)';
+          }}
+        >
+          ✕
+        </div>
       </div>
       <div style={styles.tabs}>
         {(['easy', 'medium', 'hard'] as Difficulty[]).map((tab) => (
