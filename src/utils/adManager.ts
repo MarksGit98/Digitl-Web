@@ -1,10 +1,11 @@
-// Web ad manager using Google AdSense (no-op for now, can be implemented)
+// Web ad manager using Ezoic
 class AdManager {
   private adsEnabled: boolean = true;
   private adFree: boolean = false;
 
   async initialize(): Promise<void> {
-    // Initialize Google AdSense if needed
+    // Ezoic scripts are loaded via index.html
+    // This method can be used for any additional initialization if needed
   }
 
   setAdsEnabled(enabled: boolean): void {
