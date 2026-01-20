@@ -374,14 +374,14 @@ export default function MainMenuScreen({
         <div style={styles.instructionsContainer}>
           <InstructionsContent />
         </div>
-        
-        {/* Separator Line */}
-        <div style={styles.separatorLine}></div>
 
         {/* Creator Credit */}
-        <div style={{ ...styles.sectionDescription, marginTop: 0, marginBottom: `${SPACING.VERTICAL_SPACING}px` }}>
+        <div style={{ ...styles.sectionDescription, marginTop: `${SPACING.VERTICAL_SPACING * 2}px`, marginBottom: 0 }}>
           Created by Mark Bekker
         </div>
+
+        {/* Separator Line */}
+        <div style={styles.separatorLine}></div>
 
         {/* Navigation Links */}
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' as const, gap: '24px', width: '100%', marginBottom: `${SPACING.VERTICAL_SPACING}px` }}>
