@@ -1,6 +1,7 @@
 import { COLORS, FONT_SIZES, SPACING, BORDER_RADIUS, BUTTON_BORDER } from '../constants/sizing';
 import InstructionsContent from '../components/InstructionsContent';
 import GameIconButton from '../components/GameIconButton';
+import AdsterraAd from '../components/AdsterraAd';
 
 export default function HowToPlayScreen() {
   const styles = {
@@ -123,6 +124,11 @@ export default function HowToPlayScreen() {
         <p style={styles.paragraph}>
           Start by looking for easy combinations that get you close to the target. You can undo moves if you get stuck. Division only works when the result is a whole number.
         </p>
+
+        {/* Bottom Ad */}
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: `${SPACING.VERTICAL_SPACING * 2}px` }}>
+          <AdsterraAd variant="banner-bottom" />
+        </div>
 
         <p style={{ ...styles.paragraph, fontSize: FONT_SIZES.SUBTEXT * 0.9, marginTop: `${SPACING.VERTICAL_SPACING * 2}px` }}>
           © {new Date().getFullYear()} Rubber Ducky Games. All rights reserved.

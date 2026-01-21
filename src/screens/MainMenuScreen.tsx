@@ -11,6 +11,7 @@ import shieldSvg from '../assets/svgs/shield-icon.svg';
 import pptIcon from '../assets/ppt-icon.png';
 import InstructionsContent from '../components/InstructionsContent';
 import { CalculatorDisplay } from '../components/CalculatorDisplay';
+import AdsterraAd from '../components/AdsterraAd';
 
 const SCREEN_HEIGHT = SCREEN_DIMENSIONS.HEIGHT;
 
@@ -378,6 +379,11 @@ export default function MainMenuScreen({
         {/* Creator Credit */}
         <div style={{ ...styles.sectionDescription, marginTop: `${SPACING.VERTICAL_SPACING * 2}px`, marginBottom: 0 }}>
           Created by Mark Bekker
+        </div>
+
+        {/* Bottom Ad */}
+        <div style={{ display: 'flex', justifyContent: 'center', marginTop: `${SPACING.VERTICAL_SPACING * 2}px` }}>
+          <AdsterraAd variant="banner-bottom" />
         </div>
 
         {/* Separator Line */}

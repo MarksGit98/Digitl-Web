@@ -23,6 +23,7 @@ import paperPlaneSvg from '../assets/svgs/paper-plane-icon.svg';
 import mailSvg from '../assets/svgs/mail-icon.svg';
 import shieldSvg from '../assets/svgs/shield-icon.svg';
 import pptIcon from '../assets/ppt-icon.png';
+import AdsterraAd from '../components/AdsterraAd';
 
 const SCREEN_WIDTH = SCREEN_DIMENSIONS.WIDTH;
 
@@ -1463,6 +1464,11 @@ https://www.digitlgame.com/`;
                 })}
               </div>
             </div>
+          </div>
+
+          {/* Bottom Ad */}
+          <div style={{ display: 'flex', justifyContent: 'center', marginTop: `${SPACING.VERTICAL_SPACING * 2}px` }}>
+            <AdsterraAd variant="banner-bottom" />
           </div>
 
           {/* Footer Section */}
