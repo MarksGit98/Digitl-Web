@@ -38,11 +38,12 @@ export default function AdLayout({ children }: AdLayoutProps) {
         bottom: 0,
         left: 0,
         right: 0,
+        height: '80px',
         display: 'flex',
+        alignItems: 'center',
         justifyContent: 'center',
-        padding: '10px 0',
         backgroundColor: '#f8f9fa',
-        zIndex: 1000,
+        zIndex: 100,
       }}>
         <AdsterraAd variant="native" />
       </div>

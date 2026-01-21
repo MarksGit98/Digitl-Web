@@ -5,14 +5,14 @@ export default function PrivacyPolicyScreen() {
   const styles = {
     container: {
       width: '100%',
-      height: '100%',
+      height: 'calc(100vh - 80px)', // Leave room for bottom ad
       backgroundColor: '#f8f9fa',
       display: 'flex',
       flexDirection: 'column' as const,
       alignItems: 'center',
       justifyContent: 'flex-start',
       paddingTop: `${SPACING.VERTICAL_SPACING}px`,
-      paddingBottom: '100px', // Extra padding for bottom ad
+      paddingBottom: `${SPACING.VERTICAL_SPACING}px`,
       paddingLeft: `${SPACING.CONTAINER_PADDING_HORIZONTAL}px`,
       paddingRight: `${SPACING.CONTAINER_PADDING_HORIZONTAL}px`,
       overflowY: 'auto' as const,
