@@ -7,14 +7,11 @@ interface GameContainerProps {
   children: React.ReactNode;
 }
 
-// Height reserved for bottom ad
-const BOTTOM_AD_HEIGHT = 80;
-
 export default function GameContainer({ children }: GameContainerProps) {
   return (
     <div style={{
       width: '100vw',
-      height: `calc(100vh - ${BOTTOM_AD_HEIGHT}px)`,
+      height: '100vh',
       display: 'flex',
       flexDirection: 'column',
       alignItems: 'center',

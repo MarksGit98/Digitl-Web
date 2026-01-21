@@ -7,24 +7,30 @@ interface AdLayoutProps {
 export default function AdLayout({ children }: AdLayoutProps) {
   return (
     <>
-      {/* Main content */}
-      {children}
-
-      {/* Bottom native banner ad */}
+      {/* Left banner ad - fixed position, desktop only */}
       <div style={{
         position: 'fixed',
-        bottom: 0,
-        left: 0,
-        right: 0,
-        height: '80px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        backgroundColor: '#f8f9fa',
-        zIndex: 100,
+        left: 20,
+        top: '50%',
+        transform: 'translateY(-50%)',
+        zIndex: 1000,
       }}>
-        <AdsterraAd variant="native" />
+        <AdsterraAd variant="banner-left" />
       </div>
+
+      {/* Right banner ad - fixed position, desktop only */}
+      <div style={{
+        position: 'fixed',
+        right: 20,
+        top: '50%',
+        transform: 'translateY(-50%)',
+        zIndex: 1000,
+      }}>
+        <AdsterraAd variant="banner-right" />
+      </div>
+
+      {/* Main content */}
+      {children}
     </>
   );
 }

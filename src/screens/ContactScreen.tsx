@@ -5,7 +5,7 @@ export default function ContactScreen() {
   const styles = {
     container: {
       width: '100%',
-      height: 'calc(100vh - 80px)', // Leave room for bottom ad
+      height: '100%',
       backgroundColor: '#f8f9fa',
       display: 'flex',
       flexDirection: 'column' as const,
