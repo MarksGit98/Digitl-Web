@@ -13,7 +13,7 @@ export default function HowToPlayScreen() {
       alignItems: 'center',
       justifyContent: 'flex-start',
       paddingTop: `${SPACING.VERTICAL_SPACING}px`,
-      paddingBottom: `${SPACING.VERTICAL_SPACING}px`,
+      paddingBottom: '100px', // Extra padding for bottom ad
       paddingLeft: `${SPACING.CONTAINER_PADDING_HORIZONTAL}px`,
       paddingRight: `${SPACING.CONTAINER_PADDING_HORIZONTAL}px`,
       overflowY: 'auto' as const,

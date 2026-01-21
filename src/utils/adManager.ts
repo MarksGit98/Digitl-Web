@@ -1,11 +1,10 @@
-// Web ad manager using Ezoic
+// Web ad manager using Adsterra
 class AdManager {
   private adsEnabled: boolean = true;
   private adFree: boolean = false;
 
   async initialize(): Promise<void> {
-    // Ezoic scripts are loaded via index.html
-    // This method can be used for any additional initialization if needed
+    // Adsterra ads are loaded via the AdsterraAd component
   }
 
   setAdsEnabled(enabled: boolean): void {

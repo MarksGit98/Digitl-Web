@@ -12,7 +12,7 @@ export default function PrivacyPolicyScreen() {
       alignItems: 'center',
       justifyContent: 'flex-start',
       paddingTop: `${SPACING.VERTICAL_SPACING}px`,
-      paddingBottom: `${SPACING.VERTICAL_SPACING}px`,
+      paddingBottom: '100px', // Extra padding for bottom ad
       paddingLeft: `${SPACING.CONTAINER_PADDING_HORIZONTAL}px`,
       paddingRight: `${SPACING.CONTAINER_PADDING_HORIZONTAL}px`,
       overflowY: 'auto' as const,
@@ -140,7 +140,12 @@ export default function PrivacyPolicyScreen() {
 
         <h2 style={styles.sectionTitle}>Third-Party Services</h2>
         <p style={styles.paragraph}>
-          DIGITL uses Firebase to store anonymous game analytics, including Daily Challenge completion times for leaderboard functionality. This data does not include any personally identifiable information. We do not use advertising or other data collection services.
+          DIGITL uses Firebase to store anonymous game analytics, including Daily Challenge completion times for leaderboard functionality. This data does not include any personally identifiable information.
+        </p>
+
+        <h2 style={styles.sectionTitle}>Advertising</h2>
+        <p style={styles.paragraph}>
+          We display advertisements through Adsterra to support the development of DIGITL. These ads may use cookies and similar technologies to serve relevant advertisements. Adsterra may collect anonymous usage data in accordance with their privacy policy.
         </p>
 
         <h2 style={styles.sectionTitle}>Children's Privacy</h2>

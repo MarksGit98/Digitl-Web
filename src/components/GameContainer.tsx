@@ -38,7 +38,7 @@ export default function GameContainer({ children }: GameContainerProps) {
         position: 'relative',
         paddingLeft: '10px',
         paddingRight: '10px',
-        paddingBottom: '15px',
+        paddingBottom: '100px', // Extra padding for bottom ad
         boxSizing: 'border-box',
         flexShrink: 0,
       }}>
