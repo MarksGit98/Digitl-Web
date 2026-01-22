@@ -15,7 +15,7 @@ import CloseButton from '../components/CloseButton';
 import OverlayBackdrop from '../components/OverlayBackdrop';
 import nextArrowSvg from '../assets/svgs/next-arrow.svg';
 import homeSvg from '../assets/svgs/home.svg';
-import librarySvg from '../assets/svgs/library.svg';
+import libraryBlackSvg from '../assets/svgs/library-black.svg';
 import presentSvg from '../assets/svgs/present.svg';
 import calendarSvg from '../assets/svgs/calendar-icon.svg';
 import stopwatchSvg from '../assets/svgs/stopwatch-icon.svg';
@@ -902,8 +902,8 @@ https://www.digitlgame.com/`;
                 e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
               }}
             >
-              <img 
-                src={librarySvg} 
+              <img
+                src={libraryBlackSvg}
                 alt="How to Play" 
                 width={topRowElementHeight * 0.5} 
                 height={topRowElementHeight * 0.5}
