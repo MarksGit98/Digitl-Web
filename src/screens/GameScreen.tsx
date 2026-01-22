@@ -1012,9 +1012,20 @@ https://www.digitlgame.com/`;
                   {gameMode === 'dailyTimed' && roundTimes.length === 3 ? (
                     <div style={{ textAlign: 'center', width: '100%' }}>
                       <div style={{ marginBottom: '12px', fontSize: FONT_SIZES.SUBTEXT }}>You solved all 3 puzzles!</div>
-                      <div style={{ marginBottom: '6px', fontSize: FONT_SIZES.SUBTEXT * 0.85 }}>Easy - {formatTimeBold(roundTimes[0])}</div>
-                      <div style={{ marginBottom: '6px', fontSize: FONT_SIZES.SUBTEXT * 0.85 }}>Medium - {formatTimeBold(roundTimes[1])}</div>
-                      <div style={{ marginBottom: '6px', fontSize: FONT_SIZES.SUBTEXT * 0.85 }}>Hard - {formatTimeBold(roundTimes[2])}</div>
+                      <div style={{ display: 'inline-block', textAlign: 'left' }}>
+                        <div style={{ marginBottom: '6px', fontSize: FONT_SIZES.SUBTEXT * 0.85, display: 'flex' }}>
+                          <span style={{ width: '65px', flexShrink: 0 }}>Easy</span>
+                          <span>- {formatTimeBold(roundTimes[0])}</span>
+                        </div>
+                        <div style={{ marginBottom: '6px', fontSize: FONT_SIZES.SUBTEXT * 0.85, display: 'flex' }}>
+                          <span style={{ width: '65px', flexShrink: 0 }}>Medium</span>
+                          <span>- {formatTimeBold(roundTimes[1])}</span>
+                        </div>
+                        <div style={{ marginBottom: '6px', fontSize: FONT_SIZES.SUBTEXT * 0.85, display: 'flex' }}>
+                          <span style={{ width: '65px', flexShrink: 0 }}>Hard</span>
+                          <span>- {formatTimeBold(roundTimes[2])}</span>
+                        </div>
+                      </div>
                       <div style={{ marginTop: '16px', fontSize: FONT_SIZES.SUBTEXT, fontWeight: 'bold' }}>
                         Total Time: {formatTimeBold(roundTimes[0] + roundTimes[1] + roundTimes[2])} - Faster than <b style={{ color: '#16A34A' }}>{userPercentile !== null ? userPercentile : 100}%</b> of players today!
                       </div>
@@ -1022,9 +1033,20 @@ https://www.digitlgame.com/`;
                   ) : gameMode === 'dailyChallenge' ? (
                     <div style={{ textAlign: 'center', width: '100%' }}>
                       <div style={{ marginBottom: '12px', fontSize: FONT_SIZES.SUBTEXT }}>You solved all 3 puzzles!</div>
-                      <div style={{ marginBottom: '6px', fontSize: FONT_SIZES.SUBTEXT * 0.85 }}>Easy - Same solution as <b>{solutionUniqueness.easy !== null ? solutionUniqueness.easy : 100}%</b> of players</div>
-                      <div style={{ marginBottom: '6px', fontSize: FONT_SIZES.SUBTEXT * 0.85 }}>Medium - Same solution as <b>{solutionUniqueness.medium !== null ? solutionUniqueness.medium : 100}%</b> of players</div>
-                      <div style={{ marginBottom: '6px', fontSize: FONT_SIZES.SUBTEXT * 0.85 }}>Hard - Same solution as <b>{solutionUniqueness.hard !== null ? solutionUniqueness.hard : 100}%</b> of players</div>
+                      <div style={{ display: 'inline-block', textAlign: 'left' }}>
+                        <div style={{ marginBottom: '6px', fontSize: FONT_SIZES.SUBTEXT * 0.85, display: 'flex' }}>
+                          <span style={{ width: '65px', flexShrink: 0 }}>Easy</span>
+                          <span>- Same solution as <b>{solutionUniqueness.easy !== null ? solutionUniqueness.easy : 100}%</b> of players</span>
+                        </div>
+                        <div style={{ marginBottom: '6px', fontSize: FONT_SIZES.SUBTEXT * 0.85, display: 'flex' }}>
+                          <span style={{ width: '65px', flexShrink: 0 }}>Medium</span>
+                          <span>- Same solution as <b>{solutionUniqueness.medium !== null ? solutionUniqueness.medium : 100}%</b> of players</span>
+                        </div>
+                        <div style={{ marginBottom: '6px', fontSize: FONT_SIZES.SUBTEXT * 0.85, display: 'flex' }}>
+                          <span style={{ width: '65px', flexShrink: 0 }}>Hard</span>
+                          <span>- Same solution as <b>{solutionUniqueness.hard !== null ? solutionUniqueness.hard : 100}%</b> of players</span>
+                        </div>
+                      </div>
                     </div>
                   ) : (
                     'You solved all 3 puzzles!'
