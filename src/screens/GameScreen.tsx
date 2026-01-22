@@ -161,15 +161,15 @@ https://www.digitlgame.com/`;
 
   // Helper function to share results (Daily Challenge)
   const shareDailyChallengeResults = () => {
-    const easyPercent = solutionUniqueness.easy !== null ? solutionUniqueness.easy : 100;
-    const mediumPercent = solutionUniqueness.medium !== null ? solutionUniqueness.medium : 100;
-    const hardPercent = solutionUniqueness.hard !== null ? solutionUniqueness.hard : 100;
-    
+    const easyText = solutionUniqueness.easy === 0 ? 'Completely unique solution!' : `Same solution as ${solutionUniqueness.easy !== null ? solutionUniqueness.easy : 100}% of players`;
+    const mediumText = solutionUniqueness.medium === 0 ? 'Completely unique solution!' : `Same solution as ${solutionUniqueness.medium !== null ? solutionUniqueness.medium : 100}% of players`;
+    const hardText = solutionUniqueness.hard === 0 ? 'Completely unique solution!' : `Same solution as ${solutionUniqueness.hard !== null ? solutionUniqueness.hard : 100}% of players`;
+
     const message = `DIGITL - Daily Challenge 🧮
 
-🟩 Easy - Same solution as ${easyPercent}% of players
-🟨 Medium - Same solution as ${mediumPercent}% of players
-🟥 Hard - Same solution as ${hardPercent}% of players
+🟩 Easy - ${easyText}
+🟨 Medium - ${mediumText}
+🟥 Hard - ${hardText}
 
 https://www.digitlgame.com/`;
 
@@ -732,14 +732,14 @@ https://www.digitlgame.com/`;
       backgroundColor: COLORS.BACKGROUND_WHITE,
       border: `${OVERLAY_BORDER.WIDTH}px solid ${OVERLAY_BORDER.COLOR}`,
       borderRadius: `${BORDER_RADIUS.MEDIUM}px`,
-      padding: `${SPACING.PADDING_LARGE * 0.75}px ${SPACING.PADDING_XLARGE * 0.75}px`, // Increased padding for bigger gap between buttons and borders
+      padding: `${SPACING.PADDING_MEDIUM * 0.7}px ${SPACING.PADDING_LARGE * 0.6}px`,
       zIndex: 2000,
       display: 'flex',
       flexDirection: 'column' as const,
       alignItems: 'center',
       gap: `${SPACING.VERTICAL_SPACING}px`,
       boxShadow: '0 8px 24px rgba(6, 5, 5, 0.2)', // Natural shadow with blur
-      width: `${SCREEN_DIMENSIONS.WIDTH * 0.5}px`,
+      width: `${SCREEN_DIMENSIONS.WIDTH * 0.62}px`,
     },
     successBannerTitle: {
       fontSize: FONT_SIZES.TITLE * 0.49, // Match modeTitle font size
@@ -1035,16 +1035,16 @@ https://www.digitlgame.com/`;
                       <div style={{ marginBottom: '12px', fontSize: FONT_SIZES.SUBTEXT }}>You solved all 3 puzzles!</div>
                       <div style={{ display: 'inline-block', textAlign: 'left' }}>
                         <div style={{ marginBottom: '6px', fontSize: FONT_SIZES.SUBTEXT * 0.85, display: 'flex' }}>
-                          <span style={{ width: '65px', flexShrink: 0 }}>Easy</span>
-                          <span>- Same solution as <b>{solutionUniqueness.easy !== null ? solutionUniqueness.easy : 100}%</b> of players</span>
+                          <span style={{ width: '60px', flexShrink: 0 }}>Easy</span>
+                          <span>- {solutionUniqueness.easy === 0 ? <b style={{ color: '#16A34A' }}>Completely unique solution!</b> : <>Same solution as <b>{solutionUniqueness.easy !== null ? solutionUniqueness.easy : 100}%</b> of players</>}</span>
                         </div>
                         <div style={{ marginBottom: '6px', fontSize: FONT_SIZES.SUBTEXT * 0.85, display: 'flex' }}>
-                          <span style={{ width: '65px', flexShrink: 0 }}>Medium</span>
-                          <span>- Same solution as <b>{solutionUniqueness.medium !== null ? solutionUniqueness.medium : 100}%</b> of players</span>
+                          <span style={{ width: '60px', flexShrink: 0 }}>Medium</span>
+                          <span>- {solutionUniqueness.medium === 0 ? <b style={{ color: '#16A34A' }}>Completely unique solution!</b> : <>Same solution as <b>{solutionUniqueness.medium !== null ? solutionUniqueness.medium : 100}%</b> of players</>}</span>
                         </div>
                         <div style={{ marginBottom: '6px', fontSize: FONT_SIZES.SUBTEXT * 0.85, display: 'flex' }}>
-                          <span style={{ width: '65px', flexShrink: 0 }}>Hard</span>
-                          <span>- Same solution as <b>{solutionUniqueness.hard !== null ? solutionUniqueness.hard : 100}%</b> of players</span>
+                          <span style={{ width: '60px', flexShrink: 0 }}>Hard</span>
+                          <span>- {solutionUniqueness.hard === 0 ? <b style={{ color: '#16A34A' }}>Completely unique solution!</b> : <>Same solution as <b>{solutionUniqueness.hard !== null ? solutionUniqueness.hard : 100}%</b> of players</>}</span>
                         </div>
                       </div>
                     </div>
