@@ -20,10 +20,8 @@ import presentSvg from '../assets/svgs/present.svg';
 import calendarSvg from '../assets/svgs/calendar-icon.svg';
 import stopwatchSvg from '../assets/svgs/stopwatch-icon.svg';
 import paperPlaneSvg from '../assets/svgs/paper-plane-icon.svg';
-import mailSvg from '../assets/svgs/mail-icon.svg';
-import shieldSvg from '../assets/svgs/shield-icon.svg';
-import pptIcon from '../assets/ppt-icon.png';
 import AdsterraAd from '../components/AdsterraAd';
+import Footer, { FOOTER_HEIGHT } from '../components/Footer';
 
 const SCREEN_WIDTH = SCREEN_DIMENSIONS.WIDTH;
 
@@ -446,7 +444,7 @@ https://www.digitlgame.com/`;
       height: '100%',
       backgroundColor: COLORS.BACKGROUND_LIGHT,
       paddingTop: '0px',
-      paddingBottom: `${SPACING.VERTICAL_SPACING}px`,
+      paddingBottom: `${FOOTER_HEIGHT + SPACING.VERTICAL_SPACING}px`,
       paddingLeft: `${SPACING.CONTAINER_PADDING_HORIZONTAL}px`,
       paddingRight: `${SPACING.CONTAINER_PADDING_HORIZONTAL}px`,
       position: 'relative' as const,
@@ -838,29 +836,6 @@ https://www.digitlgame.com/`;
       fontWeight: 'normal' as const,
       WebkitTextStroke: '2px #000000', // Black stroke
       textShadow: '0 0 10px rgba(255, 255, 255, 0.8)', // White glow for visibility
-    },
-    separatorLine: {
-      width: '85%',
-      height: '1px',
-      backgroundColor: '#000000',
-      margin: `${SPACING.VERTICAL_SPACING * 1.5}px auto`,
-    },
-    contactLink: {
-      display: 'block',
-      marginTop: '0px',
-      marginBottom: `${SPACING.VERTICAL_SPACING}px`,
-      fontSize: FONT_SIZES.SUBTEXT,
-      fontFamily: 'system-ui, -apple-system, sans-serif',
-      color: COLORS.TEXT_PRIMARY,
-      textDecoration: 'none',
-      textAlign: 'center' as const,
-      opacity: 0.8,
-      cursor: 'pointer',
-      transition: 'opacity 0.2s ease',
-      background: 'none',
-      border: 'none',
-      padding: '0',
-      width: '100%',
     },
   };
 
@@ -1471,71 +1446,9 @@ https://www.digitlgame.com/`;
             <AdsterraAd variant="banner-bottom" />
           </div>
 
-          {/* Footer Section */}
-          <div style={{ maxWidth: '650px', width: '100%', margin: '0 auto' }}>
-            {/* Separator Line */}
-            <div style={styles.separatorLine}></div>
-
-            {/* Footer Links */}
-            <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' as const, gap: '24px', width: '100%', marginBottom: `${SPACING.VERTICAL_SPACING}px` }}>
-            <a
-              href="/how-to-play"
-              style={{ ...styles.contactLink, marginBottom: 0, width: 'auto', display: 'flex', alignItems: 'center', gap: '6px' }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.opacity = '0.7';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.opacity = '1';
-              }}
-            >
-              <img src={librarySvg} alt="help" width="16" height="16" style={{ display: 'block', position: 'relative', top: '1px' }} />
-              How to Play
-            </a>
-            <a
-              href="/privacy-policy"
-              style={{ ...styles.contactLink, marginBottom: 0, width: 'auto', display: 'flex', alignItems: 'center', gap: '6px' }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.opacity = '0.7';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.opacity = '1';
-              }}
-            >
-              <img src={shieldSvg} alt="privacy" width="16" height="16" style={{ display: 'block', position: 'relative', top: '1px' }} />
-              Privacy Policy
-            </a>
-            <a
-              href="/contact"
-              style={{ ...styles.contactLink, marginBottom: 0, width: 'auto', display: 'flex', alignItems: 'center', gap: '6px' }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.opacity = '0.7';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.opacity = '1';
-              }}
-            >
-              <img src={mailSvg} alt="mail" width="16" height="16" style={{ display: 'block', position: 'relative', top: '1px' }} />
-              Contact
-            </a>
-            <a
-              href="https://peopleplacesandthings.io"
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ ...styles.contactLink, marginBottom: 0, width: 'auto', display: 'flex', alignItems: 'center', gap: '6px' }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.opacity = '0.7';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.opacity = '1';
-              }}
-            >
-              <img src={pptIcon} alt="People, Places & Things" width="16" height="16" style={{ borderRadius: '4px' }} />
-              Play my other game
-            </a>
-            </div>
-          </div>
         </div>
     </div>
+    <Footer />
     <HowToPlayModal 
       visible={showHowToPlayModal}
       onClose={() => setShowHowToPlayModal(false)}

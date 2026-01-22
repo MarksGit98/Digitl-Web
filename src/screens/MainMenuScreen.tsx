@@ -5,13 +5,11 @@ import { create3DButtonStyle } from '../styles/buttonStyles';
 import presentSvg from '../assets/svgs/present.svg';
 import calendarSvg from '../assets/svgs/calendar-icon.svg';
 import stopwatchSvg from '../assets/svgs/stopwatch-icon.svg';
-import mailSvg from '../assets/svgs/mail-icon.svg';
-import librarySvg from '../assets/svgs/library.svg';
-import shieldSvg from '../assets/svgs/shield-icon.svg';
 import pptIcon from '../assets/ppt-icon.png';
 import InstructionsContent from '../components/InstructionsContent';
 import { CalculatorDisplay } from '../components/CalculatorDisplay';
 import AdsterraAd from '../components/AdsterraAd';
+import Footer, { FOOTER_HEIGHT } from '../components/Footer';
 
 const SCREEN_HEIGHT = SCREEN_DIMENSIONS.HEIGHT;
 
@@ -47,7 +45,7 @@ export default function MainMenuScreen({
       height: '100%',
       backgroundColor: '#f8f9fa',
       paddingTop: `${SPACING.VERTICAL_SPACING}px`,
-      paddingBottom: `${SPACING.VERTICAL_SPACING}px`,
+      paddingBottom: `${FOOTER_HEIGHT + SPACING.VERTICAL_SPACING}px`,
       paddingLeft: `${SPACING.CONTAINER_PADDING_HORIZONTAL}px`,
       paddingRight: `${SPACING.CONTAINER_PADDING_HORIZONTAL}px`,
       overflowY: 'auto' as const,
@@ -89,7 +87,7 @@ export default function MainMenuScreen({
       opacity: 0.8,
     },
     instructionsContainer: {
-      width: '85%',
+      width: '100%',
       backgroundColor: 'transparent',
     },
     actionButton: {
@@ -139,29 +137,6 @@ export default function MainMenuScreen({
       width: '82.5px', // Increased by 10% (75px * 1.1)
       minWidth: '82.5px', // Increased by 10%
       minHeight: `${SCREEN_HEIGHT * 0.0425}px`, // 0.05 * 0.85
-    },
-    separatorLine: {
-      width: '85%',
-      height: '1px',
-      backgroundColor: '#000000',
-      margin: `${SPACING.VERTICAL_SPACING * 1.5}px auto`,
-    },
-    contactLink: {
-      display: 'block',
-      marginTop: '0px',
-      marginBottom: `${SPACING.VERTICAL_SPACING}px`,
-      fontSize: FONT_SIZES.SUBTEXT,
-      fontFamily: 'system-ui, -apple-system, sans-serif',
-      color: COLORS.TEXT_PRIMARY,
-      textDecoration: 'none',
-      textAlign: 'center' as const,
-      opacity: 0.8,
-      cursor: 'pointer',
-      transition: 'opacity 0.2s ease',
-      background: 'none',
-      border: 'none',
-      padding: '0',
-      width: '100%',
     },
   };
 
@@ -371,10 +346,55 @@ export default function MainMenuScreen({
         
         {/* How to Play Section */}
         <h2 style={styles.sectionTitle}>How to Play</h2>
-        
+
         <div style={styles.instructionsContainer}>
           <InstructionsContent />
         </div>
+
+        {/* Other Games Section */}
+        <h2 style={styles.sectionTitle}>Other Games</h2>
+
+        <a
+          href="https://peopleplacesandthings.io"
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px',
+            padding: `${SPACING.PADDING_MEDIUM}px`,
+            backgroundColor: COLORS.BACKGROUND_WHITE,
+            borderRadius: `${BORDER_RADIUS.MEDIUM * 0.7225}px`,
+            border: `${BUTTON_BORDER.WIDTH}px solid ${BUTTON_BORDER.COLOR}`,
+            boxShadow: `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_OFFSET}px 0 0 rgba(0, 0, 0, 1)`,
+            textDecoration: 'none',
+            color: COLORS.TEXT_PRIMARY,
+            transition: 'transform 0.15s ease-out, box-shadow 0.15s ease-out',
+            cursor: 'pointer',
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.transform = 'translate(-1px, -1px)';
+            e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_HOVER_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.transform = 'translate(0, 0)';
+            e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
+          }}
+          onMouseDown={(e) => {
+            e.currentTarget.style.transform = `translate(${ACTION_BUTTON_SHADOW_OFFSET}px, ${ACTION_BUTTON_SHADOW_OFFSET}px)`;
+            e.currentTarget.style.boxShadow = '0 0 0 0 rgba(0, 0, 0, 1)';
+          }}
+          onMouseUp={(e) => {
+            e.currentTarget.style.transform = 'translate(0, 0)';
+            e.currentTarget.style.boxShadow = `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_OFFSET}px 0 0 rgba(0, 0, 0, 1)`;
+          }}
+        >
+          <img src={pptIcon} alt="People, Places & Things" width="40" height="40" style={{ borderRadius: '8px' }} />
+          <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}>
+            <span style={{ fontWeight: 'bold', fontSize: FONT_SIZES.SUBTEXT }}>People, Places & Things</span>
+            <span style={{ fontSize: FONT_SIZES.SUBTEXT * 0.85, opacity: 0.7 }}>A daily trivia guessing game</span>
+          </div>
+        </a>
 
         {/* Creator Credit */}
         <div style={{ ...styles.sectionDescription, marginTop: `${SPACING.VERTICAL_SPACING * 2}px`, marginBottom: 0 }}>
@@ -386,67 +406,8 @@ export default function MainMenuScreen({
           <AdsterraAd variant="banner-bottom" />
         </div>
 
-        {/* Separator Line */}
-        <div style={styles.separatorLine}></div>
-
-        {/* Navigation Links */}
-        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', flexWrap: 'wrap' as const, gap: '24px', width: '100%', marginBottom: `${SPACING.VERTICAL_SPACING}px` }}>
-          <a
-            href="/how-to-play"
-            style={{ ...styles.contactLink, marginBottom: 0, width: 'auto', display: 'flex', alignItems: 'center', gap: '6px' }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.opacity = '0.7';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.opacity = '1';
-            }}
-          >
-            <img src={librarySvg} alt="help" width="16" height="16" style={{ display: 'block', position: 'relative', top: '1px' }} />
-            How to Play
-          </a>
-          <a
-            href="/privacy-policy"
-            style={{ ...styles.contactLink, marginBottom: 0, width: 'auto', display: 'flex', alignItems: 'center', gap: '6px' }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.opacity = '0.7';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.opacity = '1';
-            }}
-          >
-            <img src={shieldSvg} alt="privacy" width="16" height="16" style={{ display: 'block', position: 'relative', top: '1px' }} />
-            Privacy Policy
-          </a>
-          <a
-            href="/contact"
-            style={{ ...styles.contactLink, marginBottom: 0, width: 'auto', display: 'flex', alignItems: 'center', gap: '6px' }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.opacity = '0.7';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.opacity = '1';
-            }}
-          >
-            <img src={mailSvg} alt="mail" width="16" height="16" style={{ display: 'block', position: 'relative', top: '1px' }} />
-            Contact
-          </a>
-          <a
-            href="https://peopleplacesandthings.io"
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ ...styles.contactLink, marginBottom: 0, width: 'auto', display: 'flex', alignItems: 'center', gap: '6px' }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.opacity = '0.7';
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.opacity = '1';
-            }}
-          >
-            <img src={pptIcon} alt="People, Places & Things" width="16" height="16" style={{ borderRadius: '4px' }} />
-            Play my other game
-          </a>
-        </div>
       </div>
+      <Footer />
     </div>
   );
 }

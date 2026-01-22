@@ -60,6 +60,8 @@ export default function InstructionsContent() {
       color: COLORS.TEXT_PRIMARY,
       fontFamily: 'system-ui, -apple-system, sans-serif',
       fontWeight: 'bold' as const,
+      lineHeight: 1,
+      marginTop: '-1px',
     },
     inlineOperationContainer: {
       display: 'inline-flex',
@@ -89,6 +91,8 @@ export default function InstructionsContent() {
       color: COLORS.TEXT_WHITE,
       fontFamily: 'system-ui, -apple-system, sans-serif',
       fontWeight: 'bold' as const,
+      lineHeight: 1,
+      marginTop: '-1px',
     },
     inlineTargetContainer: {
       display: 'inline-flex',
@@ -103,9 +107,9 @@ export default function InstructionsContent() {
       height: `${SCREEN_WIDTH * 0.05 * 0.65}px`,
       backgroundColor: COLORS.BACKGROUND_DARK,
       borderRadius: `${SCREEN_WIDTH * 0.01 * 0.65}px`,
-      border: `${BUTTON_BORDER.WIDTH * 1.2}px solid ${BUTTON_BORDER.COLOR}`, // Reduced from 2 to 1.2
-      paddingHorizontal: `${SCREEN_WIDTH * 0.01 * 0.65}px`,
-      paddingTop: `${SCREEN_WIDTH * 0.0023}px`, // Proportionally adjusted top padding
+      border: `${BUTTON_BORDER.WIDTH * 1.2}px solid ${BUTTON_BORDER.COLOR}`,
+      paddingLeft: `${SCREEN_WIDTH * 0.01 * 0.65}px`,
+      paddingRight: `${SCREEN_WIDTH * 0.01 * 0.65}px`,
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
@@ -115,6 +119,8 @@ export default function InstructionsContent() {
       color: COLORS.TEXT_SUCCESS,
       fontFamily: 'system-ui, -apple-system, sans-serif',
       fontWeight: 'bold' as const,
+      lineHeight: 1,
+      marginTop: '-1px',
     },
   };
 
