@@ -65,21 +65,26 @@ export default function MainMenuScreen({
       alignItems: 'center',
     },
     sectionTitle: {
-      fontSize: FONT_SIZES.TITLE * 0.459, // 0.6 * 0.85 * 0.9
-      fontFamily: 'system-ui, -apple-system, sans-serif',
+      fontSize: FONT_SIZES.TITLE * 0.55,
+      fontFamily: 'var(--font-banner)',
       backgroundColor: COLORS.BACKGROUND_DARK,
       color: COLORS.TEXT_WHITE,
-      padding: `${SPACING.PADDING_SMALL * 0.765}px ${SPACING.PADDING_MEDIUM * 0.765}px`, // 0.85 * 0.9
-      borderRadius: `${BORDER_RADIUS.MEDIUM * 0.765}px`, // 0.85 * 0.9
-      textAlign: 'center' as const,
+      padding: `${SPACING.PADDING_SMALL * 0.765 + 4}px ${SPACING.PADDING_MEDIUM * 0.765}px ${SPACING.PADDING_SMALL * 0.765}px`,
+      borderRadius: `${BORDER_RADIUS.MEDIUM * 0.765}px`,
       marginTop: `${SPACING.VERTICAL_SPACING}px`,
       marginBottom: `${SPACING.VERTICAL_SPACING}px`,
       fontWeight: 'bold' as const,
       width: '100%',
+      textTransform: 'uppercase' as const,
+      letterSpacing: '1.5px',
+      lineHeight: 1,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
     },
     sectionDescription: {
       fontSize: FONT_SIZES.SUBTEXT,
-      fontFamily: 'system-ui, -apple-system, sans-serif',
+      fontFamily: 'var(--font-description)',
       color: COLORS.TEXT_PRIMARY,
       textAlign: 'center' as const,
       marginTop: `${SPACING.VERTICAL_SPACING}px`,
@@ -104,7 +109,7 @@ export default function MainMenuScreen({
       cursor: 'pointer',
       border: `${BUTTON_BORDER.WIDTH}px solid ${BUTTON_BORDER.COLOR}`,
       fontSize: FONT_SIZES.DIFFICULTY_BUTTON * 0.7225, // 0.85 * 0.85
-      fontFamily: 'system-ui, -apple-system, sans-serif',
+      fontFamily: 'var(--font-button)',
       fontWeight: 'bold' as const,
       boxShadow: `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_OFFSET}px 0 0 rgba(0, 0, 0, 1)`,
       transition: 'transform 0.15s ease-out, box-shadow 0.15s ease-out',
@@ -131,12 +136,12 @@ export default function MainMenuScreen({
 
       paddingLeft: `${SPACING.PADDING_MEDIUM * 0.85}px`,
       paddingRight: `${SPACING.PADDING_MEDIUM * 0.85}px`,
-      borderRadius: `${BORDER_RADIUS.SMALL * 0.85}px`, // Scaled down 15%
-      fontSize: FONT_SIZES.DIFFICULTY_BUTTON * 0.85, // Scaled down 15%
-      fontFamily: 'system-ui, -apple-system, sans-serif',
-      width: '82.5px', // Increased by 10% (75px * 1.1)
-      minWidth: '82.5px', // Increased by 10%
-      minHeight: `${SCREEN_HEIGHT * 0.0425}px`, // 0.05 * 0.85
+      borderRadius: `${BORDER_RADIUS.SMALL * 0.85}px`,
+      fontSize: FONT_SIZES.DIFFICULTY_BUTTON * 0.95,
+      fontFamily: 'var(--font-button)',
+      width: '82.5px',
+      minWidth: '82.5px',
+      minHeight: `${SCREEN_HEIGHT * 0.0425}px`,
     },
   };
 

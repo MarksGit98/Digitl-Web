@@ -25,7 +25,7 @@ export default function InstructionsContent() {
     },
     instructionText: {
       fontSize: FONT_SIZES.SUBTEXT * 0.85, // Decreased by 15%
-      fontFamily: 'system-ui, -apple-system, sans-serif',
+      fontFamily: 'var(--font-description)',
       color: COLORS.TEXT_PRIMARY,
       letterSpacing: `${LETTER_SPACING.TIGHT}px`,
       opacity: 0.8,

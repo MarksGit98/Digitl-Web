@@ -513,15 +513,20 @@ https://www.digitlgame.com/`;
     },
     modeTitle: {
       backgroundColor: COLORS.BACKGROUND_DARK,
-      padding: `${SPACING.PADDING_MEDIUM * 0.7}px ${SPACING.PADDING_LARGE * 0.7}px`, // Scaled down 30%
-      borderRadius: `${BORDER_RADIUS.MEDIUM * 0.7}px`, // Scaled down 30%
-      fontSize: FONT_SIZES.TITLE * 0.49, // Scaled down 30% more
-      fontFamily: 'system-ui, -apple-system, sans-serif',
+      padding: `${SPACING.PADDING_MEDIUM * 0.7 + 4}px ${SPACING.PADDING_LARGE * 0.7}px ${SPACING.PADDING_MEDIUM * 0.7}px`,
+      borderRadius: `${BORDER_RADIUS.MEDIUM * 0.7}px`,
+      fontSize: FONT_SIZES.TITLE * 0.55,
+      fontFamily: 'var(--font-banner)',
       color: COLORS.TEXT_WHITE,
       fontWeight: 'bold' as const,
-      textAlign: 'center' as const,
       marginBottom: `${SPACING.VERTICAL_SPACING}px`,
       width: '100%',
+      textTransform: 'uppercase' as const,
+      letterSpacing: '1.5px',
+      lineHeight: 1,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
     },
     difficultyText: {
       fontSize: FONT_SIZES.TITLE * 0.5,
@@ -696,7 +701,7 @@ https://www.digitlgame.com/`;
       cursor: 'pointer',
       border: `${BUTTON_BORDER.WIDTH}px solid ${BUTTON_BORDER.COLOR}`,
       fontSize: FONT_SIZES.DIFFICULTY_BUTTON * 0.7225, // Scaled down 15% then another 15%
-      fontFamily: 'system-ui, -apple-system, sans-serif',
+      fontFamily: 'var(--font-button)',
       fontWeight: 'bold' as const,
       boxShadow: `${GAME_SCREEN_BUTTON_SHADOW_OFFSET}px ${GAME_SCREEN_BUTTON_SHADOW_OFFSET}px 0 0 rgba(0, 0, 0, 1)`,
       transition: 'transform 0.15s ease-out, box-shadow 0.15s ease-out',
@@ -742,19 +747,24 @@ https://www.digitlgame.com/`;
       width: `${SCREEN_DIMENSIONS.WIDTH * 0.62}px`,
     },
     successBannerTitle: {
-      fontSize: FONT_SIZES.TITLE * 0.49, // Match modeTitle font size
-      fontFamily: 'system-ui, -apple-system, sans-serif',
+      fontSize: FONT_SIZES.TITLE * 0.55,
+      fontFamily: 'var(--font-banner)',
       backgroundColor: COLORS.BACKGROUND_DARK,
       color: COLORS.TEXT_WHITE,
-      padding: `${SPACING.PADDING_MEDIUM * 0.7}px ${SPACING.PADDING_LARGE * 0.7}px`, // Match modeTitle padding
-      borderRadius: `${BORDER_RADIUS.MEDIUM * 0.7}px`, // Match modeTitle border radius
-      textAlign: 'center' as const,
+      padding: `${SPACING.PADDING_MEDIUM * 0.7 + 4}px ${SPACING.PADDING_LARGE * 0.7}px ${SPACING.PADDING_MEDIUM * 0.7}px`,
+      borderRadius: `${BORDER_RADIUS.MEDIUM * 0.7}px`,
       fontWeight: 'bold' as const,
-      width: '100%', 
+      width: '100%',
+      textTransform: 'uppercase' as const,
+      letterSpacing: '1.5px',
+      lineHeight: 1,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
     },
     successBannerMessage: {
       fontSize: FONT_SIZES.SUBTEXT, // Match sectionDescription font size
-      fontFamily: 'system-ui, -apple-system, sans-serif',
+      fontFamily: 'var(--font-description)',
       color: COLORS.TEXT_PRIMARY,
       textAlign: 'center' as const,
       opacity: 0.8, // Match sectionDescription opacity
@@ -772,7 +782,7 @@ https://www.digitlgame.com/`;
       cursor: 'pointer',
       border: `${BUTTON_BORDER.WIDTH}px solid ${BUTTON_BORDER.COLOR}`,
       fontSize: FONT_SIZES.DIFFICULTY_BUTTON * 0.7225,
-      fontFamily: 'system-ui, -apple-system, sans-serif',
+      fontFamily: 'var(--font-button)',
       fontWeight: 'bold' as const,
       boxShadow: `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_OFFSET}px 0 0 rgba(0, 0, 0, 1)`,
       transition: 'transform 0.15s ease-out, box-shadow 0.15s ease-out',

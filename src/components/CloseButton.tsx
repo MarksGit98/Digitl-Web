@@ -23,7 +23,7 @@ export default function CloseButton({ onClick, style }: CloseButtonProps) {
     cursor: 'pointer',
     border: `${BUTTON_BORDER.WIDTH}px solid ${BUTTON_BORDER.COLOR}`,
     fontSize: FONT_SIZES.DIFFICULTY_BUTTON * 0.7225,
-    fontFamily: 'system-ui, -apple-system, sans-serif',
+    fontFamily: 'var(--font-button)',
     fontWeight: 'bold' as const,
     boxShadow: `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_OFFSET}px 0 0 rgba(0, 0, 0, 1)`,
     transition: 'transform 0.15s ease-out, box-shadow 0.15s ease-out',

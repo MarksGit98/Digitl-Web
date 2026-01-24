@@ -55,16 +55,21 @@ export default function HowToPlayModal({
       overflow: 'hidden' as const,
     },
     modalTitle: {
-      fontSize: FONT_SIZES.TITLE * 0.49, // Match modeTitle font size
-      fontFamily: 'system-ui, -apple-system, sans-serif',
+      fontSize: FONT_SIZES.TITLE * 0.55,
+      fontFamily: 'var(--font-banner)',
       backgroundColor: COLORS.BACKGROUND_DARK,
       color: COLORS.TEXT_WHITE,
-      padding: `${SPACING.PADDING_MEDIUM * 0.7}px ${SPACING.PADDING_LARGE * 0.7}px`, // Match modeTitle padding
-      borderRadius: `${BORDER_RADIUS.MEDIUM * 0.7}px`, // Match modeTitle border radius
-      textAlign: 'center' as const,
+      padding: `${SPACING.PADDING_MEDIUM * 0.7 + 4}px ${SPACING.PADDING_LARGE * 0.7}px ${SPACING.PADDING_MEDIUM * 0.7}px`,
+      borderRadius: `${BORDER_RADIUS.MEDIUM * 0.7}px`,
       fontWeight: 'bold' as const,
       marginBottom: `${SPACING.MARGIN_MEDIUM}px`,
       width: '100%',
+      textTransform: 'uppercase' as const,
+      letterSpacing: '1.5px',
+      lineHeight: 1,
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
     },
     scrollView: {
       flexGrow: 1,
