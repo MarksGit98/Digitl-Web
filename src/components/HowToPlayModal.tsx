@@ -55,7 +55,7 @@ export default function HowToPlayModal({
       overflow: 'hidden' as const,
     },
     modalTitle: {
-      fontSize: FONT_SIZES.TITLE * 0.55,
+      fontSize: FONT_SIZES.TITLE * 0.48,
       fontFamily: 'var(--font-banner)',
       backgroundColor: COLORS.BACKGROUND_DARK,
       color: COLORS.TEXT_WHITE,

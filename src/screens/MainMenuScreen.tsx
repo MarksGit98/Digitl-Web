@@ -65,7 +65,7 @@ export default function MainMenuScreen({
       alignItems: 'center',
     },
     sectionTitle: {
-      fontSize: FONT_SIZES.TITLE * 0.55,
+      fontSize: FONT_SIZES.TITLE * 0.48,
       fontFamily: 'var(--font-banner)',
       backgroundColor: COLORS.BACKGROUND_DARK,
       color: COLORS.TEXT_WHITE,
@@ -113,6 +113,7 @@ export default function MainMenuScreen({
       fontWeight: 'bold' as const,
       boxShadow: `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_OFFSET}px 0 0 rgba(0, 0, 0, 1)`,
       transition: 'transform 0.15s ease-out, box-shadow 0.15s ease-out',
+      letterSpacing: '1px',
     },
     playButtonInnerBorder: {
       position: 'absolute' as const,
@@ -133,7 +134,6 @@ export default function MainMenuScreen({
 
     },
     difficultyButton: {
-
       paddingLeft: `${SPACING.PADDING_MEDIUM * 0.85}px`,
       paddingRight: `${SPACING.PADDING_MEDIUM * 0.85}px`,
       borderRadius: `${BORDER_RADIUS.SMALL * 0.85}px`,
@@ -142,6 +142,7 @@ export default function MainMenuScreen({
       width: '82.5px',
       minWidth: '82.5px',
       minHeight: `${SCREEN_HEIGHT * 0.0425}px`,
+      letterSpacing: '1px',
     },
   };
 

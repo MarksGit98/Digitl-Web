@@ -515,7 +515,7 @@ https://www.digitlgame.com/`;
       backgroundColor: COLORS.BACKGROUND_DARK,
       padding: `${SPACING.PADDING_MEDIUM * 0.7 + 4}px ${SPACING.PADDING_LARGE * 0.7}px ${SPACING.PADDING_MEDIUM * 0.7}px`,
       borderRadius: `${BORDER_RADIUS.MEDIUM * 0.7}px`,
-      fontSize: FONT_SIZES.TITLE * 0.55,
+      fontSize: FONT_SIZES.TITLE * 0.48,
       fontFamily: 'var(--font-banner)',
       color: COLORS.TEXT_WHITE,
       fontWeight: 'bold' as const,
@@ -705,6 +705,7 @@ https://www.digitlgame.com/`;
       fontWeight: 'bold' as const,
       boxShadow: `${GAME_SCREEN_BUTTON_SHADOW_OFFSET}px ${GAME_SCREEN_BUTTON_SHADOW_OFFSET}px 0 0 rgba(0, 0, 0, 1)`,
       transition: 'transform 0.15s ease-out, box-shadow 0.15s ease-out',
+      letterSpacing: '1px',
     },
     undoButtonInRow: {
       width: `${BUTTON_SIZES.OPERATION_BUTTON_SIZE}px`,
@@ -747,7 +748,7 @@ https://www.digitlgame.com/`;
       width: `${SCREEN_DIMENSIONS.WIDTH * 0.62}px`,
     },
     successBannerTitle: {
-      fontSize: FONT_SIZES.TITLE * 0.55,
+      fontSize: FONT_SIZES.TITLE * 0.48,
       fontFamily: 'var(--font-banner)',
       backgroundColor: COLORS.BACKGROUND_DARK,
       color: COLORS.TEXT_WHITE,
@@ -786,6 +787,7 @@ https://www.digitlgame.com/`;
       fontWeight: 'bold' as const,
       boxShadow: `${ACTION_BUTTON_SHADOW_OFFSET}px ${ACTION_BUTTON_SHADOW_OFFSET}px 0 0 rgba(0, 0, 0, 1)`,
       transition: 'transform 0.15s ease-out, box-shadow 0.15s ease-out',
+      letterSpacing: '1px',
     },
     timerDisplay: {
       width: `${SCREEN_WIDTH * 0.24 * 0.9}px`, // Scaled down 10%

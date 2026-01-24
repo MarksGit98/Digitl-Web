@@ -37,7 +37,7 @@ export default function PrivacyPolicyScreen() {
       alignItems: 'center',
     },
     title: {
-      fontSize: FONT_SIZES.TITLE * 0.55,
+      fontSize: FONT_SIZES.TITLE * 0.48,
       fontFamily: 'var(--font-banner)',
       backgroundColor: COLORS.BACKGROUND_WHITE,
       color: COLORS.BACKGROUND_DARK,
@@ -64,7 +64,7 @@ export default function PrivacyPolicyScreen() {
       opacity: 0.8,
     },
     sectionTitle: {
-      fontSize: FONT_SIZES.TITLE * 0.55,
+      fontSize: FONT_SIZES.TITLE * 0.48,
       fontFamily: 'var(--font-banner)',
       backgroundColor: COLORS.BACKGROUND_DARK,
       color: COLORS.TEXT_WHITE,

@@ -3,12 +3,13 @@
   /* Base fonts */
   --font-system: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   --font-retrotech: 'Retrotech', sans-serif;
+  --font-gameplay: 'Gameplay', sans-serif;
   --font-digital: 'Digital-7-Mono', monospace;
 
   /* Font assignments by usage - change these to swap fonts everywhere */
   --font-body: var(--font-system);
-  --font-description: var(--font-retrotech);
-  --font-button: var(--font-system);
+  --font-description: var(--font-system);
+  --font-button: var(--font-gameplay);
   --font-banner: var(--font-retrotech);
   --font-heading: var(--font-system);
   --font-tile: var(--font-system);
@@ -58,6 +59,15 @@ body {
 @font-face {
   font-family: 'Retrotech';
   src: url('./assets/fonts/RETROTECH.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Gameplay font */
+@font-face {
+  font-family: 'Gameplay';
+  src: url('./assets/fonts/Gameplay.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
