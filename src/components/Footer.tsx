@@ -30,7 +30,6 @@ const styles = {
     alignItems: 'center',
     gap: '6px',
     fontSize: FONT_SIZES.SUBTEXT,
-    fontFamily: 'var(--font-button)',
     color: COLORS.TEXT_PRIMARY,
     textDecoration: 'none',
     opacity: 0.8,
